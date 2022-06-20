@@ -54,7 +54,7 @@ export const lightTheme: DefaultTheme = {
     bodyBackground: "243 243 243",
     systemMenu: {
       border: "#ced4da",
-      background: "255 255 255",
+      background: "#ffffff",
       link: "#000",
       icon: "",
     },
@@ -79,8 +79,8 @@ export const darkTheme: DefaultTheme = {
     bodyBackground: "24 24 24",
     systemMenu: {
       border: "#2b2936",
-      background: "33 33 33",
-      link: "#000",
+      background: "#212121",
+      link: "#000000",
       icon: "",
     },
     textA: "#fafafa",
@@ -104,8 +104,8 @@ export const midnightBlueTheme: DefaultTheme = {
     bodyBackground: "20 19 24",
     systemMenu: {
       border: "#2b2936",
-      background: "28 27 34",
-      link: "#000",
+      background: "#1c1b22",
+      link: "#000000",
       icon: "",
     },
     textA: "#fafafa",

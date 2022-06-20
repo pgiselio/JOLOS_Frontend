@@ -15,9 +15,9 @@ export const GlobalStyle = createGlobalStyle`
     --text-a: ${(props) => props.theme.colors.textA};
     --text-b: ${(props) => props.theme.colors.textB};
     --text-c: ${(props) => props.theme.colors.textC};
-    --navs-bg: rgb(${(props) => props.theme.colors.systemMenu.background});
-    --navs-bg-opacity: rgb(${(props) =>
-      props.theme.colors.systemMenu.background} / 96%);
+    --navs-bg: ${(props) => props.theme.colors.systemMenu.background};
+    --navs-bg-opacity: ${(props) =>
+      props.theme.colors.systemMenu.background}f5;
     --primary-bg: ${(props) => props.theme.colors.primaryBg};
     --secondary-bg: ${(props) => props.theme.colors.secondaryBg};
   }
@@ -268,9 +268,6 @@ export const GlobalStyle = createGlobalStyle`
     padding-top: 1px;
     font-size: 13px;
     font-weight: 500;
-  }
-  .custom-select.danger *{
-    border-color: #c91f1f;
   }
   @media (max-width: 766px) {
     .form-item-group{

@@ -1,20 +1,20 @@
 import { Accordion, AccordionButton, AccordionItem } from "@reach/accordion";
-import { useQuery } from "react-query";
+// import { useQuery } from "react-query";
+// import { api } from "../../../services/api";
 import { useNavigate } from "react-router-dom";
-import { api } from "../../../services/api";
 
 export default function GerenciamentoPage() {
   const navigate = useNavigate();
-  const { data } = useQuery(
-    "GerenciamentoUsuariosList",
-    async () => {
-      const response = await api.get("/usuario/");
-      return response.data;
-    },
-    {
-      staleTime: 1000 * 60, // 1 minute to refetch
-    }
-  );
+  // const { data } = useQuery(
+  //   "GerenciamentoUsuariosList",
+  //   async () => {
+  //     const response = await api.get("/usuario/");
+  //     return response.data;
+  //   },
+  //   {
+  //     staleTime: 1000 * 60, // 1 minute to refetch
+  //   }
+  // );
   return (
     <div className="content">
       <Accordion>

@@ -1,35 +1,54 @@
 import { Link } from "react-router-dom";
-import { Box, BoxContent, BoxTitle } from "../../../components/box";
+import styled from "styled-components";
+import { Box, BoxContent } from "../../../components/box";
 import { Button } from "../../../components/button";
+import { FabButton } from "../../../components/fab";
+import { HeaderTitle } from "../../../components/header-title";
+import { OutsetHeadersCornerRadius } from "../../../components/outset-radius-to-headers";
 import { ProfilePic } from "../../../components/profile-pic/profile-pic";
 import { Container } from "./styles";
+
+const CreateNewFAB = styled(FabButton)`
+  display: fixed;
+  @media (min-width: 766px) {
+    display: none;
+  }
+`;
+const CreateNewButton = styled(Button)`
+  display: none;
+  @media (min-width: 766px) {
+    display: flex;
+  }
+`;
 
 export default function ForumPage() {
   return (
     <Container>
-
+      <OutsetHeadersCornerRadius>
+        <HeaderTitle>
+            <CreateNewFAB className="FabCreateNew" type="button">
+              <i className="fas fa-filter"></i>
+            </CreateNewFAB>
+            <h2>Fórum</h2>
+            <CreateNewButton
+              className="outlined"
+              key="create-new-vaga-btn"
+              id="filtro"
+            >
+              Filtros <i className="fas fa-filter"></i>
+            </CreateNewButton>
+        </HeaderTitle>
+      </OutsetHeadersCornerRadius>
       <div className="content">
         <Box>
-          <BoxTitle>
-            <h3
-              style={{
-                display: "flex",
-                alignItems: "center",
-                width: "100%",
-                justifyContent: "space-between",
-              }}
-            >
-              Fórum
-              <Button className="outlined" id="filtro">
-                Filtros <i className="fas fa-filter"></i>
-              </Button>
-            </h3>
-          </BoxTitle>
           <BoxContent className="topics">
             <div className="topic">
               <Link to="12" className="pessoa-forum-group">
                 <div className="vaga-forum-info">
-                  <h3>Assistente administrativo <span className="topicID">#12</span></h3>
+                  <h3>
+                    Assistente administrativo{" "}
+                    <span className="topicID">#12</span>
+                  </h3>
                   <div className="topic-meta">
                     <span>Nome empresa </span>
                     <span>- 02/03/2002</span>
@@ -61,11 +80,13 @@ export default function ForumPage() {
                 </div>
                 <div className="last-answer">
                   <i className="fa-solid fa-arrow-turn-up"></i>
-                  
+
                   <div className="answer-content">
                     <ProfilePic className="candidato-pic" />
                     <span className="pessoa-forum-info">
-                      <span className="name">Alvaro - <span>há 2 min</span></span>
+                      <span className="name">
+                        Alvaro - <span>há 2 min</span>
+                      </span>
                       <p className="message">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                         Pellentesque et tortor felis. Duis et metus sodales,

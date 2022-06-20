@@ -8,7 +8,27 @@ export const LandingStyle = styled.div`
   main.landing-main section {
     height: 50vh;
     background: #f1f1f1;
-    margin-top: 10px;
+  }
+  
+  main.landing-main section:first-child{
+    padding-top: 90px;
+    background: var(--accent-color-active);
+    min-height: calc(100vh);
+  }
+  main.landing-main section:nth-child(2){
+    padding-top: 90px;
+    background: var(--accent-color);
+    min-height: calc(100vh);
+  }
+  main.landing-main section:nth-child(3){
+    padding-top: 90px;
+    background: var(--text-b);
+    min-height: calc(100vh);
+  }
+  main.landing-main section:nth-child(2){
+    padding-top: 90px;
+    background: var(--accent-color);
+    min-height: calc(100vh);
   }
 
   footer.landing-footer {
@@ -44,7 +64,7 @@ export const LandingStyle = styled.div`
     justify-content: center;
     width: 100%;
     height: 80px;
-    background: #fff;
+    background: #fffffff0;
     border-bottom: 1px solid #cccc;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
   }
@@ -156,9 +176,15 @@ export const LandingStyle = styled.div`
     justify-content: center;
     position: relative;
     background: transparent;
+    gap: 10px;
     z-index: 1;
     border: none;
     padding: 10px;
+    transition: all .2 ease;
+    border-radius: 10px;
+  }
+  .access-bt:hover {
+    background: var(--accent-color-opacity);
   }
   .access-bt::before {
     content: "\f007";
@@ -227,6 +253,9 @@ export const LandingStyle = styled.div`
   }
 
   @media (min-width: 766px) {
+    .access-bt{
+      cursor: pointer;
+    }
     .logo-index {
       margin-left: initial;
     }

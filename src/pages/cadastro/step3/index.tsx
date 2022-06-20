@@ -12,6 +12,7 @@ import { api } from "../../../services/api";
 import { toast } from "react-toastify";
 import { userAlunoType } from "../../../contexts/CadastroContext/types";
 import { convertFromStringToDate } from "../../../utils/convertStringToDateFormat";
+import { CustomSelect } from "../../../components/select";
 
 export function CadastroStep3() {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,7 +24,13 @@ export function CadastroStep3() {
       navigate("..");
     }
   });
-
+  const options = [
+    { value: "Informática", label: "Informática" },
+    { value: "Administração", label: "Administração" },
+    { value: "Eletrotécnica", label: "Eletrotécnica" },
+    { value: "Energias Renováveis", label: "Energias Renováveis" },
+    { value: "Física", label: "Física" },
+  ];
   let cursos = [
     "Informática",
     "Administração",
@@ -41,7 +48,8 @@ export function CadastroStep3() {
         "validacao da data",
         "Data inválida",
         (value: any) =>
-          convertFromStringToDate(value).toString() !== "Invalid Date" && convertFromStringToDate(value) <= new Date()
+          convertFromStringToDate(value).toString() !== "Invalid Date" &&
+          convertFromStringToDate(value) <= new Date()
       )
       .required("Este campo é obrigatório")
       .min(10, "Data inválida"),
@@ -215,18 +223,28 @@ export function CadastroStep3() {
             <div className="input-group no-wrap">
               <div className="lbl">
                 <label htmlFor="curso">Curso: </label>
+
                 <Controller
                   name="curso"
                   control={control}
-                  render={({ field }) => (
-                    <Input
-                      type="text"
-                      placeholder="Curso"
-                      id="curso"
-                      icon="fas fa-book-open"
-                      list="courses"
-                      {...field}
-                      {...(errors.curso && { className: "danger" })}
+                  render={({ field: { value, onChange, onBlur, ref } }) => (
+                    <CustomSelect
+                      noOptionsMessage={() => "Não encontrado"}
+                      ref={ref}
+                      inputId="change-courses"
+                      options={options}
+                      placeholder="Selecione um curso"
+                      onChange={(option: any) => onChange(option?.value)}
+                      onBlur={onBlur}
+                      value={options.filter((option) =>
+                        value?.includes(option.value)
+                      )}
+                      defaultValue={options.filter((option) =>
+                        value?.includes(option.value)
+                      )}
+                      className={`custom-select ${
+                        errors.curso?.message && "danger"
+                      }`}
                     />
                   )}
                 />

@@ -20,6 +20,9 @@ export const InputStyle = css`
   }
   &.danger {
     border-color: #c91f1f;
+    &:focus {
+      box-shadow: 0 0 0 0.2rem #c91f1f50;
+    }
   }
 `;
 export const InputStyled = styled.input<InputProps>`

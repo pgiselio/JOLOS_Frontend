@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 
 export function LandNavBar() {
   const [menuState, setMenuState] = useState(false);
   const [accessState, setAccessState] = useState(false);
   let navigate = useNavigate();
+  const auth = useAuth();
   return (
     <>
       <header className="landing navigate-container">
@@ -38,14 +40,27 @@ export function LandNavBar() {
               </ul>
             </div>
             <div className="acesso">
-              <Acesso />
+              {auth.email ? (
+                <button
+                  type="button"
+                  className={"access-bt " + (accessState ? "active" : "")}
+                  onClick={() => {
+                    window.location.href = "sys";
+                  }}
+                >
+                  Logado
+                </button>
+              ) : (
+                <Acesso />
+              )}
             </div>
+
             <div className="mobile-buttons">
               <button
                 type="button"
                 className={"access-bt " + (accessState ? "active" : "")}
                 onClick={() => {
-                  navigate("entrar");
+                  auth.email ? navigate("sys") : navigate("entrar");
                 }}
               ></button>
               <div className={"acesso-mobile " + (accessState ? "active" : "")}>
@@ -73,7 +88,6 @@ export function LandNavBar() {
           setMenuState(false);
           setAccessState(false);
         }}
-
       ></div>
     </>
   );

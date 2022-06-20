@@ -3,7 +3,7 @@ import { LandingStyle } from "./style";
 
 export default function LandingPage() {
     return (
-        <LandingStyle id="landing-page">
+        <LandingStyle>
             <LandNavBar />
             <main className="landing-main">
                 <section id="1">

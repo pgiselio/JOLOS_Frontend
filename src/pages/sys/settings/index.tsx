@@ -27,6 +27,7 @@ export default function SettingsPage() {
       setSelectedTab(searchParams.get("tab"));
     }
   }, [searchParams.get("tab")]);
+  
   if (!auth.userInfo?.id) {
     return <LoadingPage />;
   }
@@ -95,15 +96,13 @@ export default function SettingsPage() {
             <OutsetHeadersCornerRadius className="rounded-corner">
               <div className="header">
                 <div className="header-items slide-left">
-                  {!mq.matches && (
-                    <button
-                      className="back-button"
-                      type="button"
-                      onClick={() => navigate(-1)}
-                    >
-                      <i className="fas fa-arrow-left"></i>
-                    </button>
-                  )}
+                  <button
+                    className="back-button"
+                    type="button"
+                    onClick={() => navigate(-1)}
+                  >
+                    <i className="fas fa-arrow-left"></i>
+                  </button>
                   {selectedTab === "profile" && <h3>Perfil</h3>}
                   {selectedTab === "account" && <h3>Conta e Segurança</h3>}
                   {selectedTab === "notifications" && <h3>Notificações</h3>}
@@ -115,7 +114,7 @@ export default function SettingsPage() {
               {selectedTab === "profile" && <SettingContaPage />}
               {selectedTab === "account" && <div>conteudo aqui</div>}
               {selectedTab === "notifications" && <div>Notificações</div>}
-              {selectedTab === "themes" && <SettingThemesPage/>}
+              {selectedTab === "themes" && <SettingThemesPage />}
             </div>
           </div>
         )}

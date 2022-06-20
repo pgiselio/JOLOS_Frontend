@@ -29,6 +29,11 @@ export const HeaderSysStyle = styled.header`
     height: 100%;
   }
 
+  .logo-link{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .menu-container .logo {
     height: calc((var(--top-bar-height)) - 20px);
     width: auto;

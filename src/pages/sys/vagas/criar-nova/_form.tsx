@@ -13,7 +13,7 @@ import { api } from "../../../../services/api";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { queryClient } from "../../../../services/queryClient";
-import Select from "react-select";
+import { CustomSelect } from "../../../../components/select";
 
 export function CriarNovaVagaForm() {
   // const [editorState, setEditorState] = useState(() =>
@@ -178,12 +178,13 @@ export function CriarNovaVagaForm() {
             control={control}
             render={({ field: { value, onChange, onBlur, ref } }) => {
               return (
-                <Select
+                <CustomSelect
+                  noOptionsMessage={() => "Não encontrado"}
                   ref={ref}
                   inputId="change-courses"
                   options={options}
                   placeholder="Selecione um curso"
-                  onChange={(option) =>
+                  onChange={(option : any) =>
                     onChange(option?.value)
                   }
                   onBlur={onBlur}
@@ -193,7 +194,7 @@ export function CriarNovaVagaForm() {
                   defaultValue={options.filter((option) =>
                     value?.includes(option.value)
                   )}
-                  className={`custom-select ${errors.cursoAlvo?.message && "danger"}`}
+                  className={`${errors.cursoAlvo?.message && "danger"}`}
                 />
               );
             }}

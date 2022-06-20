@@ -7,7 +7,7 @@ export const SettingPageStyle = styled.section`
   .rounded-corner {
     z-index: 5;
     top: calc(var(--top-bar-height) - 1px);
-    
+
     ::after {
       display: none;
     }
@@ -30,7 +30,7 @@ export const SettingPageStyle = styled.section`
       animation: slide-left 1s cubic-bezier(0.075, 0.82, 0.165, 1);
     }
     .back-button {
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       border-radius: 30px;
@@ -50,8 +50,8 @@ export const SettingPageStyle = styled.section`
           color: var(--text-a);
         }
       }
-      :active{
-        transform: scale(0.90);
+      :active {
+        transform: scale(0.9);
       }
     }
   }
@@ -139,6 +139,9 @@ export const SettingPageStyle = styled.section`
       button ~ h3 {
         padding-left: 0;
       }
+      .back-button {
+        display: flex;
+      }
     }
     .nav-settings-container {
       position: relative;
@@ -146,7 +149,8 @@ export const SettingPageStyle = styled.section`
       width: 100%;
       max-width: initial;
       top: 0;
-      .items, .header-items{
+      .items,
+      .header-items {
         animation: slide-right 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
       }
       &.toggle {
