@@ -28,6 +28,7 @@
     "react-query": "^3.34.16",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
+    "react-select": "^5.3.2",
     "react-toastify": "^8.2.0",
     "react-verification-code-input": "^1.2.9",
     "sass": "^1.49.8",

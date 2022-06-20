@@ -13,6 +13,7 @@ import { api } from "../../../../services/api";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { queryClient } from "../../../../services/queryClient";
+import Select from "react-select";
 
 export function CriarNovaVagaForm() {
   // const [editorState, setEditorState] = useState(() =>
@@ -24,6 +25,13 @@ export function CriarNovaVagaForm() {
   useEffect(() => {
     setEmpresaCNPJ(auth.userInfo?.empresa?.cnpj);
   }, [auth.userInfo]);
+  const options = [
+    { value: "Informática", label: "Informática" },
+    { value: "Administração", label: "Administração" },
+    { value: "Eletrotécnica", label: "Eletrotécnica" },
+    { value: "Energias Renováveis", label: "Energias Renováveis" },
+    { value: "Física", label: "Física" },
+  ]
   let cursos = [
     "Informática",
     "Administração",
@@ -32,7 +40,8 @@ export function CriarNovaVagaForm() {
     "Física",
   ];
   const maxDescriptionLength = 1000;
-  const [remainigDescriptionLength, setRemainigDescriptionLength] = useState(maxDescriptionLength);
+  const [remainigDescriptionLength, setRemainigDescriptionLength] =
+    useState(maxDescriptionLength);
 
   let validationSchema;
   if (empresaCNPJ) {
@@ -80,6 +89,8 @@ export function CriarNovaVagaForm() {
     isDirty
   );
 
+  
+
   async function onSubmit({
     titulo,
     localidade,
@@ -93,10 +104,9 @@ export function CriarNovaVagaForm() {
         titulo,
         localizacao: localidade,
         descricao,
-        cnpj:
-          auth?.authorities?.includes("EMPRESA")
-            ? empresaCNPJ
-            : cnpj.replaceAll(".", "").replaceAll("/", "").replaceAll("-", ""),
+        cnpj: auth?.authorities?.includes("EMPRESA")
+          ? empresaCNPJ
+          : cnpj.replaceAll(".", "").replaceAll("/", "").replaceAll("-", ""),
         dataCriacao: new Date(),
       })
       .then((response) => {
@@ -164,32 +174,36 @@ export function CriarNovaVagaForm() {
         <div className="lbl">
           <label htmlFor="change-courses">Curso alvo: </label>
           <Controller
-            name="cursoAlvo"
+            name={"cursoAlvo"}
             control={control}
-            render={({ field }) => (
-              <Input
-                type="text"
-                id="change-courses"
-                placeholder="Administração, Informática etc"
-                autoComplete="off"
-                list="courses"
-                {...field}
-                {...(errors.cursoAlvo && { className: "danger" })}
-              />
-            )}
+            render={({ field: { value, onChange, onBlur, ref } }) => {
+              return (
+                <Select
+                  ref={ref}
+                  inputId="change-courses"
+                  options={options}
+                  placeholder="Selecione um curso"
+                  onChange={(option) =>
+                    onChange(option?.value)
+                  }
+                  onBlur={onBlur}
+                  value={options.filter((option) =>
+                    value?.includes(option.value)
+                  )}
+                  defaultValue={options.filter((option) =>
+                    value?.includes(option.value)
+                  )}
+                  className={`custom-select ${errors.cursoAlvo?.message && "danger"}`}
+                />
+              );
+            }}
           />
           <p className="input-error">{errors.cursoAlvo?.message}</p>
-
-          <datalist id="courses">
-            {cursos.map((course) => (
-              <option value={course} key={course}></option>
-            ))}
-          </datalist>
         </div>
       </div>
       {auth?.authorities?.includes("ADMIN") && (
         <div className="lbl">
-          <label htmlFor="cnpj">CNPJ da empresa: </label>
+          <label htmlFor="cnpj">Empresa gerente da vaga: </label>
           <Controller
             name="cnpj"
             control={control}
@@ -250,7 +264,8 @@ export function CriarNovaVagaForm() {
 
         <div className="counter-box">
           <p>
-            Limite de caracteres: <span id="count">{remainigDescriptionLength}</span>
+            Limite de caracteres:{" "}
+            <span id="count">{remainigDescriptionLength}</span>
           </p>
         </div>
       </div>

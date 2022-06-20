@@ -10,7 +10,8 @@ export const InputStyle = css`
   border-radius: 5px;
   padding: 10px 8px;
   outline: 0;
-  transition: box-shadow 0.2s, border 0.2s, background 0.2s linear;
+  box-shadow: 0 0 0 0 rgba(45, 143, 65, 0.308);
+  transition: box-shadow 0.4s, border 0.2s, background 0.2s linear;
   color: var(--text-a);
   background: #ffffff1a;
   &:focus {

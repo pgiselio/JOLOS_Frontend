@@ -269,6 +269,9 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 13px;
     font-weight: 500;
   }
+  .custom-select.danger *{
+    border-color: #c91f1f;
+  }
   @media (max-width: 766px) {
     .form-item-group{
       grid-template-columns: 1fr;
