@@ -1,50 +1,17 @@
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
-export const LandingStyle = styled.div`
-  main.landing-main {
-    margin-top: 80px;
+export const LandingGlobalStyle = createGlobalStyle`
+  body{
+    background-color: #ffffff;
   }
-
-  main.landing-main section {
-    height: 50vh;
-    background: #f1f1f1;
-  }
-  
-  main.landing-main section:first-child{
-    padding-top: 90px;
-    background: var(--accent-color-active);
-    min-height: calc(100vh);
-  }
-  main.landing-main section:nth-child(2){
-    padding-top: 90px;
-    background: var(--accent-color);
-    min-height: calc(100vh);
-  }
-  main.landing-main section:nth-child(3){
-    padding-top: 90px;
-    background: var(--text-b);
-    min-height: calc(100vh);
-  }
-  main.landing-main section:nth-child(2){
-    padding-top: 90px;
-    background: var(--accent-color);
-    min-height: calc(100vh);
-  }
-
-  footer.landing-footer {
-    margin-top: 100px;
-    height: 500px;
-    display: flex;
-    background: #810016;
-  }
-  .navigate-container {
-    display: flex;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    margin-bottom: 200px;
-    z-index: 5;
-  }
+`;
+export const LandingHeader = styled.header`
+  display: flex;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  margin-bottom: 200px;
+  z-index: 5;
   .logo-nav {
     display: flex;
     align-items: center;
@@ -55,8 +22,7 @@ export const LandingStyle = styled.div`
     filter: grayscale(0.5);
   }
   .logo-nav img {
-    height: 40px;
-    width: 110px;
+    height: 34px;
   }
   .navigate {
     display: flex;
@@ -64,9 +30,7 @@ export const LandingStyle = styled.div`
     justify-content: center;
     width: 100%;
     height: 80px;
-    background: #fffffff0;
-    border-bottom: 1px solid #cccc;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    background: var(--navs-bg);
   }
 
   .menu-container {
@@ -180,7 +144,7 @@ export const LandingStyle = styled.div`
     z-index: 1;
     border: none;
     padding: 10px;
-    transition: all .2 ease;
+    transition: all 0.2 ease;
     border-radius: 10px;
   }
   .access-bt:hover {
@@ -239,21 +203,9 @@ export const LandingStyle = styled.div`
     color: #fff;
     background: var(--accent-color);
   }
-  .backshadow{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-    z-index: 1;
-  }
-  .backshadow.active{
-    display: block;
-  }
 
   @media (min-width: 766px) {
-    .access-bt{
+    .access-bt {
       cursor: pointer;
     }
     .logo-index {
@@ -319,6 +271,11 @@ export const LandingStyle = styled.div`
       background: initial;
     }
 
+    .menu li a.active {
+      color: var(--accent-color);
+      background: initial;
+    }
+
     .menu li a::after {
       content: " ";
       width: 0;
@@ -332,9 +289,78 @@ export const LandingStyle = styled.div`
       background: var(--accent-color);
       transition: 0.13s linear;
     }
-
     .menu li a:hover::after {
       width: calc(100% - 20px);
     }
+  }
+`;
+export const LandingStyle = styled.div`
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 1280px;
+  }
+  main.landing-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 90px;
+    section {
+      min-height: 300px;
+    }
+    section.hello-section {
+      min-height: calc(100vh - 150px);
+      width: 100%;
+      color: #333;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      h1 {
+        font-size: clamp(1.5rem, 2.5vw, 2.5em);
+        max-width: 75%;
+        font-weight: 500;
+      }
+      h2 {
+        display: none;
+        font-size: 1.2em;
+        max-width: 70%;
+        font-weight: 400;
+      }
+      p {
+        text-align: center;
+        max-width: clamp(70%, 400px, 500px);
+        font-size: clamp(0.8rem, 1.5vw, 1em);
+        color: #666;
+      }
+    }
+  }
+
+  footer.landing-footer {
+    margin-top: 100px;
+    height: 500px;
+    display: flex;
+    background: #810016;
+  }
+  .custom-bg {
+    height: 100%;
+  }
+
+  .backshadow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    z-index: 1;
+  }
+  .backshadow.active {
+    display: block;
   }
 `;

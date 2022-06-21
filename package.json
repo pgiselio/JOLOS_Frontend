@@ -25,6 +25,7 @@
     "react-hook-form": "^7.28.1",
     "react-horizontal-scrolling-menu": "^2.7.1",
     "react-input-mask": "^3.0.0-alpha.2",
+    "react-parallax": "^3.5.1",
     "react-query": "^3.34.16",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",

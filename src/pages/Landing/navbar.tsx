@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useIntersection } from "../../hooks/useIntersection";
+import { LandingHeader } from "./styles";
 
 export function LandNavBar() {
   const [menuState, setMenuState] = useState(false);
@@ -9,7 +11,7 @@ export function LandNavBar() {
   const auth = useAuth();
   return (
     <>
-      <header className="landing navigate-container">
+      <LandingHeader className="landing navigate-container">
         <nav className="navigate">
           <div className="menu-container">
             <a href="/" className="logo-nav">
@@ -18,22 +20,22 @@ export function LandNavBar() {
             <div className={"menu " + (menuState ? "active" : "")}>
               <ul>
                 <LandBarItem
-                  href="#1"
-                  label="Tadah"
-                  setMenuState={setMenuState}
-                />
-                <LandBarItem
-                  href="#2"
-                  label="Cursos"
-                  setMenuState={setMenuState}
-                />
-                <LandBarItem
-                  href="#3"
+                  href="#sec1"
                   label="Sobre"
                   setMenuState={setMenuState}
                 />
                 <LandBarItem
-                  href="#4"
+                  href="#sec2"
+                  label="Tadah"
+                  setMenuState={setMenuState}
+                />
+                <LandBarItem
+                  href="#sec3"
+                  label="Cursos"
+                  setMenuState={setMenuState}
+                />
+                <LandBarItem
+                  href="#sec4"
                   label="Contato"
                   setMenuState={setMenuState}
                 />
@@ -81,7 +83,7 @@ export function LandNavBar() {
             </div>
           </div>
         </nav>
-      </header>
+      </LandingHeader>
       <div
         className={"backshadow " + (accessState || menuState ? "active" : "")}
         onClick={() => {
@@ -93,13 +95,26 @@ export function LandNavBar() {
   );
 }
 function LandBarItem({ href, label, setMenuState }: any) {
+  let ref = useRef(document.querySelector(href));
+  let inViewport = useIntersection(ref, '0px');
+  function scrollToId(e : any) {
+    e.preventDefault();
+    setMenuState(false);
+    const to = document.querySelector(e.target.getAttribute("href") + "");
+    console.log(to)
+    to?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  let section = document.querySelector(href + "");
+  console.log(inViewport);
+  
   return (
     <li>
       <a
         href={href}
-        onClick={() => {
-          setMenuState(false);
-        }}
+        onClick={
+          scrollToId
+        }
+        {...inViewport ? {className: "active"} : {}}
       >
         {label}
       </a>
