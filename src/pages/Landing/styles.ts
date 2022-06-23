@@ -308,18 +308,31 @@ export const LandingStyle = styled.div`
     align-items: center;
     margin-top: 90px;
     section {
-      min-height: 300px;
-    }
-    section.hello-section {
-      min-height: calc(100vh - 150px);
-      width: 100%;
-      color: #333;
-      padding: 30px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 300px;
+    }
+    section.hello-section {
+      max-height: calc(100vh - 150px);
+      height: 100vh;
+      width: 100%;
+      color: #333;
       text-align: center;
+      background-size: cover;
+      .container{
+        height: 100%;
+        padding: 30px;
+        align-self: center;
+      }
+      .parallax{
+        height: 100%;
+        .layer-1{
+          display: flex;
+          justify-content: center;
+        }
+      }
 
       h1 {
         font-size: clamp(1.5rem, 2.5vw, 2.5em);
