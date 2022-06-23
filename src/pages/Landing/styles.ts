@@ -271,11 +271,6 @@ export const LandingHeader = styled.header`
       background: initial;
     }
 
-    .menu li a.active {
-      color: var(--accent-color);
-      background: initial;
-    }
-
     .menu li a::after {
       content: " ";
       width: 0;
@@ -289,8 +284,13 @@ export const LandingHeader = styled.header`
       background: var(--accent-color);
       transition: 0.13s linear;
     }
-    .menu li a:hover::after {
-      width: calc(100% - 20px);
+
+    .menu li a.active {
+      color: var(--accent-color);
+      background: initial;
+      &::after {
+        width: calc(100% - 20px);
+      }
     }
   }
 `;
@@ -315,20 +315,21 @@ export const LandingStyle = styled.div`
       min-height: 300px;
     }
     section.hello-section {
+      margin-top: -20px;
       max-height: calc(100vh - 150px);
       height: 100vh;
       width: 100%;
       color: #333;
       text-align: center;
       background-size: cover;
-      .container{
+      .container {
         height: 100%;
         padding: 30px;
         align-self: center;
       }
-      .parallax{
+      .parallax {
         height: 100%;
-        .layer-1{
+        .layer-1 {
           display: flex;
           justify-content: center;
         }

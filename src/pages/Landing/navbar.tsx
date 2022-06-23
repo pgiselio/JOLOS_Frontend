@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { useIntersection } from "../../hooks/useIntersection";
 import { LandingHeader } from "./styles";
+import { Link } from "react-scroll";
 
 export function LandNavBar() {
   const [menuState, setMenuState] = useState(false);
@@ -94,30 +94,30 @@ export function LandNavBar() {
     </>
   );
 }
-function LandBarItem({ href, label, setMenuState }: any) {
-  let ref = useRef(document.querySelector(href));
-  let inViewport = useIntersection(ref, '0px');
-  function scrollToId(e : any) {
-    e.preventDefault();
-    setMenuState(false);
-    const to = document.querySelector(e.target.getAttribute("href") + "");
-    console.log(to)
-    to?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-  let section = document.querySelector(href + "");
-  console.log(inViewport);
-  
+function LandBarItem({
+  href,
+  label,
+  setMenuState,
+}: {
+  href: string;
+  label: string;
+  setMenuState: (bol: boolean) => void;
+}) {
   return (
     <li>
-      <a
-        href={href}
-        onClick={
-          scrollToId
-        }
-        {...inViewport ? {className: "active"} : {}}
+      <Link
+        activeClass="active"
+        to={href.replace("#", "")}
+        spy={true}
+        smooth={true}
+        offset={-70}
+        duration={500}
+        onClick={() => {
+          setMenuState(false);
+        }}
       >
         {label}
-      </a>
+      </Link>
     </li>
   );
 }
