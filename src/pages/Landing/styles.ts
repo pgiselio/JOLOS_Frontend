@@ -257,7 +257,7 @@ export const LandingHeader = styled.header`
       color: #202020;
       font-weight: 500;
       height: 100%;
-      width: initial;
+      width: max-content;
       text-align: center;
       border: none;
       font-size: initial;
@@ -313,10 +313,22 @@ export const LandingStyle = styled.div`
       align-items: center;
       justify-content: center;
       min-height: 300px;
+      h1 {
+        font-size: clamp(1.5rem, 2.5vw, 2.5em);
+        font-weight: 500;
+        font-family: "Roboto", sans-serif;
+      }
+      h2 {
+        font-size: 1.2em;
+        font-family: "Roboto", sans-serif;
+
+        font-weight: 400;
+      }
     }
     section.hello-section {
       margin-top: -20px;
-      max-height: calc(100vh - 150px);
+      max-height: calc(100vh - 70px);
+      min-height: 300px;
       height: 100vh;
       width: 100%;
       color: #333;
@@ -335,16 +347,8 @@ export const LandingStyle = styled.div`
         }
       }
 
-      h1 {
-        font-size: clamp(1.5rem, 2.5vw, 2.5em);
-        max-width: 75%;
-        font-weight: 500;
-      }
       h2 {
-        display: none;
-        font-size: 1.2em;
-        max-width: 70%;
-        font-weight: 400;
+        max-width: 75%;
       }
       p {
         text-align: center;
@@ -353,13 +357,95 @@ export const LandingStyle = styled.div`
         color: #666;
       }
     }
+    section.cursos-section {
+      width: 100%;
+    }
+    section.aderir-section {
+      background-color: var(--accent-color-opacity);
+      width: 100%;
+      padding: 60px 30px;
+      .img-job-hunt {
+        height: 150px;
+        margin-bottom: 20px;
+      }
+      .options {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        column-gap: 100px;
+        .option {
+          position: relative;
+          margin-top: 50px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 20px;
+        }
+        .option:first-child::after {
+          content: " ";
+          height: 100%;
+          width: 2px;
+          background-color: var(--accent-color-opacity);
+          position: absolute;
+          right: -30%;
+        }
+      }
+    }
+    section.equipe-section {
+      padding: 60px 30px;
+      height: calc(100vh - 100px);
+      width: 100%;
+      h1{
+        margin-bottom: 60px;
+        text-align: center;
+      }
+      .equipe {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 100px;
+        flex-wrap: wrap;
+        .pessoa {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          .picture {
+            height: 130px;
+            border-radius: 50%;
+          }
+          .info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            h3 {
+              font-size: 16px;
+              color: #333;
+            }
+            span{
+              font-size: 14px;
+              color: var(--text-b);
+            }
+            a{
+              margin-top: 5px;
+              font-size: 18px;
+              color: var(--text-b);
+              :hover{
+                color: var(--text-a);
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   footer.landing-footer {
     margin-top: 100px;
     height: 500px;
     display: flex;
-    background: #810016;
+    background: #222;
   }
   .custom-bg {
     height: 100%;
@@ -376,5 +462,14 @@ export const LandingStyle = styled.div`
   }
   .backshadow.active {
     display: block;
+  }
+  @media (max-width: 532px) {
+    .options .option:first-child::after {
+      height: 2px !important;
+      width: 100% !important;
+      bottom: -30%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
 `;

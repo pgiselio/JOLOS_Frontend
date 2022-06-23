@@ -1,5 +1,5 @@
 import { useTabs } from "react-headless-tabs";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Input } from "../../components/input";
 import { api } from "../../services/api";
@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { TabSelector } from "../../components/Tabs/TabSelector";
 import CircularProgressFluent from "../../components/circular-progress-fluent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type signupType = {
   email: string;
@@ -19,7 +19,14 @@ type signupType = {
 
 export default function CadastroPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedTab, setSelectedTab] = useTabs(["ALUNO", "EMPRESA"], "ALUNO");
+  const [searchParams] = useSearchParams();
+  const [selectedTab, setSelectedTab] = useTabs(["ALUNO", "EMPRESA"], searchParams.get("tab"));
+  useEffect(() => {
+    if (!searchParams.get("tab")) {
+      setSelectedTab("ALUNO");
+    }
+  }, []);
+  
   let navigate = useNavigate();
   const empresaValidationSchema = Yup.object().shape({
     email: Yup.string()

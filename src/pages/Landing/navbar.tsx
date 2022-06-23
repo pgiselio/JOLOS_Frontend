@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { LandingHeader } from "./styles";
@@ -26,17 +26,22 @@ export function LandNavBar() {
                 />
                 <LandBarItem
                   href="#sec2"
-                  label="Tadah"
+                  label="Cursos"
                   setMenuState={setMenuState}
                 />
                 <LandBarItem
                   href="#sec3"
-                  label="Cursos"
+                  label="Aderir"
                   setMenuState={setMenuState}
                 />
                 <LandBarItem
                   href="#sec4"
                   label="Contato"
+                  setMenuState={setMenuState}
+                />
+                <LandBarItem
+                  href="#sec5"
+                  label="Equipe"
                   setMenuState={setMenuState}
                 />
               </ul>
@@ -110,7 +115,7 @@ function LandBarItem({
         to={href.replace("#", "")}
         spy={true}
         smooth={true}
-        offset={-70}
+        offset={-80}
         duration={500}
         onClick={() => {
           setMenuState(false);
