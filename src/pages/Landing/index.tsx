@@ -26,8 +26,7 @@ export default function LandingPage() {
                         alunos e ex-alunos do IFRN Campus João Câmara. Surgimos
                         com o objetivo de estreitar os laços entre as empresas,
                         tornando o processo de divulgação de vagas e de
-                        contratação mais centrado e formal, não dependendo
-                        daquela coisa de boca-a-boca por mensagens.
+                        contratação mais centrado, fácil e ágil.
                       </p>
                     </div>
                   ),
