@@ -22,7 +22,7 @@ export function ProfilePic(props: ProfilePicType) {
         >
           <defs>
             <style>
-              {css`
+              {`
                 .cls-1 {
                   fill: #555d60;
                 }

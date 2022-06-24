@@ -17,13 +17,14 @@ export function VagaCandidatoPage() {
       await api
         .get<User>(`/usuario/${candidato}`)
         .then((response) => {
-          setCandidatos(c => c.concat(response.data));          
+          if(!candidatos.includes(response.data))
+            setCandidatos(c => c.concat(response.data));          
         })
         .catch((error) => {
           console.log(error);
         });
     });
-  }, []);
+  }, [data?.alunos]);
   if (!data) {
     return (
       <p
@@ -57,6 +58,7 @@ export function VagaCandidatoPage() {
         {data.alunos.length > 0 ? (
           <ul className="lista-candidatos">
             {candidatos.length > 0 ? (
+              console.log(candidatos),
               candidatos.map((candidato) => {
                 return (
                   <li className="candidato" key={candidato.id}>
