@@ -10,24 +10,42 @@ export function SettingThemesPage() {
   };
   return (
     <Container>
-      <div className="theme-option">
-        <div className="title">Padrão (claro)</div>
-        <div className="preview">
-          <Button onClick={() => toggleTheme("light")}>Aplicar</Button>
-        </div>
-      </div>
-      <div className="theme-option">
-        <div className="title">Azul da meia-noite (escuro)</div>
-        <div className="preview">
-          <Button onClick={() => toggleTheme("midnightBlue")}>Aplicar</Button>
-        </div>
-      </div>
-      <div className="theme-option">
-        <div className="title">Escuro</div>
-        <div className="preview">
-          <Button onClick={() => toggleTheme("dark")}>Aplicar</Button>
-        </div>
-      </div>
+      <button
+        className={`theme-option ${
+          AppOptions.theme === "systemDefault" ? "active" : ""
+        }`}
+        onClick={() => toggleTheme("systemDefault")}
+      >
+        Padrão do seu sistema ({window.matchMedia("(prefers-color-scheme: dark)").matches ? "Escuro" : "Claro"})
+        <span></span>
+      </button>
+      <button
+        className={`theme-option ${
+          AppOptions.theme === "light" ? "active" : ""
+        }`}
+        onClick={() => toggleTheme("light")}
+      >
+        Claro
+        <span></span>
+      </button>
+      <button
+        className={`theme-option ${
+          AppOptions.theme === "dark" ? "active" : ""
+        }`}
+        onClick={() => toggleTheme("dark")}
+      >
+        Escuro 
+        <span></span>
+      </button>
+      <button
+        className={`theme-option ${
+          AppOptions.theme === "darkGray" ? "active" : ""
+        }`}
+        onClick={() => toggleTheme("darkGray")}
+      >
+        Escuro acinzentado
+        <span></span>
+      </button>
     </Container>
   );
 }

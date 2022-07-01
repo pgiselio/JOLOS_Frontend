@@ -10,6 +10,9 @@ export function AppOptionsProvider({ children }: { children: JSX.Element }) {
   const [sidebarState, setSidebarState] = useState(false);
 
   useEffect(() => {
+    if(!window.localStorage.getItem("theme")){
+      window.localStorage.setItem("theme", "systemDefault")
+    }
     const localTheme = window.localStorage.getItem("theme");
     localTheme && setTheme(localTheme);
   }, []);

@@ -67,7 +67,7 @@ export const lightTheme: DefaultTheme = {
   },
 };
 
-export const darkTheme: DefaultTheme = {
+export const darkGrayTheme: DefaultTheme = {
   borderRadius: "5px",
   pallets: {
     ...defaultColors, 
@@ -92,7 +92,7 @@ export const darkTheme: DefaultTheme = {
   },
 };
 
-export const midnightBlueTheme: DefaultTheme = {
+export const darkTheme: DefaultTheme = {
   borderRadius: "5px",
   pallets: {
     ...defaultColors, 

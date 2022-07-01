@@ -6,14 +6,15 @@ import { SidebarList } from "../../components/sidebar/sidebar-list";
 import { useAppOptions } from "../../hooks/useAppOptions";
 import { GlobalStyle } from "../../styles/global";
 import { SysGlobalStyle } from "../../styles/sys";
-import { darkTheme, lightTheme, midnightBlueTheme } from "../../styles/themes";
+import { darkTheme, lightTheme, darkGrayTheme } from "../../styles/themes";
 
 export default function SystemLayout() {
   const AppOptions = useAppOptions();
+  const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
   return (
     <>
       
-      <ThemeProvider theme={AppOptions.theme === "light" ? lightTheme : AppOptions.theme === "midnightBlue" ? midnightBlueTheme : darkTheme}>
+      <ThemeProvider theme={AppOptions.theme === "light" ? lightTheme : AppOptions.theme === "dark" ? darkTheme : AppOptions.theme === "darkGray" ? darkGrayTheme : prefersDarkMode.matches ? darkTheme : lightTheme}>
         <GlobalStyle />
         <SysGlobalStyle />
         <ToastContainer
