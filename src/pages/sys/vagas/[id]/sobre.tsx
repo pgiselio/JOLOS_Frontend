@@ -1,10 +1,3 @@
-import {
-  AlertDialog,
-  AlertDialogDescription,
-  AlertDialogLabel,
-} from "@reach/alert-dialog";
-import { useRef, useState } from "react";
-import { toast } from "react-toastify";
 import { useVaga } from ".";
 import {
   Box,

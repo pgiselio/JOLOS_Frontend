@@ -102,8 +102,6 @@ export default function VagaPage() {
       });
   }
 
-  let date;
-  let dateFormatted;
   const [isCandidatoSubscribed, setIsCandidatoSubscribed] = useState(false);
   useEffect(() => {
     if (auth.userInfo?.id && data?.alunos.includes(auth.userInfo?.id)) {
@@ -156,6 +154,8 @@ export default function VagaPage() {
     });
   }
 
+  let date;
+  let dateFormatted;
   if (data) {
     date = new Date(data.dataCriacao);
     dateFormatted = new Intl.DateTimeFormat(undefined, {
@@ -205,18 +205,21 @@ export default function VagaPage() {
               >
                 {data?.status === "ATIVO" ? "ATIVO" : "INATIVO"}
               </div>
-              {data && ((!auth.authorities?.includes("ALUNO") && auth.userInfo?.id === data.empresa?.id) || auth.authorities?.includes("ADMIN")) && (
-                <Button
-                  className={`less-radius ${
-                    data.status === "ATIVO" ? "red" : "secondary"
-                  }`}
-                  onClick={abrirEncerrarInscricoes}
-                >
-                  {data.status === "ATIVO"
-                    ? "Encerrar inscrições"
-                    : "Reabrir inscrições"}
-                </Button>
-              )}
+              {data &&
+                ((!auth.authorities?.includes("ALUNO") &&
+                  auth.userInfo?.id === data.empresa?.id) ||
+                  auth.authorities?.includes("ADMIN")) && (
+                  <Button
+                    className={`less-radius ${
+                      data.status === "ATIVO" ? "red" : "secondary"
+                    }`}
+                    onClick={abrirEncerrarInscricoes}
+                  >
+                    {data.status === "ATIVO"
+                      ? "Encerrar inscrições"
+                      : "Reabrir inscrições"}
+                  </Button>
+                )}
               {showDialog && (
                 <AlertDialog leastDestructiveRef={cancelRef} className="small">
                   <AlertDialogLabel>
@@ -225,7 +228,7 @@ export default function VagaPage() {
 
                   <AlertDialogDescription>
                     A vaga não poderá ser editada e nem aceitará novas
-                    inscrições.
+                    inscrições, mas continuará sendo visível para todos.
                   </AlertDialogDescription>
 
                   <div
@@ -368,7 +371,7 @@ export default function VagaPage() {
   );
 }
 type ContextType = {
-  data: vaga | null;
+  data: vaga;
 };
 export function useVaga() {
   return useOutletContext<ContextType>();

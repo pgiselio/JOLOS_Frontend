@@ -4,6 +4,9 @@ export const LandingGlobalStyle = createGlobalStyle`
   body{
     background-color: #ffffff;
   }
+  *::selection{
+    background-color: var(--accent-color-opacity);
+  }
 `;
 export const LandingHeader = styled.header`
   display: flex;
@@ -399,6 +402,16 @@ export const LandingStyle = styled.div`
       h1{
         margin-bottom: 60px;
         text-align: center;
+        background-color: #222;
+        border-radius: 5px;
+        overflow: hidden;
+        color: #fff;
+        padding: 5px 10px;
+
+        strong {
+          font-weight: 500;
+          color: var(--accent-color);
+        }
       }
       .equipe {
         display: flex;
@@ -412,7 +425,7 @@ export const LandingStyle = styled.div`
           align-items: center;
           gap: 10px;
           .picture {
-            height: 130px;
+            height: 120px;
             border-radius: 50%;
           }
           .info {
@@ -442,10 +455,18 @@ export const LandingStyle = styled.div`
   }
 
   footer.landing-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 50px;
+    flex-wrap: wrap;
     margin-top: 100px;
     height: 500px;
     display: flex;
     background: #222;
+    img{
+      height: 60px;
+    }
   }
   .custom-bg {
     height: 100%;
