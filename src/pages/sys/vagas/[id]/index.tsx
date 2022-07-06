@@ -16,7 +16,11 @@ import { toast } from "react-toastify";
 import { queryClient } from "../../../../services/queryClient";
 
 import { useAuth } from "../../../../hooks/useAuth";
-import { AlertDialog, AlertDialogLabel } from "@reach/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogDescription,
+  AlertDialogLabel,
+} from "@reach/alert-dialog";
 
 export default function VagaPage() {
   let params = useParams();
@@ -36,27 +40,50 @@ export default function VagaPage() {
       refetchOnWindowFocus: false,
     }
   );
-  const {
-    handleSubmit,
-  } = useForm({
+  const { handleSubmit } = useForm({
     defaultValues: {
       id: "",
     },
   });
   const auth = useAuth();
+  const [showDialog, setShowDialog] = useState(false);
   const cancelRef = useRef(null);
-  function inscreverOuDesinscreverAluno(){
-    if(isCandidatoSubscribed){
-      openUnsubDialog();
-    }else{
-      inscreverAluno();
+  const cancelUnsubRef = useRef(null);
+  function inscreverOuDesinscreverAluno() {
+    if (
+      !(
+        auth.userInfo?.aluno?.dadosPessoa &&
+        (data?.status === "INATIVO" ||
+          data?.cursoAlvo.localeCompare(
+            auth.userInfo?.aluno?.curso,
+            undefined,
+            {
+              sensitivity: "accent",
+            }
+          ))
+      )
+    ) {
+      if (isCandidatoSubscribed) {
+        openUnsubDialog();
+      } else {
+        inscreverAluno();
+      }
+    } else {
+      toast.error(subscribeBtnRef.current?.title, {
+        position: "bottom-center",
+        hideProgressBar: true,
+        toastId: "subscribe-btn-disabled",
+      });
     }
   }
   async function inscreverAluno() {
     await api
       .patch(`/vaga/${params.id}/addAluno/${auth.userInfo?.aluno?.id}`)
       .then(() => {
-        toast.success("Você se increveu na vaga!", {position: "bottom-center", hideProgressBar: true});
+        toast.success("Você se increveu na vaga!", {
+          position: "bottom-center",
+          hideProgressBar: true,
+        });
         queryClient.invalidateQueries([`vaga-${params.id}`]);
         queryClient.invalidateQueries("vagas");
       });
@@ -66,7 +93,10 @@ export default function VagaPage() {
     await api
       .patch(`/vaga/${params.id}/removeAluno/${auth.userInfo?.aluno?.id}`)
       .then(() => {
-        toast.info("Você se desinscreveu da vaga!", {position: "bottom-center", hideProgressBar: true});
+        toast.info("Você se desinscreveu da vaga!", {
+          position: "bottom-center",
+          hideProgressBar: true,
+        });
         queryClient.invalidateQueries([`vaga-${params.id}`]);
         queryClient.invalidateQueries("vagas");
       });
@@ -77,12 +107,55 @@ export default function VagaPage() {
   const [isCandidatoSubscribed, setIsCandidatoSubscribed] = useState(false);
   useEffect(() => {
     if (auth.userInfo?.id && data?.alunos.includes(auth.userInfo?.id)) {
-      setIsCandidatoSubscribed(true) ;
-    }else{
+      setIsCandidatoSubscribed(true);
+    } else {
       setIsCandidatoSubscribed(false);
     }
-    
   }, [auth.userInfo?.id, data?.alunos]);
+
+  const openDialog2 = () => setShowDialog(true);
+  const closeDialog2 = () => setShowDialog(false);
+  function abrirEncerrarInscricoes() {
+    if (data?.status === "ATIVO") {
+      openDialog2();
+    } else {
+      abrirInscricoes();
+    }
+  }
+  async function encerrarInscricoes() {
+    closeDialog2();
+    if (!data) {
+      return;
+    }
+    await api.patch<vaga>(`/vaga/${data.id}`, [
+      {
+        op: "replace",
+        path: "/status",
+        value: "INATIVO",
+      },
+    ]);
+    queryClient.invalidateQueries([`vaga-${data.id}`]);
+    queryClient.invalidateQueries("vagas");
+    toast.success("Vaga encerrada com sucesso!", { toastId: "vaga-encerrada" });
+  }
+  async function abrirInscricoes() {
+    if (!data) {
+      return;
+    }
+    await api.patch<vaga>(`/vaga/${data.id}`, [
+      {
+        op: "replace",
+        path: "/status",
+        value: "ATIVO",
+      },
+    ]);
+    queryClient.invalidateQueries([`vaga-${data.id}`]);
+    queryClient.invalidateQueries("vagas");
+    toast.success("Incrições reabertas com sucesso!", {
+      toastId: "vaga-aberta",
+    });
+  }
+
   if (data) {
     date = new Date(data.dataCriacao);
     dateFormatted = new Intl.DateTimeFormat(undefined, {
@@ -132,20 +205,75 @@ export default function VagaPage() {
               >
                 {data?.status === "ATIVO" ? "ATIVO" : "INATIVO"}
               </div>
+              {data && ((!auth.authorities?.includes("ALUNO") && auth.userInfo?.id === data.empresa?.id) || auth.authorities?.includes("ADMIN")) && (
+                <Button
+                  className={`less-radius ${
+                    data.status === "ATIVO" ? "red" : "secondary"
+                  }`}
+                  onClick={abrirEncerrarInscricoes}
+                >
+                  {data.status === "ATIVO"
+                    ? "Encerrar inscrições"
+                    : "Reabrir inscrições"}
+                </Button>
+              )}
+              {showDialog && (
+                <AlertDialog leastDestructiveRef={cancelRef} className="small">
+                  <AlertDialogLabel>
+                    Tem certeza que deseja desativar esta vaga?
+                  </AlertDialogLabel>
+
+                  <AlertDialogDescription>
+                    A vaga não poderá ser editada e nem aceitará novas
+                    inscrições.
+                  </AlertDialogDescription>
+
+                  <div
+                    className="alert-buttons"
+                    data-reach-alert-dialog-actions
+                  >
+                    <br />
+                    <Button
+                      className="secondary "
+                      ref={cancelRef}
+                      onClick={closeDialog2}
+                    >
+                      Cancelar
+                    </Button>
+                    <Button className=" red" onClick={encerrarInscricoes}>
+                      Sim
+                    </Button>
+                  </div>
+                </AlertDialog>
+              )}
               {auth.userInfo?.aluno?.dadosPessoa && (
                 <form
                   action=""
                   onSubmit={handleSubmit(inscreverOuDesinscreverAluno)}
                 >
-                  
                   <Button
                     type="submit"
                     ref={subscribeBtnRef}
-                    className={`less-radius ${isCandidatoSubscribed ? "red" : ""}`}
-                    {...( (data?.status === "INATIVO" || data?.cursoAlvo.localeCompare(auth.userInfo?.aluno?.curso, undefined, { sensitivity: 'accent' }) ) && {
+                    className={`less-radius ${
+                      isCandidatoSubscribed ? "red" : ""
+                    }`}
+                    {...((data?.status === "INATIVO" ||
+                      data?.cursoAlvo.localeCompare(
+                        auth.userInfo?.aluno?.curso,
+                        undefined,
+                        { sensitivity: "accent" }
+                      )) && {
                       disabled: true,
-                      title: (data?.status === "INATIVO") ? "A vaga não aceita novas inscrições" : "Voce não está no curso alvo para esta vaga",
-                      onTouchEnd: () => toast.error(subscribeBtnRef.current?.title, {position: "bottom-center", hideProgressBar: true, toastId: "subscribe-btn-disabled"})
+                      title:
+                        data?.status === "INATIVO"
+                          ? "A vaga não aceita novas inscrições"
+                          : "Voce não está no curso alvo para esta vaga",
+                      onTouchEnd: () =>
+                        toast.error(subscribeBtnRef.current?.title, {
+                          position: "bottom-center",
+                          hideProgressBar: true,
+                          toastId: "subscribe-btn-disabled",
+                        }),
                     })}
                   >
                     <span>
@@ -174,10 +302,7 @@ export default function VagaPage() {
                           Sim
                         </Button>
                         <br />
-                        <Button
-                          ref={cancelRef}
-                          onClick={closeUnsubDialog}
-                        >
+                        <Button ref={cancelUnsubRef} onClick={closeUnsubDialog}>
                           Cancelar
                         </Button>
                       </div>
@@ -234,7 +359,7 @@ export default function VagaPage() {
                 style={{ marginTop: "20px" }}
               />
             ) : (
-              <Outlet context={{data}} />
+              <Outlet context={{ data }} />
             )}
           </div>
         </div>
@@ -244,7 +369,7 @@ export default function VagaPage() {
 }
 type ContextType = {
   data: vaga | null;
-}
+};
 export function useVaga() {
   return useOutletContext<ContextType>();
 }

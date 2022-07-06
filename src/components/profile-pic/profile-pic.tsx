@@ -1,5 +1,4 @@
 import { CSSProperties } from "react";
-import { css } from "styled-components";
 import { StyledProfilePic } from "./style";
 
 type ProfilePicType = {

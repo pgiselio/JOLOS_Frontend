@@ -15,57 +15,11 @@ import {
 import { Button } from "../../../../components/button";
 import CircularProgressFluent from "../../../../components/circular-progress-fluent";
 import { useAuth } from "../../../../hooks/useAuth";
-import { api } from "../../../../services/api";
-import { queryClient } from "../../../../services/queryClient";
-import { vaga } from "../../../../types/vagaType";
 
 export function VagaSobrePage() {
   const { data } = useVaga();
   const auth = useAuth();
   const isAluno = auth?.authorities?.includes("ALUNO");
-  const [showDialog, setShowDialog] = useState(false);
-  const openDialog = () => setShowDialog(true);
-  const closeDialog = () => setShowDialog(false);
-  const cancelRef = useRef(null);
-  function abrirEncerrarInscricoes() {
-    if(data?.status === "ATIVO"){
-      openDialog();
-    }else{
-      abrirInscricoes();
-    }
-  }
-  async function encerrarInscricoes() {
-    closeDialog();
-    if (!data) {
-      return;
-    }
-    await api.patch<vaga>(`/vaga/${data.id}`, [
-      {
-        op: "replace",
-        path: "/status",
-        value: "INATIVO",
-      },
-    ]);
-    queryClient.invalidateQueries([`vaga-${data.id}`]);
-    queryClient.invalidateQueries("vagas");
-    toast.success("Vaga encerrada com sucesso!", {toastId: "vaga-encerrada"});
-  }
-  async function abrirInscricoes() {
-    if (!data) {
-      return;
-    }
-    await api.patch<vaga>(`/vaga/${data.id}`, [
-      {
-        op: "replace",
-        path: "/status",
-        value: "ATIVO",
-      },
-    ]);
-    queryClient.invalidateQueries([`vaga-${data.id}`]);
-    queryClient.invalidateQueries("vagas");
-    toast.success("Incrições reabertas com sucesso!", {toastId: "vaga-aberta"});
-  }
-
   if (!data) {
     return (
       <p
@@ -111,43 +65,6 @@ export function VagaSobrePage() {
             {data.status ? (
               <BoxContent>
                 <div className="vaga-page-actions">
-                  <Button className={`less-radius ${data.status === "ATIVO" ? "red" : "secondary" }`} onClick={abrirEncerrarInscricoes}>
-                    {data.status === "ATIVO" ? "Encerrar inscrições" : "Reabrir inscrições"}
-                  </Button>
-                  {showDialog && (
-                    <AlertDialog
-                      leastDestructiveRef={cancelRef}
-                      className="small"
-                    >
-                      <AlertDialogLabel>
-                        Tem certeza que deseja desativar esta vaga?
-                      </AlertDialogLabel>
-
-                      <AlertDialogDescription>
-                        A vaga não poderá ser editada e nem aceitará novas
-                        inscrições.
-                      </AlertDialogDescription>
-
-                      <div
-                        className="alert-buttons"
-                        data-reach-alert-dialog-actions
-                      >
-                        <Button
-                          className="secondary "
-                          onClick={encerrarInscricoes}
-                        >
-                          Sim
-                        </Button>
-                        <br />
-                        <Button
-                          ref={cancelRef}
-                          onClick={closeDialog}
-                        >
-                          Cancelar
-                        </Button>
-                      </div>
-                    </AlertDialog>
-                  )}
                   <Button className="less-radius">Editar informações</Button>
                 </div>
               </BoxContent>

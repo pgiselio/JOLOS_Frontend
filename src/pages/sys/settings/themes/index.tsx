@@ -1,4 +1,3 @@
-import { Button } from "../../../../components/button";
 import { useAppOptions } from "../../../../hooks/useAppOptions";
 import { Container } from "./styles";
 

@@ -11,7 +11,7 @@ export function AppOptionsProvider({ children }: { children: JSX.Element }) {
 
   useEffect(() => {
     if(!window.localStorage.getItem("theme")){
-      window.localStorage.setItem("theme", "systemDefault")
+      window.localStorage.setItem("theme", "systemDefault");
     }
     const localTheme = window.localStorage.getItem("theme");
     localTheme && setTheme(localTheme);
