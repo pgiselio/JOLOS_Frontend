@@ -23,6 +23,7 @@ import {
 } from "@reach/alert-dialog";
 
 export default function VagaPage() {
+  const auth = useAuth();
   let params = useParams();
   let subscribeBtnRef = useRef<HTMLButtonElement>(null);
   const [showUnsubDialog, setShowUnsubDialog] = useState(false);
@@ -45,9 +46,8 @@ export default function VagaPage() {
       id: "",
     },
   });
-  const auth = useAuth();
-  const [showDialog, setShowDialog] = useState(false);
-  const cancelRef = useRef(null);
+  
+  
   const cancelUnsubRef = useRef(null);
   function inscreverOuDesinscreverAluno() {
     if (
@@ -111,6 +111,9 @@ export default function VagaPage() {
     }
   }, [auth.userInfo?.id, data?.alunos]);
 
+
+  const [showDialog, setShowDialog] = useState(false);
+  const cancelRef = useRef(null);
   const openDialog2 = () => setShowDialog(true);
   const closeDialog2 = () => setShowDialog(false);
   function abrirEncerrarInscricoes() {

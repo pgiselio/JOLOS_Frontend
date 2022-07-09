@@ -1,50 +1,34 @@
+import { isTheme } from "../../../../contexts/AppOptionsContext";
 import { useAppOptions } from "../../../../hooks/useAppOptions";
+import { themes } from "../../../../styles/themes";
 import { Container } from "./styles";
 
 export function SettingThemesPage() {
   const AppOptions = useAppOptions();
-  const toggleTheme = (themeName: string) => {
+  const toggleTheme = (themeName: keyof typeof themes) => {
     window.localStorage.setItem("theme", themeName);
     AppOptions.setTheme(themeName);
   };
+  const themeKeys = Object.keys(themes);
+
   return (
     <Container>
-      <button
-        className={`theme-option ${
-          AppOptions.theme === "systemDefault" ? "active" : ""
-        }`}
-        onClick={() => toggleTheme("systemDefault")}
-      >
-        Padrão do seu sistema ({window.matchMedia("(prefers-color-scheme: dark)").matches ? "Escuro" : "Claro"})
-        <span></span>
-      </button>
-      <button
-        className={`theme-option ${
-          AppOptions.theme === "light" ? "active" : ""
-        }`}
-        onClick={() => toggleTheme("light")}
-      >
-        Claro
-        <span></span>
-      </button>
-      <button
-        className={`theme-option ${
-          AppOptions.theme === "dark" ? "active" : ""
-        }`}
-        onClick={() => toggleTheme("dark")}
-      >
-        Escuro 
-        <span></span>
-      </button>
-      <button
-        className={`theme-option ${
-          AppOptions.theme === "darkGray" ? "active" : ""
-        }`}
-        onClick={() => toggleTheme("darkGray")}
-      >
-        Escuro acinzentado
-        <span></span>
-      </button>
+      <>
+        {themeKeys.length > 0 &&
+          themeKeys.map((theme) => 
+            isTheme(theme) && (
+              <button
+                key={theme}
+                className={`theme-option ${
+                  AppOptions.theme === theme ? "active" : ""
+                }`}
+                onClick={() => toggleTheme(theme)}
+              >
+                {themes[theme].name}<span></span>
+              </button>
+            )
+          )}
+      </>
     </Container>
   );
 }
