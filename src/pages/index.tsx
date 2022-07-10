@@ -1,10 +1,18 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ParallaxBanner, ParallaxProvider } from "react-scroll-parallax";
 import { Button } from "../components/button";
 import { LandNavBar } from "../components/landing/navbar";
 import { LandingGlobalStyle, LandingStyle } from "../components/landing/styles";
+import { useAuth } from "../hooks/useAuth";
 
 export default function LandingPage() {
+  const auth = useAuth();
+  useEffect(()=>{
+    if(auth.email){
+      window.location.href = "sys";
+    }
+  })
   return (
     <ParallaxProvider>
       <LandingStyle>
