@@ -200,11 +200,11 @@ export const SidebarAside = styled.aside`
 
       &.active {
         background-color: var(--accent-color);
-        color: #fff;
+        color: var(--inside-accent-color);
         margin-right: 0;
       }
       &.active i {
-        color: #fff;
+        color: var(--inside-accent-color);
       }
 
       &.sair:hover i {

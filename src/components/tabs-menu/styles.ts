@@ -54,6 +54,9 @@ export const TabsMenuStyle = styled.div<TabsMenuProps>`
   .react-horizontal-scrolling-menu--wrapper {
     width: 100%;
   }
+  .react-horizontal-scrolling-menu--inner-wrapper{
+    flex: 1;
+  }
   .react-horizontal-scrolling-menu--scroll-container::-webkit-scrollbar {
     display: none;
   }

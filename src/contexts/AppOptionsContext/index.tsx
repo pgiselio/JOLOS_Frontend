@@ -1,17 +1,25 @@
 import { useState, createContext, useEffect } from "react";
+import { themes } from "../../styles/themes";
 import { AppOptionsContextType } from "./types";
 
 export const AppOptionsContext = createContext<AppOptionsContextType>(
   {} as AppOptionsContextType
 );
-
+export function isTheme(x: any): x is keyof typeof themes {
+  const themeKeys = Object.keys(themes);  
+  return themeKeys.includes(x);
+}
 export function AppOptionsProvider({ children }: { children: JSX.Element }) {
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const [theme, setTheme] = useState<keyof typeof themes>("light");
   const [sidebarState, setSidebarState] = useState(false);
+  
 
   useEffect(() => {
-    const localTheme = window.localStorage.getItem("theme");
-    localTheme && setTheme(localTheme);
+    if (!window.localStorage.getItem("theme")) {
+      window.localStorage.setItem("theme", "systemDefault");
+    }
+    const localTheme = window.localStorage.getItem("theme") || "";
+    isTheme(localTheme) ? setTheme(localTheme) : setTheme("systemDefault");
   }, []);
 
   useEffect(() => {
@@ -21,7 +29,7 @@ export function AppOptionsProvider({ children }: { children: JSX.Element }) {
       setSidebarState(true);
     }
   }, []);
-  
+
   useEffect(() => {
     const botaoHam = document.querySelector(".botao-ham");
     if (sidebarState) {

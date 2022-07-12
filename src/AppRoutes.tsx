@@ -13,7 +13,7 @@ import { VagaSobrePage } from "./pages/sys/vagas/[id]/sobre";
 import { VagasList } from "./pages/sys/vagas";
 import LogoutPage from "./pages/logout";
 import SettingsPage from "./pages/sys/settings";
-import LandingPage from "./pages/Landing";
+import LandingPage from "./pages";
 import LoginPage from "./pages/entrar";
 import CadastroPage from "./pages/cadastro";
 import VagaPage from "./pages/sys/vagas/[id]";

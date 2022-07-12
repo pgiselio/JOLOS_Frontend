@@ -20,10 +20,10 @@ export const FabButton = styled.button<FabButtonProps>`
   font-weight: 500;
   cursor: pointer;
   border: none;
-  border-radius: 50px;
+  border-radius: 15px;
   transition: 0.1s linear;
   background: ${(props) => (props.color ? props.color : "var(--accent-color)")};
-  border: 2px solid var(--accent-color);
+  border: 2px solid ${(props) => (props.color ? props.color : "var(--accent-color)")};
   color: #fff;
   user-select: none;
   z-index: 50;
@@ -47,8 +47,9 @@ export const FabButton = styled.button<FabButtonProps>`
     width: 25px;
   }
   :not(:disabled):hover {
-    background: var(--accent-color-active);
-    border: 2px solid var(--accent-color-active);
+    /* background: var(--accent-color-active); */
+    box-shadow: inset 0px 0px 200px 200px #00000047;
+    /* border: 2px solid var(--accent-color-active); */
   }
   @keyframes fade-appear {
     0% {

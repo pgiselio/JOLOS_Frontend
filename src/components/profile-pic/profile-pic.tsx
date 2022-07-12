@@ -1,5 +1,4 @@
 import { CSSProperties } from "react";
-import { css } from "styled-components";
 import { StyledProfilePic } from "./style";
 
 type ProfilePicType = {
@@ -22,7 +21,7 @@ export function ProfilePic(props: ProfilePicType) {
         >
           <defs>
             <style>
-              {css`
+              {`
                 .cls-1 {
                   fill: #555d60;
                 }

@@ -1,29 +1,30 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQueries } from "react-query";
 import { useVaga } from ".";
 import { Box, BoxMessage, BoxTitle } from "../../../../components/box";
 import { Button } from "../../../../components/button";
 import CircularProgressFluent from "../../../../components/circular-progress-fluent";
 import { ProfilePic } from "../../../../components/profile-pic/profile-pic";
+import { Skeleton } from "../../../../components/skeleton-load";
 import { api } from "../../../../services/api";
 import { User } from "../../../../types/user";
 
 export function VagaCandidatoPage() {
   const { data } = useVaga();
-  const [candidatos, setCandidatos] = useState<User[]>([]);
   const [checked, setChecked] = useState([]);
 
-  useEffect(() => {
-    data?.alunos.forEach(async (candidato) => {
-      await api
-        .get<User>(`/usuario/${candidato}`)
-        .then((response) => {
-          setCandidatos(c => c.concat(response.data));          
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
-  }, []);
+  const userQueries = useQueries<User[]>(
+    data?.alunos.map((userId) => {
+      return {
+        queryKey: ["user", userId],
+        queryFn: () => fetchUserById(userId),
+      };
+    })
+  );
+  async function fetchUserById(userId: number) {
+    const response = await api.get<User>(`/usuario/${userId}`);
+    return response.data;
+  }
   if (!data) {
     return (
       <p
@@ -56,10 +57,47 @@ export function VagaCandidatoPage() {
       <span>
         {data.alunos.length > 0 ? (
           <ul className="lista-candidatos">
-            {candidatos.length > 0 ? (
-              candidatos.map((candidato) => {
+            {userQueries.length > 0 ? (
+              userQueries.map((candidato: any) => {
+                if (!candidato.data) {
+                  return (
+                    <li className="candidato" key={candidato.data?.id}>
+                      <button>
+                        <input
+                          type="checkbox"
+                          name=""
+                          className="candidato-list-check"
+                        />
+                        <a
+                          href={"../../profile/" + candidato.data?.id}
+                          className="candidato-group"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <ProfilePic className="candidato-pic" />
+                          <div className="candidato-info">
+                            <h3>
+                              <Skeleton
+                                variant="text"
+                                width="300px"
+                                height="28px"
+                              />
+                            </h3>
+                            <span>
+                              <Skeleton
+                                variant="text"
+                                width="150px"
+                                height="18px"
+                              />
+                            </span>
+                          </div>
+                        </a>
+                      </button>
+                    </li>
+                  );
+                }
                 return (
-                  <li className="candidato" key={candidato.id}>
+                  <li className="candidato" key={candidato.data?.id}>
                     <button>
                       <input
                         type="checkbox"
@@ -67,15 +105,15 @@ export function VagaCandidatoPage() {
                         className="candidato-list-check"
                       />
                       <a
-                        href={"../../profile/" + candidato.id}
+                        href={"../../profile/" + candidato.data?.id}
                         className="candidato-group"
                         target="_blank"
                         rel="noreferrer"
                       >
                         <ProfilePic className="candidato-pic" />
                         <div className="candidato-info">
-                          <h3>{candidato.aluno?.dadosPessoa.nome}</h3>
-                          <span>{candidato.email}</span>
+                          <h3>{candidato.data?.aluno?.dadosPessoa.nome}</h3>
+                          <span>{candidato.data?.email}</span>
                         </div>
                       </a>
                     </button>

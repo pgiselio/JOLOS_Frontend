@@ -1,10 +1,18 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ParallaxBanner, ParallaxProvider } from "react-scroll-parallax";
-import { Button } from "../../components/button";
-import { LandNavBar } from "./navbar";
-import { LandingGlobalStyle, LandingStyle } from "./styles";
+import { Button } from "../components/button";
+import { LandNavBar } from "../components/landing/navbar";
+import { LandingGlobalStyle, LandingStyle } from "../components/landing/styles";
+import { useAuth } from "../hooks/useAuth";
 
 export default function LandingPage() {
+  const auth = useAuth();
+  useEffect(()=>{
+    if(auth.email){
+      window.location.href = "sys";
+    }
+  })
   return (
     <ParallaxProvider>
       <LandingStyle>
@@ -69,17 +77,17 @@ export default function LandingPage() {
 
           <section className="equipe-section" id="sec5">
             <div className="container">
-              <h1>A equipe que desenvolveu tudo do zero</h1>
+              <h1>A equipe fundadora</h1>
               <div className="equipe">
                 <div className="pessoa">
                   <img
-                    src="images/equipe/Lucas.jpg"
+                    src="images/landing/equipe/Lucas.jpg"
                     alt=""
                     className="picture"
                   />
                   <div className="info">
                     <h3>Lucas Mateus</h3>
-                    <span>Back-end dev e idealizador dessa bagaça</span>
+                    <span>Back-end dev javeiro</span>
                     <a href="https://github.com/Lucas-dev-back" target="_blank" rel="noreferrer">
                       <i className="fa-brands fa-github"></i>
                     </a>
@@ -87,7 +95,7 @@ export default function LandingPage() {
                 </div>
                 <div className="pessoa">
                   <img
-                    src="images/equipe/Pedro.jpg"
+                    src="images/landing/equipe/Pedro.jpg"
                     alt=""
                     className="picture"
                   />
@@ -103,7 +111,10 @@ export default function LandingPage() {
             </div>
           </section>
         </main>
-        <footer className="landing-footer"></footer>
+        <footer className="landing-footer">
+          <img src="images/landing/IFRNJC.png" alt=""/>
+          <img src="images/landing/coex.png" alt=""/>
+        </footer>
       </LandingStyle>
     </ParallaxProvider>
   );

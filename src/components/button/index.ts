@@ -14,7 +14,7 @@ export const Button = styled.button`
   transition: 0.1s linear;
   background: var(--accent-color);
   border: 2px solid var(--accent-color);
-  color: #fff;
+  color: var(--inside-accent-color);
   
   :not(:disabled):hover {
     background: var(--accent-color-active);
@@ -45,7 +45,7 @@ export const Button = styled.button`
       border: 2px solid var(--accent-color);
     }
     &.filled:not(:disabled):hover {
-      color: #fff;
+      color: var(--inside-accent-color);
       background: var(--accent-color);
       border: 2px solid var(--accent-color);
     }
@@ -58,7 +58,7 @@ export const Button = styled.button`
       border: 2px solid #c91f1f;
     }
     &.red.filled:not(:disabled):hover {
-      color: #fff;
+      color: var(--inside-accent-color);
       background: #ac0000;
     }
   }

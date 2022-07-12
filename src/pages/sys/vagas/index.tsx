@@ -47,11 +47,13 @@ export function VagasList() {
               <CreateNewFAB
                 className="FabCreateNew"
                 type="button"
+                color="#1f2cb1"
                 onClick={() =>
                   navigate("criar", { state: { modalLocation: location } })
                 }
               >
                 <i className="fa-solid fa-plus"></i>
+                Criar nova
               </CreateNewFAB>
               <h2>Vagas criadas</h2>
               <CreateNewButton

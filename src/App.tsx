@@ -3,7 +3,6 @@ import React from "react";
 import { AuthProvider } from "./contexts/AuthContext";
 
 import { ThemeProvider } from "styled-components";
-import { lightTheme } from "./styles/themes";
 import { GlobalStyle } from "./styles/global";
 import { BrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./AppRoutes";
@@ -16,10 +15,11 @@ import "@reach/dialog/styles.css";
 import "./styles/reach-ui.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { AppOptionsProvider } from "./contexts/AppOptionsContext";
+import { themes } from "./styles/themes";
 function App() {
   return (
     <>
-      <ThemeProvider theme={lightTheme}>
+      <ThemeProvider theme={themes.light}>
         <GlobalStyle />
         <AuthProvider>
           <QueryClientProvider client={queryClient}>

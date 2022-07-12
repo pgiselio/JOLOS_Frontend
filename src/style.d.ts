@@ -2,15 +2,17 @@ import "styled-components";
 
 declare module "styled-components" {
   export interface DefaultTheme {
-    borderRadius: string;
+    name: string;
+    borderRadius?: string;
     pallets?: {
-      [name : string]: {
-        [i: number] : string
-      }
+      [name: string]: {
+        [i: number]: string;
+      };
     };
     colors: {
       main: string;
       mainActive: string;
+      insideMain: string;
       secondary: string;
       bodyBackground: string;
       primaryBg: string;
@@ -18,7 +20,10 @@ declare module "styled-components" {
       systemMenu: {
         border: string;
         background: string; // use only RGB "inside" values. e.g.: rgb(THIS)
-        link: string;
+        linkActive: string;
+        linkHover: string;
+        linkOnClick: string;
+
         icon: string;
       };
       textA: string;
