@@ -12,7 +12,7 @@ import { api } from "../../../services/api";
 import { vaga } from "../../../types/vagaType";
 
 const CreateNewFAB = styled(FabButton)`
-  display: fixed;
+  display: flex;
   @media (min-width: 766px) {
     display: none;
   }
@@ -47,13 +47,11 @@ export function VagasList() {
               <CreateNewFAB
                 className="FabCreateNew"
                 type="button"
-                color="#1f2cb1"
                 onClick={() =>
                   navigate("criar", { state: { modalLocation: location } })
                 }
               >
                 <i className="fa-solid fa-plus"></i>
-                Criar nova
               </CreateNewFAB>
               <h2>Vagas criadas</h2>
               <CreateNewButton

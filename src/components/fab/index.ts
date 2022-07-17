@@ -12,7 +12,7 @@ export const FabButton = styled.button<FabButtonProps>`
   right: 25px;
   align-items: center;
   justify-content: center;
-  column-gap: 12px;
+  column-gap: 5px;
   height: ${(props) => (props.size ? props.size : "")};
   width: ${(props) => (props.size ? props.size : "")};
   padding: 8px;

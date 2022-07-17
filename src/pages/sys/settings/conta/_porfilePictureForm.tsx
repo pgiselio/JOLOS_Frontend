@@ -4,7 +4,7 @@ import { Button } from "../../../../components/button";
 import { useAuth } from "../../../../hooks/useAuth";
 import { api } from "../../../../services/api";
 
-export function CurriculoForm() {
+export function ProfilePictureForm() {
   const auth = useAuth();
   const {
     register,
@@ -20,10 +20,10 @@ export function CurriculoForm() {
     const file = data.arquivo[0];
     formData.append("arquivo", file);
     await api
-      .patch(`/curriculo/atualizaArquivo/${auth.userInfo?.email}`, formData)
+      .post(`/imagem/uploadFotoPerfil/${auth.userInfo?.id}`, formData)
       .then((response) => {
         if (response.status === 200) {
-          toast.success("Currículo enviado com sucesso!");
+          toast.success("Foto de perfil enviada com sucesso!");
         }
       })
       .catch((err) => {
@@ -39,7 +39,7 @@ export function CurriculoForm() {
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="file" accept=".pdf" {...register("arquivo")} />
+      <input type="file" accept="image/*" {...register("arquivo")} />
       <Button type="submit">Enviar</Button>
     </form>
   );

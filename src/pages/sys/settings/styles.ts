@@ -114,6 +114,31 @@ export const SettingPageStyle = styled.section`
       }
     }
   }
+  .align-center{
+    display: flex;
+    justify-content: center;
+  }
+  .profile-pic-opts{
+    position: relative;
+    width: 100px;
+    .change-pic-btn{
+      position: absolute;
+      background: var(--primary-bg);
+      outline: none;
+      border: 1px solid var(--outline-color);
+      padding: 5px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50px;
+      bottom: 0;
+      right: 0;
+      color: var(--text-b);
+      cursor: pointer;
+      :hover{
+        background: var(--outline-color);
+      }
+    }
+  }
 
   @media (max-width: 999px) {
     display: flex;

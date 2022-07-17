@@ -18,10 +18,15 @@ import { api } from "../../../../services/api";
 import { queryClient } from "../../../../services/queryClient";
 import { CurriculoForm } from "./_curriculoForm";
 import { isBlank } from "../../../../utils/isBlank";
+import { Modal } from "../../../../components/modal";
+import { ProfilePictureForm } from "./_porfilePictureForm";
 
 export default function SettingContaPage() {
   const auth = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const [showModalPic, setShowModalPic] = useState(false);
+  const [showModalCurriculo, setShowModalCurriculo] = useState(false);
+
   const {
     control,
     formState: { isDirty, errors },
@@ -158,9 +163,24 @@ export default function SettingContaPage() {
 
   return (
     <>
-      <div>
-        <ProfilePic style={{ height: "100px" }} />
+      <div className="align-center">
+        <div className="profile-pic-opts">
+          <ProfilePic style={{ height: "100px" }} />
+          <button
+            className="change-pic-btn"
+            onClick={() => setShowModalPic(true)}
+          >
+            <i className="fa-solid fa-camera"></i>
+          </button>
+        </div>
       </div>
+      <Modal
+        open={showModalPic}
+        handleClose={() => setShowModalPic(false)}
+        title="Mudar foto de perfil"
+      >
+        <ProfilePictureForm />
+      </Modal>
       {(auth.userInfo?.aluno?.dadosPessoa.dataNasc ||
         auth.userInfo?.empresa?.dadosPessoa.dataNasc) && (
         <LabelWithData
@@ -441,14 +461,20 @@ export default function SettingContaPage() {
           )}
         </form>
         {auth.userInfo?.aluno && (
-          <AccordionItem style={{ marginTop: 14 }}>
-            <AccordionButton className="arrow-right">
-              <h4>Currículo</h4>
-            </AccordionButton>
-            <AccordionPanel>
+          <>
+            <AccordionItem style={{ marginTop: 14 }}>
+              <AccordionButton className="arrow-right" onClick={()=> setShowModalCurriculo(true)}>
+                <h4>Currículo</h4>
+              </AccordionButton>
+            </AccordionItem>
+            <Modal
+              open={showModalCurriculo}
+              handleClose={() => setShowModalCurriculo(false)}
+              title="Enviar currículo"
+            >
               <CurriculoForm />
-            </AccordionPanel>
-          </AccordionItem>
+            </Modal>
+          </>
         )}
       </Accordion>
     </>

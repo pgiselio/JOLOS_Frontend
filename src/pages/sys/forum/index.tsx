@@ -9,7 +9,7 @@ import { ProfilePic } from "../../../components/profile-pic/profile-pic";
 import { Container } from "./styles";
 
 const CreateNewFAB = styled(FabButton)`
-  display: fixed;
+  display: flex;
   @media (min-width: 766px) {
     display: none;
   }

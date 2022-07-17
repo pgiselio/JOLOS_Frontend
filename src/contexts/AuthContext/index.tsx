@@ -32,7 +32,7 @@ export function AuthProvider({ children }: IAuthProvider) {
     {
       enabled: !!user?.token,
       refetchOnWindowFocus: true,
-      staleTime: 1000 * 1, // 1 second
+      staleTime: 1000 * 30, // 30 seconds
       refetchInterval: 1000 * 60 * 1, // 1 minute to refetch automatically
     }
   );

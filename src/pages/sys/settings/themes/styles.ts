@@ -40,7 +40,7 @@ export const Container = styled.div`
         font-variant: normal;
         text-rendering: auto;
         line-height: 1;
-        color: #fff;
+        color: var(--inside-accent-color);
         opacity: 0;
         font-size: 10px;
         transition: opacity 0.5s ease;
