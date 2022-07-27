@@ -246,6 +246,7 @@ export const StyledAccess = styled.main`
     .form-destaque-grid .destaque {
       max-width: 280px;
       min-height: 355px;
+      animation: slide-left 0.5s cubic-bezier(0.075, 0.82, 0.165, 1);
     }
     .form-destaque-grid .destaque span {
       padding: 0 40px;

@@ -2,17 +2,14 @@ import "./styles.css";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, BoxContent, BoxTitle } from "../box";
-import { Button } from "../button";
-import { ModalRouterStyle } from "./style";
+import { ModalStyle } from "../modal/style";
 
 export function ModalRouter({
   title,
   children,
-  toForm,
 }: {
   title: string;
   children: ReactNode;
-  toForm?: string;
 }) {
   let navigate = useNavigate();
   let buttonRef = useRef<HTMLButtonElement>(null);
@@ -38,35 +35,24 @@ export function ModalRouter({
   }
 
   return (
-    <ModalRouterStyle aria-labelledby="label" initialFocusRef={buttonRef} onDismiss={attentionToX}>
-      
+    <ModalStyle
+      aria-labelledby="label"
+      initialFocusRef={buttonRef}
+      onDismiss={attentionToX}
+    >
       <Box className="box">
         <BoxTitle className="box-title">
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+          <h2>{title}</h2>
+          <div>
             <button
               aria-label="Close"
               className="close-button"
               ref={closeRef}
               onClick={onDismiss}
             >
-              <i
-                className={`fas fa-times ${closeClassNames}`}
-              ></i>
+              <i className={`fas fa-times ${closeClassNames}`}></i>
             </button>
-            <h2>{title}</h2>
           </div>
-          {toForm && (
-            <div>
-              <Button
-                type="submit"
-                style={{ padding: "6px 16px" }}
-                form={toForm}
-                ref={buttonRef}
-              >
-                Criar
-              </Button>
-            </div>
-          )}
         </BoxTitle>
 
         <BoxContent
@@ -78,6 +64,6 @@ export function ModalRouter({
           {children}
         </BoxContent>
       </Box>
-    </ModalRouterStyle>
+    </ModalStyle>
   );
 }

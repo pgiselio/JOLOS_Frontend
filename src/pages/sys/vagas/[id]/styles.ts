@@ -187,8 +187,8 @@ export const VagaPageStyle = styled.section`
       padding: 0 40px;
       padding-top: 50px;
       .profile-pic {
-        width: 60px;
-        height: 60px;
+        width: 100px;
+        height: 100px;
       }
       h2 {
         font-size: 22px;

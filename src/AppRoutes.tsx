@@ -113,7 +113,7 @@ export const AppRoutes = () => {
             <Route
               path="responder"
               element={
-                <ModalRouter title="" toForm="new-answer-form">
+                <ModalRouter title="">
                   <NewAnswerForm />
                 </ModalRouter>
               }
@@ -126,7 +126,7 @@ export const AppRoutes = () => {
         </Route>
       </Routes>
       {state?.modalLocation && (
-        <ModalRouter title="Criar nova vaga" toForm="form-create-vaga">
+        <ModalRouter title="Criar nova vaga">
           <CriarNovaVagaForm />
         </ModalRouter>
       )}

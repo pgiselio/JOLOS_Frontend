@@ -74,7 +74,7 @@ export function VagaCandidatoPage() {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          <ProfilePic className="candidato-pic" />
+                          <ProfilePic className="candidato-pic"/>
                           <div className="candidato-info">
                             <h3>
                               <Skeleton
@@ -110,7 +110,7 @@ export function VagaCandidatoPage() {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        <ProfilePic className="candidato-pic" />
+                        <ProfilePic userId={candidato.data?.id} className="candidato-pic"/>
                         <div className="candidato-info">
                           <h3>{candidato.data?.aluno?.dadosPessoa.nome}</h3>
                           <span>{candidato.data?.email}</span>

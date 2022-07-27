@@ -183,7 +183,7 @@ export default function VagaPage() {
                 </>
               ) : (
                 <>
-                  <ProfilePic />
+                  <ProfilePic userId={auth.userInfo?.id}/>
                 </>
               )}
             </div>

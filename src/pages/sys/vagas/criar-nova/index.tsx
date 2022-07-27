@@ -17,11 +17,6 @@ export default function CriarNovaVagaPage() {
           </BoxTitle>
           <BoxContent>
             <CriarNovaVagaForm />
-            <div id="submit-container">
-              <Button type="submit" form="form-create-vaga" id="submit-form" className="less-radius">
-                Criar
-              </Button>
-            </div>
           </BoxContent>
         </Box>
       </div>

@@ -1,12 +1,42 @@
 import { CSSProperties } from "react";
+import { useQuery } from "react-query";
+import { api } from "../../services/api";
+import { b64toBlob } from "../../utils/getProfilePic";
+import { isBlank } from "../../utils/isBlank";
 import { StyledProfilePic } from "./style";
 
 type ProfilePicType = {
   url?: string;
   style?: CSSProperties;
   className?: string;
+  userId?: string | number;
+};
+type ppType = {
+  id: string;
+  arquivo: {
+    nome: string;
+    tipoArquivo: string;
+    dados: string;
+  };
 };
 export function ProfilePic(props: ProfilePicType) {
+  const { data } = useQuery(
+    "profilePic-" + props.userId,
+    async () => {
+      const response = await api.get<ppType>(`/imagem/fotoPerfil/${props.userId}`);
+      if (response.data) {
+        const blob = b64toBlob(response.data?.arquivo.dados, "image/png");
+        const url = URL.createObjectURL(blob);
+        return url;
+      }
+    },
+    {
+      enabled: !!props.userId,
+      refetchOnWindowFocus: false,
+      staleTime: 1000 * 30, // 30 seconds
+      
+    }
+  );
   return (
     <StyledProfilePic
       className={"profile-pic " + (props.className ?? "")}
@@ -42,9 +72,9 @@ export function ProfilePic(props: ProfilePicType) {
         </svg>
       </span>
 
-      {props.url && (
+      {(!isBlank(props.url) || !isBlank(data)) && (
         <>
-          <img className="img-perfil" src={props.url} alt="" />
+          <img className="img-perfil" src={props.url || data} alt="" />
           <span className="pp-border"></span>
         </>
       )}

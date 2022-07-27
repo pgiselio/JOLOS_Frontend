@@ -1,9 +1,9 @@
 import Dialog from "@reach/dialog";
 import styled from "styled-components";
 
-export const ModalRouterStyle = styled(Dialog)`
+export const ModalStyle = styled(Dialog)`
   min-width: 600px;
-  width: 50vw;
+  width: fit-content;
   margin: 5vh auto;
   background: var(--primary-bg);
   padding: 0;
@@ -12,12 +12,14 @@ export const ModalRouterStyle = styled(Dialog)`
   max-height: 90vh;
   animation: slide-up 0.3s ease-in-out;
   .box {
-    max-height: 95vh;
     margin: 0;
     padding-bottom: 30px;
+    position: relative;
     .box-title{
       display: flex;
       justify-content: space-between;
+      position: sticky;
+      top: 0;
     }
   }
   .close-button {
@@ -88,5 +90,6 @@ export const ModalRouterStyle = styled(Dialog)`
     position: relative;
     width: 100vw;
     height: 100vh;
+    max-height: initial;
   }
 `;

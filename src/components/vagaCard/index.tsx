@@ -20,7 +20,7 @@ export function VagaCard({ vaga }: vagaObj) {
         <div className="vaga-header">
           <div className="photo-align">
             <Link to={`../profile/${vaga?.empresa?.id}`}>
-              <ProfilePic/>
+              <ProfilePic userId={vaga?.empresa?.id}/>
             </Link>
 
             <div>

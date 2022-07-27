@@ -165,12 +165,12 @@ export default function SettingContaPage() {
     <>
       <div className="align-center">
         <div className="profile-pic-opts">
-          <ProfilePic style={{ height: "100px" }} />
+          <ProfilePic style={{ height: "100px" }} userId={auth.userInfo?.id +""}/>
           <button
             className="change-pic-btn"
             onClick={() => setShowModalPic(true)}
           >
-            <i className="fa-solid fa-camera"></i>
+            <i className="fa-solid fa-pencil"></i>
           </button>
         </div>
       </div>

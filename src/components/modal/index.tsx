@@ -1,7 +1,7 @@
 import { ReactNode, useRef } from "react";
 import { Box, BoxContent, BoxTitle } from "../box";
 import { Button } from "../button";
-import { ModalRouterStyle } from "../modal-router/style";
+import { ModalStyle } from "./style";
 
 export function Modal({
   title,
@@ -25,7 +25,7 @@ export function Modal({
   }
 
   return (
-    <ModalRouterStyle
+    <ModalStyle
       isOpen={open}
       aria-labelledby="label"
       initialFocusRef={buttonRef}
@@ -33,9 +33,7 @@ export function Modal({
     >
       <Box className="box">
         <BoxTitle className="box-title">
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <h2>{title}</h2>
-          </div>
+          <h2>{title}</h2>
           <div>
             <button
               aria-label="Close"
@@ -69,6 +67,6 @@ export function Modal({
           {children}
         </BoxContent>
       </Box>
-    </ModalRouterStyle>
+    </ModalStyle>
   );
 }

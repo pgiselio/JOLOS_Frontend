@@ -14,6 +14,8 @@ import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { queryClient } from "../../../../services/queryClient";
 import { CustomSelect } from "../../../../components/select";
+import { Button } from "../../../../components/button";
+import { CriarVagaFormStyle } from "./style";
 
 export function CriarNovaVagaForm() {
   // const [editorState, setEditorState] = useState(() =>
@@ -31,7 +33,7 @@ export function CriarNovaVagaForm() {
     { value: "Eletrotécnica", label: "Eletrotécnica" },
     { value: "Energias Renováveis", label: "Energias Renováveis" },
     { value: "Física", label: "Física" },
-  ]
+  ];
   let cursos = [
     "Informática",
     "Administração",
@@ -53,7 +55,7 @@ export function CriarNovaVagaForm() {
         .required("Este campo é obrigatório"),
       descricao: Yup.string()
         .required("Este campo é obrigatório")
-        .max(maxDescriptionLength, "Máximo de 1000 caracteres"),
+        .max(maxDescriptionLength, `Máximo de ${maxDescriptionLength} caracteres`),
       cnpj: Yup.string().notRequired(),
     });
   } else {
@@ -63,7 +65,7 @@ export function CriarNovaVagaForm() {
       cursoAlvo: Yup.string()
         .oneOf([...cursos], "O curso selecionado não é válido")
         .required("Este campo é obrigatório"),
-      descricao: Yup.string().required("Este campo é obrigatório"),
+      descricao: Yup.string().required("Este campo é obrigatório").max(maxDescriptionLength, `Máximo de ${maxDescriptionLength} caracteres`),
       cnpj: Yup.string()
         .required("Este campo é obrigatório")
         .min(18, "CNPJ inválido"),
@@ -88,8 +90,6 @@ export function CriarNovaVagaForm() {
     "Deseja realmente sair? Os dados não salvos serão perdidos!",
     isDirty
   );
-
-  
 
   async function onSubmit({
     titulo,
@@ -131,7 +131,7 @@ export function CriarNovaVagaForm() {
     return <h2>SEM PERMISÃO</h2>;
   }
   return (
-    <form
+    <CriarVagaFormStyle
       className="form-create-vaga"
       id="form-create-vaga"
       onSubmit={handleSubmit(onSubmit)}
@@ -184,9 +184,7 @@ export function CriarNovaVagaForm() {
                   inputId="change-courses"
                   options={options}
                   placeholder="Selecione um curso"
-                  onChange={(option : any) =>
-                    onChange(option?.value)
-                  }
+                  onChange={(option: any) => onChange(option?.value)}
                   onBlur={onBlur}
                   value={options.filter((option) =>
                     value?.includes(option.value)
@@ -228,48 +226,54 @@ export function CriarNovaVagaForm() {
       )}
 
       <div className="lbl">
-        <label htmlFor="descriptionVaga">Descrição: </label>
+        <label htmlFor="desc">Descrição: </label>
         {/* <Editor editorState={editorState} onChange={setEditorState} /> */}
         <div id="descriptionVaga"></div>
-
-        <Controller
-          name="descricao"
-          control={control}
-          render={({ field }) => (
-            <textarea
-              style={{
-                resize: "vertical",
-                minHeight: "150px",
-                maxHeight: "250px",
-                height: 150,
-                padding: "5px",
-              }}
-              placeholder="Descrição da vaga..."
-              {...(errors.descricao && { className: "danger" })}
-              id="desc"
-              rows={10}
-              maxLength={maxDescriptionLength}
-              onKeyDown={() => {
-                let currentValue = maxDescriptionLength - field.value.length;
-                setRemainigDescriptionLength(currentValue);
-              }}
-              onKeyUp={() => {
-                let currentValue = maxDescriptionLength - field.value.length;
-                setRemainigDescriptionLength(currentValue);
-              }}
-              {...field}
-            ></textarea>
-          )}
-        />
-        <p className="input-error">{errors.descricao?.message}</p>
-
-        <div className="counter-box">
-          <p>
-            Limite de caracteres:{" "}
+        <div className="description-container">
+          <Controller
+            name="descricao"
+            control={control}
+            render={({ field }) => (
+              <textarea
+                style={{
+                  resize: "vertical",
+                  minHeight: "150px",
+                  maxHeight: "250px",
+                  height: 150,
+                  padding: "5px",
+                }}
+                placeholder="Descrição da vaga..."
+                {...(errors.descricao && { className: "danger" })}
+                id="desc"
+                rows={10}
+                maxLength={maxDescriptionLength}
+                onKeyDown={() => {
+                  let currentValue = maxDescriptionLength - field.value.length;
+                  setRemainigDescriptionLength(currentValue);
+                }}
+                onKeyUp={() => {
+                  let currentValue = maxDescriptionLength - field.value.length;
+                  setRemainigDescriptionLength(currentValue);
+                }}
+                {...field}
+              ></textarea>
+            )}
+          />
+          <div
+            className={`counter-box ${
+              remainigDescriptionLength === 0 ? "danger" : ""
+            }`}
+          >
             <span id="count">{remainigDescriptionLength}</span>
-          </p>
+          </div>
         </div>
+        <p className="input-error">{errors.descricao?.message}</p>
       </div>
-    </form>
+      <div className="buttons-container">
+        <Button type="submit" id="submit-form">
+          Criar
+        </Button>
+      </div>
+    </CriarVagaFormStyle>
   );
 }
