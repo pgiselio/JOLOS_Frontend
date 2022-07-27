@@ -61,7 +61,7 @@ export function VagaCandidatoPage() {
               userQueries.map((candidato: any) => {
                 if (!candidato.data) {
                   return (
-                    <li className="candidato" key={candidato.data?.id}>
+                    <li className="candidato">
                       <button>
                         <input
                           type="checkbox"

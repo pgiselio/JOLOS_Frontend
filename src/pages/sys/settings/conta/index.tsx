@@ -20,6 +20,7 @@ import { CurriculoForm } from "./_curriculoForm";
 import { isBlank } from "../../../../utils/isBlank";
 import { Modal } from "../../../../components/modal";
 import { ProfilePictureForm } from "./_porfilePictureForm";
+import { Button } from "../../../../components/button";
 
 export default function SettingContaPage() {
   const auth = useAuth();
@@ -165,7 +166,10 @@ export default function SettingContaPage() {
     <>
       <div className="align-center">
         <div className="profile-pic-opts">
-          <ProfilePic style={{ height: "100px" }} userId={auth.userInfo?.id +""}/>
+          <ProfilePic
+            style={{ height: "100px" }}
+            userId={auth.userInfo?.id + ""}
+          />
           <button
             className="change-pic-btn"
             onClick={() => setShowModalPic(true)}
@@ -180,6 +184,18 @@ export default function SettingContaPage() {
         title="Mudar foto de perfil"
       >
         <ProfilePictureForm />
+        <div>
+          <Button type="submit" form="profile-pic-form">
+            Salvar
+          </Button>
+          <Button
+            type="button"
+            onClick={() => setShowModalPic(false)}
+            className="secondary"
+          >
+            Cancelar
+          </Button>
+        </div>
       </Modal>
       {(auth.userInfo?.aluno?.dadosPessoa.dataNasc ||
         auth.userInfo?.empresa?.dadosPessoa.dataNasc) && (
@@ -463,7 +479,10 @@ export default function SettingContaPage() {
         {auth.userInfo?.aluno && (
           <>
             <AccordionItem style={{ marginTop: 14 }}>
-              <AccordionButton className="arrow-right" onClick={()=> setShowModalCurriculo(true)}>
+              <AccordionButton
+                className="arrow-right"
+                onClick={() => setShowModalCurriculo(true)}
+              >
                 <h4>Currículo</h4>
               </AccordionButton>
             </AccordionItem>

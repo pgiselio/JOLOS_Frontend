@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Button } from "../../../../components/button";
 import { useAuth } from "../../../../hooks/useAuth";
 import { api } from "../../../../services/api";
 import AvatarEditor from "react-avatar-editor";
@@ -60,7 +59,7 @@ export function ProfilePictureForm() {
       });
   }
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} id="profile-pic-form">
       <div {...getRootProps({ className: "dropzone" })}>
         <div className="preview">
           <AvatarEditor
@@ -144,12 +143,8 @@ export function ProfilePictureForm() {
       </div>
 
       <button type="button" onClick={open}>
-        Enviar nova
+        Mudar foto de perfil
       </button>
-      <div>
-        <Button type="submit">Salvar</Button>
-        <Button className="secondary">Cancelar</Button>
-      </div>
     </form>
   );
 }

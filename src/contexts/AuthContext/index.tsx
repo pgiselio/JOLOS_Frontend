@@ -65,13 +65,13 @@ export function AuthProvider({ children }: IAuthProvider) {
   );
 
   let authorities = useRef<string[]>([]);
-  useEffect(() => {
+  if (userInfo?.roles) {
     let authoritiesAux: string[] = [];
     userInfo?.roles?.forEach((role: any) => {
       authoritiesAux.push(role.nomeRole);
     });
     authorities.current = authoritiesAux;
-  }, [userInfo?.roles]);
+  }
 
   async function signin(email: string, password: string) {
     const response = await LoginRequest(email, password);
@@ -103,7 +103,7 @@ export function AuthProvider({ children }: IAuthProvider) {
         loadingUserFromLocalStorage,
         userInfo,
         authorities: authorities.current,
-        notificationNew
+        notificationNew,
       }}
     >
       {children}
