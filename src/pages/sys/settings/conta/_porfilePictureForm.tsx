@@ -13,10 +13,9 @@ export function ProfilePictureForm() {
   const [rotate, setRotate] = useState<number>(0);
   const [image, setImage] = useState<File | undefined>(undefined);
   const avatarRef = useRef<AvatarEditor>(null);
-  const { getRootProps, open } = useDropzone({
+  const { getRootProps, getInputProps, open } = useDropzone({
     accept: {
-      "image/jpeg": [],
-      "image/png": [],
+      "image/*": [],
     },
     maxFiles: 1,
     noClick: true,
@@ -81,8 +80,11 @@ export function ProfilePictureForm() {
             height={200}
             borderRadius={100}
             rotate={rotate}
+            
           />
         </div>
+      <input {...getInputProps()}/>
+            
       </div>
       <div className="controllers">
         <div className="zoom">
@@ -141,7 +143,6 @@ export function ProfilePictureForm() {
           <i className="fa-solid fa-arrow-rotate-right"></i>
         </button>
       </div>
-
       <button type="button" onClick={open}>
         Mudar foto de perfil
       </button>
