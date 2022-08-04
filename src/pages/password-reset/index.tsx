@@ -81,7 +81,7 @@ export default function PasswordResetPage() {
             </div>
             <div className="info-message">
               <span>
-                Caso o e-mail esteja cadastrado, você receberá um link com as
+                Caso o e-mail esteja cadastrado, você receberá um e-mail com as
                 instruções para redefinir sua senha.
               </span>
             </div>
