@@ -29,10 +29,10 @@ export default function PasswordResetPage() {
       ).toString();
 
       let tokenPayloadFromParams = JSON.parse(tokenBuffer);
-      if(tokenPayloadFromParams.exp < new Date().getTime()){
+      if(tokenPayloadFromParams.exp * 1000 < new Date().getTime()){
         toast.error("O token expirou", { toastId: "tokenExpired" });
       }
-      setTokenPayload(tokenPayloadFromParams);
+        setTokenPayload(tokenPayloadFromParams);
     }
   }, []);
   const validationSchema = Yup.object().shape({
