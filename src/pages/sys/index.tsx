@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "styled-components";
@@ -11,14 +12,29 @@ import { themes } from "../../styles/themes";
 
 export default function SystemLayout() {
   const AppOptions = useAppOptions();
-  const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)");
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(
+    window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+  );
+
+  useEffect(() => {
+    const modeMe = (e: any) => {
+      setIsDarkMode(e.matches);
+    };
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", modeMe);
+    return window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .removeEventListener("change", modeMe);
+  }, []);
 
   return (
     <>
       <ThemeProvider
         theme={
           AppOptions.theme === "systemDefault"
-            ? prefersDarkMode.matches
+            ? isDarkMode
               ? themes.dark
               : themes.light
             : isTheme(AppOptions.theme)

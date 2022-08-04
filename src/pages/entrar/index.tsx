@@ -16,8 +16,8 @@ export default function LoginPage() {
   const { control, formState, handleSubmit } = useForm({
     mode: "onChange",
     defaultValues: {
-      email: "jolos.aluno@jolos.com",
-      password: "jolos",
+      email: process.env.NODE_ENV === "development" ? "jolos.aluno@jolos.com" : "",
+      password: process.env.NODE_ENV === "development" ? "jolos" : "",
     },
   });
   
@@ -37,6 +37,10 @@ export default function LoginPage() {
           toast.error("Você precisa fazer login primeiro!", {});
         } else if (error === "invalidCredentials") {
           toast.error("Sua sessão expirou, faça login novamente!", {});
+        } else if (error === "needsPasswordReset") {
+          toast.error("Você precisa resetar sua senha!", {});
+        } else if (error === "checkEmail") {
+          toast.info("Verifique o seu e-mail", {});
         }
       });
       searchParams.delete("error");
@@ -85,7 +89,6 @@ export default function LoginPage() {
           </div>
           <form
             method="post"
-            autoComplete="off"
             onSubmit={handleSubmit(onSubmit)}
           >
             <h2 className="desc">Entrar</h2>
