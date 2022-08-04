@@ -130,7 +130,7 @@ export default function LoginPage() {
               />
             </div>
             <div>
-              <Link to="/password-reset/" className="pwrst-link">
+              <Link to="/recuperar-senha/" className="pwrst-link">
                 Esqueceu a senha?
               </Link>
             </div>

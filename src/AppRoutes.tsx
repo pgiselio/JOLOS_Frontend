@@ -30,7 +30,7 @@ import CadastroConcluidoPage from "./pages/cadastro/confirmacao";
 import { CadastroProvider } from "./contexts/CadastroContext";
 import GerenciamentoPage from "./pages/sys/gerenciamento";
 import CadastrarEmpresaPage from "./pages/sys/gerenciamento/cadastrar/empresa";
-import PasswordResetPage from "./pages/password-reset";
+import PasswordResetPage from "./pages/recuperar-senha";
 
 const ForumPage = lazy(() => import("./pages/sys/forum"));
 const ForumTopicPage = lazy(() => import("./pages/sys/forum/[id]"));
@@ -61,7 +61,7 @@ export const AppRoutes = () => {
           <Route path="step3" element={<CadastroStep3 />} />
           <Route path="confirmacao" element={<CadastroConcluidoPage />} />
         </Route>
-        <Route path="password-reset" element={<PasswordResetPage />} />
+        <Route path="recuperar-senha" element={<PasswordResetPage />} />
         <Route path="logout" element={<LogoutPage />} />
         <Route
           path="download/curriculo/:id"
