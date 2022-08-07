@@ -495,6 +495,11 @@ export default function SettingContaPage() {
               title="Enviar currículo"
             >
               <CurriculoForm />
+              <ModalBottom>
+                <Button type="submit" form="curriculo-form">
+                  Enviar
+                </Button>
+              </ModalBottom>
             </Modal>
           </>
         )}

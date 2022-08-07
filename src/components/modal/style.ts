@@ -88,6 +88,7 @@ export const ModalStyle = styled(Dialog)`
     width: 100vw;
     max-height: initial;
     min-height: 100vh;
+    padding-bottom: 100px;
   }
 `;
 
@@ -98,4 +99,13 @@ export const ModalBottom = styled.div`
   gap: 5px;
   width: 100%;
   padding-top: 10px;
+  @media (max-width: 700px) {
+    position: fixed;
+    bottom: 0;
+    padding: 20px;
+    right: 0;
+    left: 0;
+    border-top: 1px solid var(--outline-color);
+    background-color: var(--primary-bg);
+  }
 `

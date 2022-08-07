@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "styled-components";

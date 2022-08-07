@@ -1,5 +1,98 @@
 import styled from "styled-components";
-
+export const CurriculoFormStyle = styled.form`
+  .dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed var(--secondary-color);
+    border-radius: 10px;
+    padding: 10px;
+    min-height: 150px;
+    min-width: 40vw;
+    .selected-file {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 10px;
+      border-radius: 10px;
+      .preview {
+        font-size: 35px;
+        width: 40px;
+        color: var(--text-b);
+      }
+      .file-details {
+        font-size: 15px;
+        position: relative;
+        .file-name {
+          max-width: 400px;
+          text-overflow: ellipsis;
+        }
+        .file-size {
+          color: var(--text-b);
+          font-size: 14px;
+        }
+        .file-progress-bar {
+          width: 100%;
+          height: 5px;
+          background-color: var(--secondary-color);
+          border-radius: 10px;
+          opacity: 0;
+          position: relative;
+          overflow: hidden;
+          span {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--accent-color);
+            transition: transform 0.2s ease;
+          }
+          &.onProgress {
+            opacity: 1;
+          }
+        }
+      }
+      .status {
+        width: 25px;
+        height: 25px;
+        margin-left: 5px;
+        i {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--accent-color);
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          font-size: 12px;
+          color: var(--inside-accent-color);
+          transform: scale(0);
+          transition: transform 0.2s ease;
+          &.done {
+            transform: scale(1);
+          }
+        }
+      }
+    }
+    &.rejected {
+      border-color: red;
+    }
+    &.accepted {
+      border-color: var(--accent-color);
+    }
+    &.active {
+      border-color: var(--primary-color);
+    }
+  }
+  .maxMessage {
+    font-size: 13px;
+    color: var(--text-b);
+    margin-bottom: 10px;
+  }
+`;
 export const ProfilePicFormStyle = styled.form`
   display: flex;
   flex-direction: column;
