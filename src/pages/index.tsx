@@ -9,7 +9,7 @@ import { useAuth } from "../hooks/useAuth";
 export default function LandingPage() {
   const auth = useAuth();
   useEffect(()=>{
-    if(auth.email){
+    if(auth.userInfo?.email){
       window.location.href = "sys";
     }
   })

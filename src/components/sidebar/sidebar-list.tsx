@@ -6,10 +6,9 @@ import { SidebarItem } from "./sidebar-item";
 import { SidebarAside, SidebarOverlay } from "./style";
 
 export function SidebarList() {
-  
   const auth = useAuth();
   const appOptions = useAppOptions();
-  
+
   function nomePessoa(): string {
     if (!auth.userInfo?.id) {
       return "Carregando...";
@@ -28,7 +27,7 @@ export function SidebarList() {
       <SidebarAside className="side-bar">
         <div className="side-bar-container">
           <div className="min-perfil">
-            <ProfilePic userId={auth.userInfo?.id}/>
+            <ProfilePic userId={auth.userInfo?.id} />
             <div className="min-perfil-details">
               <h3 className="min-perfil-name">{nomePessoa()}</h3>
               <span className="min-perfil-detail">{auth?.email}</span>
@@ -61,12 +60,12 @@ export function SidebarList() {
                 label="Configurações"
               />
               <div className="menu-separator"></div>
-              <SidebarItem
-                to="/logout"
-                icon="fas fa-sign-out-alt"
-                label="Sair"
-                className="sair"
-              />
+              <li>
+                <a href="/logout" title="Sair" className="sair">
+                  <i className="fas fa-sign-out-alt"></i>
+                  <span>Sair</span>
+                </a>
+              </li>
             </ul>
           </nav>
         </div>

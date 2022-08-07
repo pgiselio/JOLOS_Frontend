@@ -42,18 +42,24 @@ export function AuthProvider({ children }: IAuthProvider) {
     async () => {
       let user = getUserLocalStorage();
       if (!user?.email) {
-        window.location.href = "/logout";
+        logout();
+        if (window.location.href.indexOf("sys") > -1) {
+          window.location.href = "/entrar?error=invalidCredentials";
+        }
       }
       const response = await api
         .get(`/usuario/email/${user.email}`)
-        .catch((error) =>
-          error.response.status === 401 ||
-          error.response.status === 403 ||
-          error.response.status === 500
-            ? (logout(),
-              (window.location.href = "/entrar?error=invalidCredentials"))
-            : error
-        );
+        .catch((error) => {
+          if (
+            error.response.status === 401 ||
+            error.response.status === 403 ||
+            error.response.status === 500
+          ) {
+            logout();
+          } else {
+            return error;
+          }
+        });
       return response?.data;
     },
     {

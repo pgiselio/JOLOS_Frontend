@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Navigate } from "react-router-dom";
 import CircularProgressFluent from "../../components/circular-progress-fluent";
 import { useAuth } from "../../hooks/useAuth";
 import { StyledAccess } from "../../styles/LoginSignupStyle";
@@ -10,7 +9,7 @@ export default function LogoutPage() {
     auth.logout();
   }, []);
   if (!auth.email) {
-    return <Navigate to="/entrar" replace />;
+    window.location.href = "/entrar";
   }
   return (
     <StyledAccess>

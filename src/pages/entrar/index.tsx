@@ -24,7 +24,7 @@ export default function LoginPage() {
   let [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    if (auth.email) {
+    if (auth.userInfo?.email) {
       navigate("/sys");
     }
   });
@@ -41,6 +41,12 @@ export default function LoginPage() {
           toast.error("Você precisa resetar sua senha!", {});
         } else if (error === "checkEmail") {
           toast.info("Verifique o seu e-mail", {});
+        } else if (error === "invalidResetToken") {
+          toast.error("O link já expirou, tente novamente", {});
+        } else if (error === "passwordChanged") {
+          toast.success("Senha alterada com sucesso!", {
+            autoClose: false
+          });
         }
       });
       searchParams.delete("error");

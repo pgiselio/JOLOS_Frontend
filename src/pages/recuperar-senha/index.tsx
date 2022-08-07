@@ -9,17 +9,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { Buffer } from "buffer";
-type tokenPayloadType = {
-  sub: string;
-  exp: number;
-};
 export default function PasswordResetPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const paramsToken = searchParams.get("token");
-  const [tokenPayload, setTokenPayload] = useState<
-    tokenPayloadType | undefined
-  >();
+  const [token, setToken] = useState("");
   useEffect(() => {
     if (paramsToken) {
       let paramsTokensSplitted = paramsToken.split(".");
@@ -29,10 +23,10 @@ export default function PasswordResetPage() {
       ).toString();
 
       let tokenPayloadFromParams = JSON.parse(tokenBuffer);
-      if(tokenPayloadFromParams.exp * 1000 < new Date().getTime()){
-        toast.error("O token expirou", { toastId: "tokenExpired" });
+      if (tokenPayloadFromParams.exp * 1000 < new Date().getTime()) {
+        navigate("/entrar?error=invalidResetToken");
       }
-        setTokenPayload(tokenPayloadFromParams);
+      setToken(paramsToken);
     }
   }, []);
   const validationSchema = Yup.object().shape({
@@ -48,10 +42,7 @@ export default function PasswordResetPage() {
     resolver: yupResolver(validationSchema),
   });
 
-  const resetPasswordFormValidationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("Endereço de e-mail inválido")
-      .required("Este campo é obrigatório"),
+  const newPasswordFormValidationSchema = Yup.object().shape({
     password: Yup.string()
       .required("Este campo é obrigatório")
       .min(8, "A senha deve ter no mínimo 8 caracteres"),
@@ -61,18 +52,16 @@ export default function PasswordResetPage() {
   });
 
   const {
-    control: resetPasswordControl,
-    formState: resetPasswordFormState,
-    handleSubmit: resetPasswordHandleSubmit,
-    setValue: resetPasswordSetValue,
+    control: newPasswordControl,
+    formState: newPasswordFormState,
+    handleSubmit: newPasswordHandleSubmit,
   } = useForm({
     mode: "onChange",
     defaultValues: {
-      email: "",
       password: "",
       confirmPassword: "",
     },
-    resolver: yupResolver(resetPasswordFormValidationSchema),
+    resolver: yupResolver(newPasswordFormValidationSchema),
   });
   async function onSubmit(data: any) {
     await api.get(`/usuario/recuperar/${data.email}`).finally(() => {
@@ -82,7 +71,13 @@ export default function PasswordResetPage() {
     });
   }
   async function onSubmitNewPassword(data: any) {
-    toast.info("Falta criar o endpoint :C");
+    api.patch("/usuario/senha", {senha: data.password, token: token}, {
+      headers: {
+        Authorization: token,
+      }
+    }).then(() => {
+      navigate("/entrar?error=passwordChanged");
+    });
   }
   return (
     <StyledAccess>
@@ -111,80 +106,63 @@ export default function PasswordResetPage() {
               />
             </a>
           </div>
-          {paramsToken && (
-            <>
-              <textarea name="" id="" defaultValue={paramsToken}></textarea>
-              <i className="fa-solid fa-arrow-down"></i>
-              <textarea
-                name=""
-                id=""
-                defaultValue={tokenPayload?.sub}
-              ></textarea>
-            </>
-          )}
-          {tokenPayload?.sub ? (
-            <>
-              {resetPasswordSetValue("email", tokenPayload?.sub)}
-
-              <form onSubmit={resetPasswordHandleSubmit(onSubmitNewPassword)}>
-                <h2 className="desc">Criar nova senha</h2>
-                <section className="inputs">
-                  <div className="lbl">
-                    <label htmlFor="password">Nova senha:</label>
-                    <Controller
-                      name="password"
-                      control={resetPasswordControl}
-                      render={({ field }) => (
-                        <Input
-                          type="password"
-                          id="password"
-                          placeholder="Senha"
-                          {...field}
-                          {...(resetPasswordFormState.errors
-                            .confirmPassword && {
-                            className: "danger",
-                          })}
-                        />
-                      )}
-                    />
-                    <p className="input-error">
-                      {resetPasswordFormState.errors.password?.message}
-                    </p>
-                  </div>
-                  <div className="lbl">
-                    <label htmlFor="passwordconfirm">
-                      Confirmar nova senha:{" "}
-                    </label>
-                    <Controller
-                      name="confirmPassword"
-                      control={resetPasswordControl}
-                      render={({ field }) => (
-                        <Input
-                          type="password"
-                          id="passwordconfirm"
-                          placeholder="Confirmar senha"
-                          {...field}
-                          {...(resetPasswordFormState.errors
-                            .confirmPassword && {
-                            className: "danger",
-                          })}
-                        />
-                      )}
-                    />
-                    <p className="input-error">
-                      {resetPasswordFormState.errors.confirmPassword?.message}
-                    </p>
-                  </div>
-                </section>
-                <Button
-                  type="submit"
-                  className="less-radius"
-                  disabled={!resetPasswordFormState.isValid}
-                >
-                  <span>Enviar</span>
-                </Button>
-              </form>
-            </>
+          {token ? (
+            <form onSubmit={newPasswordHandleSubmit(onSubmitNewPassword)}>
+              <h2 className="desc">Criar nova senha</h2>
+              <section className="inputs">
+                <div className="lbl">
+                  <label htmlFor="password">Nova senha:</label>
+                  <Controller
+                    name="password"
+                    control={newPasswordControl}
+                    render={({ field }) => (
+                      <Input
+                        type="password"
+                        id="password"
+                        placeholder="Senha"
+                        {...field}
+                        {...(newPasswordFormState.errors.confirmPassword && {
+                          className: "danger",
+                        })}
+                      />
+                    )}
+                  />
+                  <p className="input-error">
+                    {newPasswordFormState.errors.password?.message}
+                  </p>
+                </div>
+                <div className="lbl">
+                  <label htmlFor="passwordconfirm">
+                    Confirmar nova senha:{" "}
+                  </label>
+                  <Controller
+                    name="confirmPassword"
+                    control={newPasswordControl}
+                    render={({ field }) => (
+                      <Input
+                        type="password"
+                        id="passwordconfirm"
+                        placeholder="Confirmar senha"
+                        {...field}
+                        {...(newPasswordFormState.errors.confirmPassword && {
+                          className: "danger",
+                        })}
+                      />
+                    )}
+                  />
+                  <p className="input-error">
+                    {newPasswordFormState.errors.confirmPassword?.message}
+                  </p>
+                </div>
+              </section>
+              <Button
+                type="submit"
+                className="less-radius"
+                disabled={!newPasswordFormState.isValid}
+              >
+                <span>Enviar</span>
+              </Button>
+            </form>
           ) : (
             <form method="post" onSubmit={handleSubmit(onSubmit)}>
               <h2 className="desc" style={{ fontSize: 20 }}>
