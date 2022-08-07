@@ -6,6 +6,8 @@ import AvatarEditor from "react-avatar-editor";
 import { useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { queryClient } from "../../../../services/queryClient";
+import { ProfilePicFormStyle } from "./styles";
+import { Button } from "../../../../components/button";
 
 export function ProfilePictureForm() {
   const auth = useAuth();
@@ -13,7 +15,7 @@ export function ProfilePictureForm() {
   const [rotate, setRotate] = useState<number>(0);
   const [image, setImage] = useState<File | undefined>(undefined);
   const avatarRef = useRef<AvatarEditor>(null);
-  const { getRootProps, getInputProps, open } = useDropzone({
+  const { getRootProps, getInputProps, open} = useDropzone({
     accept: {
       "image/*": [],
     },
@@ -58,13 +60,14 @@ export function ProfilePictureForm() {
       });
   }
   return (
-    <form onSubmit={handleSubmit(onSubmit)} id="profile-pic-form">
+    <ProfilePicFormStyle onSubmit={handleSubmit(onSubmit)} id="profile-pic-form" >
       <div {...getRootProps({ className: "dropzone" })}>
         <div className="preview">
           <AvatarEditor
             style={{
               background: "url(/images/default_profile_pic.svg) no-repeat",
               backgroundSize: 200,
+              borderRadius: 5,
             }}
             ref={avatarRef}
             image={
@@ -80,13 +83,11 @@ export function ProfilePictureForm() {
             height={200}
             borderRadius={100}
             rotate={rotate}
-            
           />
         </div>
-      <input {...getInputProps()}/>
-            
+        <input {...getInputProps()} />
       </div>
-      <div className="controllers">
+      <div className="controls">
         <div className="zoom">
           <button
             type="button"
@@ -143,9 +144,12 @@ export function ProfilePictureForm() {
           <i className="fa-solid fa-arrow-rotate-right"></i>
         </button>
       </div>
-      <button type="button" onClick={open}>
-        Mudar foto de perfil
-      </button>
-    </form>
+      <Button type="button" className="select-new less-radius secondary" onClick={open}>
+        <i className="fa-solid fa-camera"></i> Selecionar nova foto
+      </Button>
+      <Button type="button" className="select-new less-radius secondary" onClick={() => toast.info("Na lista de ToDo")}>
+        <i className="fa-solid fa-trash"></i> Remover foto atual
+      </Button>
+    </ProfilePicFormStyle>
   );
 }

@@ -6,6 +6,7 @@ export const styledCriarNovaVaga = styled.div`
 export const CriarVagaFormStyle = styled.form`
     display: flex;
     flex-direction: column;
+    min-width: 500px;
     .buttons-container{
         align-self: flex-end;
         margin-top: 20px;
@@ -32,5 +33,8 @@ export const CriarVagaFormStyle = styled.form`
                 color: red;
             }
         }
+    }
+    @media(max-width: 700px){
+        min-width: initial;
     }
 `

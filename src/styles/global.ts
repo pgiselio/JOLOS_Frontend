@@ -17,8 +17,7 @@ export const GlobalStyle = createGlobalStyle`
     --text-b: ${(props) => props.theme.colors.textB};
     --text-c: ${(props) => props.theme.colors.textC};
     --navs-bg: ${(props) => props.theme.colors.systemMenu.background};
-    --navs-bg-opacity: ${(props) =>
-      props.theme.colors.systemMenu.background}f5;
+    --navs-bg-opacity: ${(props) => props.theme.colors.systemMenu.background}f5;
     --primary-bg: ${(props) => props.theme.colors.primaryBg};
     --secondary-bg: ${(props) => props.theme.colors.secondaryBg};
   }

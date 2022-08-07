@@ -40,30 +40,23 @@ export function ModalRouter({
       initialFocusRef={buttonRef}
       onDismiss={attentionToX}
     >
-      <Box className="box">
-        <BoxTitle className="box-title">
-          <h2>{title}</h2>
-          <div>
-            <button
-              aria-label="Close"
-              className="close-button"
-              ref={closeRef}
-              onClick={onDismiss}
-            >
-              <i className={`fas fa-times ${closeClassNames}`}></i>
-            </button>
-          </div>
-        </BoxTitle>
+      <BoxTitle className="box-title">
+        <h2>{title}</h2>
+        <div>
+          <button
+            aria-label="Close"
+            className="close-button"
+            ref={closeRef}
+            onClick={onDismiss}
+          >
+            <i className={`fas fa-times ${closeClassNames}`}></i>
+          </button>
+        </div>
+      </BoxTitle>
 
-        <BoxContent
-          style={{
-            height: "100%",
-            overflow: "auto",
-          }}
-        >
-          {children}
-        </BoxContent>
-      </Box>
+      <BoxContent>
+        {children}
+      </BoxContent>
     </ModalStyle>
   );
 }

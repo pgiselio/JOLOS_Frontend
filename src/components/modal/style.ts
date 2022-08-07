@@ -1,26 +1,23 @@
 import Dialog from "@reach/dialog";
 import styled from "styled-components";
 
+
+
 export const ModalStyle = styled(Dialog)`
-  min-width: 600px;
+  /* min-width: 600px; */
   width: fit-content;
   margin: 5vh auto;
   background: var(--primary-bg);
   padding: 0;
   outline: none;
   border-radius: 5px;
-  max-height: 90vh;
   animation: slide-up 0.3s ease-in-out;
-  .box {
-    margin: 0;
-    padding-bottom: 30px;
-    position: relative;
-    .box-title{
-      display: flex;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-    }
+  .box-title {
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 3;
   }
   .close-button {
     display: flex;
@@ -89,7 +86,16 @@ export const ModalStyle = styled(Dialog)`
     min-width: initial;
     position: relative;
     width: 100vw;
-    height: 100vh;
     max-height: initial;
+    min-height: 100vh;
   }
 `;
+
+export const ModalBottom = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  padding-top: 10px;
+`

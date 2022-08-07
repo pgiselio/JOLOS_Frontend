@@ -3,19 +3,21 @@ import { Box, BoxContent, BoxTitle } from "../box";
 import { Button } from "../button";
 import { ModalStyle } from "./style";
 
+export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
+  title: string;
+  children: ReactNode;
+  open?: boolean;
+  handleClose?: () => void;
+  toForm?: string;
+}
 export function Modal({
   title,
   open = true,
   children,
   handleClose,
   toForm,
-}: {
-  title: string;
-  children: ReactNode;
-  open?: boolean;
-  handleClose?: () => void;
-  toForm?: string;
-}) {
+  ...rest
+}: ModalProps) {
   let buttonRef = useRef<HTMLButtonElement>(null);
   let closeRef = useRef<HTMLButtonElement>(null);
   function onDismiss() {
@@ -30,43 +32,42 @@ export function Modal({
       aria-labelledby="label"
       initialFocusRef={buttonRef}
       onDismiss={onDismiss}
+      {...rest}
     >
-      <Box className="box">
-        <BoxTitle className="box-title">
-          <h2>{title}</h2>
+      <BoxTitle className="box-title">
+        <h2>{title}</h2>
+        <div>
+          <button
+            aria-label="Close"
+            className="close-button"
+            ref={closeRef}
+            onClick={onDismiss}
+          >
+            <i className={`fas fa-times`}></i>
+          </button>
+        </div>
+        {toForm && (
           <div>
-            <button
-              aria-label="Close"
-              className="close-button"
-              ref={closeRef}
-              onClick={onDismiss}
+            <Button
+              type="submit"
+              style={{ padding: "6px 16px" }}
+              form={toForm}
+              ref={buttonRef}
             >
-              <i className={`fas fa-times`}></i>
-            </button>
+              Criar
+            </Button>
           </div>
-          {toForm && (
-            <div>
-              <Button
-                type="submit"
-                style={{ padding: "6px 16px" }}
-                form={toForm}
-                ref={buttonRef}
-              >
-                Criar
-              </Button>
-            </div>
-          )}
-        </BoxTitle>
+        )}
+      </BoxTitle>
 
-        <BoxContent
-          style={{
-            height: "100%",
-            overflow: "auto",
-          }}
-        >
-          {children}
-        </BoxContent>
-      </Box>
+      <BoxContent
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        {children}
+      </BoxContent>
     </ModalStyle>
   );
 }

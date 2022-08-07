@@ -21,6 +21,7 @@ import { isBlank } from "../../../../utils/isBlank";
 import { Modal } from "../../../../components/modal";
 import { ProfilePictureForm } from "./_porfilePictureForm";
 import { Button } from "../../../../components/button";
+import { ModalBottom } from "../../../../components/modal/style";
 
 export default function SettingContaPage() {
   const auth = useAuth();
@@ -183,18 +184,20 @@ export default function SettingContaPage() {
         handleClose={() => setShowModalPic(false)}
         title="Mudar foto de perfil"
       >
-        <ProfilePictureForm />
-        <div>
-          <Button type="submit" form="profile-pic-form">
-            Salvar
-          </Button>
-          <Button
-            type="button"
-            onClick={() => setShowModalPic(false)}
-            className="secondary"
-          >
-            Cancelar
-          </Button>
+        <div className="flx flx-aic flx-jcc fdc" style={{ gap: 30 }}>
+          <ProfilePictureForm />
+          <ModalBottom>
+            <Button
+              type="button"
+              onClick={() => setShowModalPic(false)}
+              className="secondary"
+            >
+              Cancelar
+            </Button>
+            <Button type="submit" form="profile-pic-form">
+              Salvar
+            </Button>
+          </ModalBottom>
         </div>
       </Modal>
       {(auth.userInfo?.aluno?.dadosPessoa.dataNasc ||

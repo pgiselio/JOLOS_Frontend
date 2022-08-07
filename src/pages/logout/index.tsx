@@ -7,10 +7,11 @@ export default function LogoutPage() {
   const auth = useAuth();
   useEffect(() => {
     auth.logout();
-  }, []);
-  if (!auth.email) {
-    window.location.href = "/entrar";
-  }
+    if (!auth.email) {
+      window.location.href = "/entrar";
+    }
+  });
+  
   return (
     <StyledAccess>
       <div
