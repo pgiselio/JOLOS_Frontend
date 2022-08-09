@@ -16,6 +16,7 @@ export function CurriculoForm() {
   const [sending, setSending] = useState(false);
   const [sendingProgress, setSendingProgress] = useState(0);
   const [uploaded, setUploaded] = useState(false);
+  
   let validationSchema = Yup.object().shape({
     arquivo: Yup.mixed().required("É necessário selecionar um arquivo"),
   });

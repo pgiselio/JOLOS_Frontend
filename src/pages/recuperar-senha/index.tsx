@@ -10,10 +10,12 @@ import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { Buffer } from "buffer";
 export default function PasswordResetPage() {
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const paramsToken = searchParams.get("token");
   const [token, setToken] = useState("");
+  
+  const navigate = useNavigate();
+  const paramsToken = searchParams.get("token");
+
   useEffect(() => {
     if (paramsToken) {
       let paramsTokensSplitted = paramsToken.split(".");

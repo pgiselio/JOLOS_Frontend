@@ -14,6 +14,7 @@ export function ProfilePictureForm() {
   const [zoom, setZoom] = useState<number>(1);
   const [rotate, setRotate] = useState<number>(0);
   const [image, setImage] = useState<File | undefined>(undefined);
+  
   const avatarRef = useRef<AvatarEditor>(null);
   const { getRootProps, getInputProps, open} = useDropzone({
     accept: {

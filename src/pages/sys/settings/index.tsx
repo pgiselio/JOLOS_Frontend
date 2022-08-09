@@ -11,9 +11,11 @@ import { SettingThemesPage } from "./themes";
 
 export default function SettingsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const mq = window.matchMedia("(min-width: 1000px)");
   let tabs = ["account", "profile", "notifications", "themes"];
   const [selectedTab, setSelectedTab] = useTabs(tabs, searchParams.get("tab"));
+  
+  const mq = window.matchMedia("(min-width: 1000px)");
+
   let navigate = useNavigate();
   const auth = useAuth();
   useEffect(() => {

@@ -7,6 +7,7 @@ export default function DownloadCurriculoPage() {
   const [curriculo, setCurriculo] = useState<any>();
   const [hasError, setHasError] = useState<any>();
   const [downloadCProgress, setDownloadCProgress] = useState(0);
+  
   let params = useParams();
   useEffect(() => {
     const getCurriculo = async () => {

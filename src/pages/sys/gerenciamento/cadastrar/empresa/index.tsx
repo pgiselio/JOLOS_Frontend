@@ -13,6 +13,7 @@ import CircularProgressFluent from "../../../../../components/circular-progress-
 
 export default function CadastrarEmpresaPage() {
   const [isLoading, setIsLoading] = useState(false);
+  
   let validationSchema = Yup.object().shape({
     email: Yup.string().required("Este campo é obrigatório"),
     nome: Yup.string().required("Este campo é obrigatório"),

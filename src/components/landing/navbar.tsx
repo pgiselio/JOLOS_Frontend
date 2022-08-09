@@ -7,6 +7,7 @@ import { Link } from "react-scroll";
 export function LandNavBar() {
   const [menuState, setMenuState] = useState(false);
   const [accessState, setAccessState] = useState(false);
+  
   let navigate = useNavigate();
   const auth = useAuth();
   return (

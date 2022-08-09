@@ -13,6 +13,7 @@ export default function LoginPage() {
   const auth = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  
   const { control, formState, handleSubmit } = useForm({
     mode: "onChange",
     defaultValues: {

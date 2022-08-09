@@ -21,8 +21,12 @@ export function CriarNovaVagaForm() {
   // const [editorState, setEditorState] = useState(() =>
   //   EditorState.createEmpty()
   // );
-  const [empresaCNPJ, setEmpresaCNPJ] = useState<string | null>();
   const auth = useAuth();
+  const maxDescriptionLength = 1000;
+  
+  const [empresaCNPJ, setEmpresaCNPJ] = useState<string | null>();
+  const [remainigDescriptionLength, setRemainigDescriptionLength] =
+    useState(maxDescriptionLength);
 
   useEffect(() => {
     setEmpresaCNPJ(auth.userInfo?.empresa?.cnpj);
@@ -41,9 +45,7 @@ export function CriarNovaVagaForm() {
     "Energias Renováveis",
     "Física",
   ];
-  const maxDescriptionLength = 1000;
-  const [remainigDescriptionLength, setRemainigDescriptionLength] =
-    useState(maxDescriptionLength);
+  
 
   let validationSchema;
   if (empresaCNPJ) {

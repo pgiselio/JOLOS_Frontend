@@ -16,6 +16,7 @@ import { CustomSelect } from "../../../components/select";
 
 export function CadastroStep3() {
   const [isLoading, setIsLoading] = useState(false);
+  
   let navigate = useNavigate();
   const cadastroSteps = useCadastroSteps();
 

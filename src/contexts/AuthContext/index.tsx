@@ -13,6 +13,7 @@ export function AuthProvider({ children }: IAuthProvider) {
   const [user, setUser] = useState<IUser | null>();
   const [loadingUserFromLocalStorage, setLoadingUserFromLocalStorage] =
     useState(true);
+
   useEffect(() => {
     const user = getUserLocalStorage();
     if (user) {

@@ -10,6 +10,7 @@ import { CadastroStep2Style } from "./styles";
 
 export default function VerifiqueOSeuEmailPage() {
   const [isLoading, setIsLoading] = useState(false);
+  
   let navigate = useNavigate();
   let [searchParams, setSearchParams] = useSearchParams();
   let ReactCodeInputRef = useRef<ReactCodeInput>(null);

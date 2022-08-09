@@ -21,6 +21,7 @@ export default function CadastroPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const [selectedTab, setSelectedTab] = useTabs(["ALUNO", "EMPRESA"], searchParams.get("tab"));
+  
   useEffect(() => {
     if (!searchParams.get("tab")) {
       setSelectedTab("ALUNO");

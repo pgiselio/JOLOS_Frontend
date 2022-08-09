@@ -25,8 +25,12 @@ import {
 export default function VagaPage() {
   const auth = useAuth();
   let params = useParams();
-  let subscribeBtnRef = useRef<HTMLButtonElement>(null);
+  
+  const [showDialog, setShowDialog] = useState(false);
+  const [isCandidatoSubscribed, setIsCandidatoSubscribed] = useState(false);
   const [showUnsubDialog, setShowUnsubDialog] = useState(false);
+
+  let subscribeBtnRef = useRef<HTMLButtonElement>(null);
   const openUnsubDialog = () => setShowUnsubDialog(true);
   const closeUnsubDialog = () => setShowUnsubDialog(false);
   const { data, isFetching } = useQuery<vaga>(
@@ -102,7 +106,6 @@ export default function VagaPage() {
       });
   }
 
-  const [isCandidatoSubscribed, setIsCandidatoSubscribed] = useState(false);
   useEffect(() => {
     if (auth.userInfo?.id && data?.alunos.includes(auth.userInfo?.id)) {
       setIsCandidatoSubscribed(true);
@@ -112,7 +115,6 @@ export default function VagaPage() {
   }, [auth.userInfo?.id, data?.alunos]);
 
 
-  const [showDialog, setShowDialog] = useState(false);
   const cancelRef = useRef(null);
   const openDialog2 = () => setShowDialog(true);
   const closeDialog2 = () => setShowDialog(false);

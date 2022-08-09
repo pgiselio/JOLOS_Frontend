@@ -15,6 +15,7 @@ export function ModalRouter({
   let buttonRef = useRef<HTMLButtonElement>(null);
   let closeRef = useRef<HTMLButtonElement>(null);
   const [closeClassNames, setCloseClassNames] = useState("");
+  
   const preventDataLost = (event: any) => {
     event.preventDefault();
     event.returnValue = "";
