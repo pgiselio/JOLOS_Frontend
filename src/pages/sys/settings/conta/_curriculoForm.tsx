@@ -9,6 +9,7 @@ import { api } from "../../../../services/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CurriculoFormStyle } from "./styles";
 import prettyBytes from "pretty-bytes";
+import { Link } from "react-router-dom";
 
 export function CurriculoForm() {
   const auth = useAuth();
@@ -142,6 +143,7 @@ export function CurriculoForm() {
         O currículo deve ser do tipo <strong>PDF</strong> e ter no máximo
         <strong> {prettyBytes(maxSize)}</strong>
       </p>
+      <div className="group-buttons">
       <Button
         type="button"
         className="select-new less-radius secondary"
@@ -150,6 +152,8 @@ export function CurriculoForm() {
       >
         <i className="fa-solid fa-file"></i> Selecionar arquivo
       </Button>
+      <Link to="/curriculo" className="link"><i className="fa-solid fa-share"></i> Ver exemplo</Link>
+      </div>
       <p className="input-error">{errors.arquivo?.message}</p>
     </CurriculoFormStyle>
   );

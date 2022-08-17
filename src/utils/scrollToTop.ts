@@ -2,11 +2,16 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 export default function ScrollToTop() {
-  const { pathname } = useLocation();
+  const location = useLocation();
+  let state = location.state as {
+    modalLocation?: Location;
+  };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (!state?.modalLocation) {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname]);
 
   return null;
 }

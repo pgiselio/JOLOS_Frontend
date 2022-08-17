@@ -11,7 +11,7 @@ type ProfilePicType = {
   className?: string;
   userId?: string | number;
 };
-type ppType = {
+type photoQueryType = {
   id: string;
   arquivo: {
     nome: string;
@@ -23,7 +23,7 @@ export function ProfilePic(props: ProfilePicType) {
   const { data } = useQuery(
     "profilePic-" + props.userId,
     async () => {
-      const response = await api.get<ppType>(`/imagem/fotoPerfil/${props.userId}`);
+      const response = await api.get<photoQueryType>(`/imagem/fotoPerfil/${props.userId}`);
       if (response.data) {
         const blob = b64toBlob(response.data?.arquivo.dados, "image/png");
         const url = URL.createObjectURL(blob);

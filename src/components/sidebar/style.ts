@@ -33,8 +33,7 @@ export const SidebarAside = styled.aside`
   transform: translateX(calc(-100vw - 280px));
 
   body.toggle-sidemenu & {
-    padding: 0;
-    padding-right: 10px;
+    padding: 0 10px;
     transform: translateX(0);
   }
 
@@ -103,7 +102,7 @@ export const SidebarAside = styled.aside`
   }
 
   @media (min-width: 766px) {
-    padding-right: 10px;
+    padding: 0 10px;
     position: sticky;
     transition: padding 0.3s ease;
     border-right: none;
@@ -174,6 +173,7 @@ export const SidebarAside = styled.aside`
       padding: 10px 15px;
       border-top-right-radius: 30px;
       border-bottom-right-radius: 30px;
+      border-radius: 30px;
       transition: border-radius 0.5s, margin 0.5s ease;
       span {
         opacity: 1;

@@ -92,6 +92,12 @@ export const CurriculoFormStyle = styled.form`
     color: var(--text-b);
     margin-bottom: 10px;
   }
+  .group-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    
+  }
 `;
 export const ProfilePicFormStyle = styled.form`
   display: flex;
