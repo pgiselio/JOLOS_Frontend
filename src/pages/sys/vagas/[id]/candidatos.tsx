@@ -49,34 +49,86 @@ export function VagaCandidatoPage() {
   }
   return (
     <Box>
-      <BoxTitle>
-        <input
-          type="checkbox"
-          name=""
-          id="candidato-checkall"
-          onChange={() => {
-            setCheckedList(
-              checkedList.length === data.alunos.length ? [] : data.alunos
-            );
-          }}
-          {...(checkedList.length === data.alunos.length && { checked: true })}
-        />
-        <label htmlFor="candidato-checkall">Selecionar tudo</label>
-      </BoxTitle>
-
-      <span>
-        {data.alunos.length > 0 ? (
-          <ul className="lista-candidatos">
-            {userQueries.length > 0 ? (
-              userQueries.map((candidato: any) => {
-                if (!candidato.data) {
+      {data.alunos.length > 0 ? (
+        <>
+          <BoxTitle>
+            <input
+              type="checkbox"
+              name=""
+              id="candidato-checkall"
+              onChange={() => {
+                setCheckedList(
+                  checkedList.length === data.alunos.length ? [] : data.alunos
+                );
+              }}
+              {...(checkedList.length === data.alunos.length && {
+                checked: true,
+              })}
+            />
+            <label htmlFor="candidato-checkall">Selecionar tudo</label>
+          </BoxTitle>
+          <span>
+            <ul className="lista-candidatos">
+              {userQueries.length > 0 ? (
+                userQueries.map((candidato: any) => {
+                  if (!candidato.data) {
+                    return (
+                      <li className="candidato">
+                        <button>
+                          <input
+                            type="checkbox"
+                            name=""
+                            className="candidato-list-check"
+                          />
+                          <a
+                            href={"../../profile/" + candidato.data?.id}
+                            className="candidato-group"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <ProfilePic className="candidato-pic" />
+                            <div className="candidato-info">
+                              <h3>
+                                <Skeleton
+                                  variant="text"
+                                  width="300px"
+                                  height="28px"
+                                />
+                              </h3>
+                              <span>
+                                <Skeleton
+                                  variant="text"
+                                  width="150px"
+                                  height="18px"
+                                />
+                              </span>
+                            </div>
+                          </a>
+                        </button>
+                      </li>
+                    );
+                  }
                   return (
-                    <li className="candidato">
+                    <li className="candidato" key={candidato.data?.id}>
                       <button>
                         <input
                           type="checkbox"
                           name=""
                           className="candidato-list-check"
+                          onChange={(
+                            event: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            setCheckedList(
+                              event.target.checked
+                                ? [...checkedList, candidato.data?.id]
+                                : checkedList.filter(
+                                    (id) => id !== candidato.data?.id
+                                  )
+                            );
+                          }}
+                          {...(checkedList.includes(candidato.data?.id)
+                            ? { checked: true }
+                            : {})}
                         />
                         <a
                           href={"../../profile/" + candidato.data?.id}
@@ -84,106 +136,57 @@ export function VagaCandidatoPage() {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          <ProfilePic className="candidato-pic" />
+                          <ProfilePic
+                            userId={candidato.data?.id}
+                            className="candidato-pic"
+                          />
                           <div className="candidato-info">
-                            <h3>
-                              <Skeleton
-                                variant="text"
-                                width="300px"
-                                height="28px"
-                              />
-                            </h3>
-                            <span>
-                              <Skeleton
-                                variant="text"
-                                width="150px"
-                                height="18px"
-                              />
-                            </span>
+                            <h3>{candidato.data?.aluno?.dadosPessoa.nome}</h3>
+                            <span>{candidato.data?.email}</span>
                           </div>
                         </a>
                       </button>
                     </li>
                   );
-                }
-                return (
-                  <li className="candidato" key={candidato.data?.id}>
-                    <button>
-                      <input
-                        type="checkbox"
-                        name=""
-                        className="candidato-list-check"
-                        onChange={(
-                          event: React.ChangeEvent<HTMLInputElement>
-                        ) => {
-                          setCheckedList(
-                            event.target.checked
-                              ? [...checkedList, candidato.data?.id]
-                              : checkedList.filter(
-                                  (id) => id !== candidato.data?.id
-                                )
-                          );
-                        }}
-                        {...(checkedList.includes(candidato.data?.id)
-                          ? { checked: true }
-                          : {})}
-                      />
-                      <a
-                        href={"../../profile/" + candidato.data?.id}
-                        className="candidato-group"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <ProfilePic
-                          userId={candidato.data?.id}
-                          className="candidato-pic"
-                        />
-                        <div className="candidato-info">
-                          <h3>{candidato.data?.aluno?.dadosPessoa.nome}</h3>
-                          <span>{candidato.data?.email}</span>
-                        </div>
-                      </a>
-                    </button>
-                  </li>
-                );
-              })
-            ) : (
-              <p
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "10px",
-                  padding: "30px",
-                }}
-              >
-                <CircularProgressFluent
-                  color="var(--accent-color)"
-                  height="30px"
-                  width="30px"
-                  duration=".9s"
-                />
-                Carregando...
-              </p>
-            )}
+                })
+              ) : (
+                <p
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: "30px",
+                  }}
+                >
+                  <CircularProgressFluent
+                    color="var(--accent-color)"
+                    height="30px"
+                    width="30px"
+                    duration=".9s"
+                  />
+                  Carregando...
+                </p>
+              )}
 
-            <div className="lista-candidatos-actions">
-              <p>
-                {checkedList.length}/{data.alunos.length} selecionados
-              </p>
+              <div className="lista-candidatos-actions">
+                <p>
+                  {checkedList.length}/{data.alunos.length} selecionados
+                </p>
 
-              <Button className="less-radius">Baixar currículos</Button>
-            </div>
-          </ul>
-        ) : (
-          <span>
-            <BoxMessage>
-              <span>Sem candidatos para essa vaga</span>
-            </BoxMessage>
+                <Button className="less-radius">Baixar currículos</Button>
+              </div>
+            </ul>
           </span>
-        )}
-      </span>
+        </>
+      ) : (
+        <span>
+          <BoxMessage>
+            <span>Sem candidatos para essa vaga</span>
+          </BoxMessage>
+        </span>
+      )}
     </Box>
   );
 }
