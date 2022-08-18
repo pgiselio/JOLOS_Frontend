@@ -21,16 +21,18 @@ function App() {
     <>
       <ThemeProvider theme={themes.light}>
         <GlobalStyle />
-        <AuthProvider>
-          <QueryClientProvider client={queryClient}>
-            <AppOptionsProvider>
-              <BrowserRouter>
-                <ScrollToTop />
-                <AppRoutes />
-              </BrowserRouter>
-            </AppOptionsProvider>
-          </QueryClientProvider>
-        </AuthProvider>
+        <BrowserRouter>
+          <AuthProvider>
+            <QueryClientProvider client={queryClient}>
+              <AppOptionsProvider>
+                <>
+                  <ScrollToTop />
+                  <AppRoutes />
+                </>
+              </AppOptionsProvider>
+            </QueryClientProvider>
+          </AuthProvider>
+        </BrowserRouter>
       </ThemeProvider>
     </>
   );

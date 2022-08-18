@@ -17,7 +17,7 @@ export default function ForumTopicPage() {
             <Button
               className="outlined"
               onClick={() =>
-                navigate("responder", { state: { modalAnswer: location } })
+                navigate("responder", { state: { modalLocation: location } })
               }
               key="criar-resposta"
             >

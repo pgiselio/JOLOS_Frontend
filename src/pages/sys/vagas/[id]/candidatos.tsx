@@ -11,7 +11,7 @@ import { User } from "../../../../types/user";
 
 export function VagaCandidatoPage() {
   const { data } = useVaga();
-  const [checked, setChecked] = useState([]);
+  const [checkedList, setCheckedList] = useState<any[]>([]);
 
   const userQueries = useQueries<User[]>(
     data?.alunos.map((userId) => {
@@ -50,7 +50,17 @@ export function VagaCandidatoPage() {
   return (
     <Box>
       <BoxTitle>
-        <input type="checkbox" name="" id="candidato-checkall" />
+        <input
+          type="checkbox"
+          name=""
+          id="candidato-checkall"
+          onChange={() => {
+            setCheckedList(
+              checkedList.length === data.alunos.length ? [] : data.alunos
+            );
+          }}
+          {...(checkedList.length === data.alunos.length && { checked: true })}
+        />
         <label htmlFor="candidato-checkall">Selecionar tudo</label>
       </BoxTitle>
 
@@ -74,7 +84,7 @@ export function VagaCandidatoPage() {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          <ProfilePic className="candidato-pic"/>
+                          <ProfilePic className="candidato-pic" />
                           <div className="candidato-info">
                             <h3>
                               <Skeleton
@@ -103,6 +113,20 @@ export function VagaCandidatoPage() {
                         type="checkbox"
                         name=""
                         className="candidato-list-check"
+                        onChange={(
+                          event: React.ChangeEvent<HTMLInputElement>
+                        ) => {
+                          setCheckedList(
+                            event.target.checked
+                              ? [...checkedList, candidato.data?.id]
+                              : checkedList.filter(
+                                  (id) => id !== candidato.data?.id
+                                )
+                          );
+                        }}
+                        {...(checkedList.includes(candidato.data?.id)
+                          ? { checked: true }
+                          : {})}
                       />
                       <a
                         href={"../../profile/" + candidato.data?.id}
@@ -110,7 +134,10 @@ export function VagaCandidatoPage() {
                         target="_blank"
                         rel="noreferrer"
                       >
-                        <ProfilePic userId={candidato.data?.id} className="candidato-pic"/>
+                        <ProfilePic
+                          userId={candidato.data?.id}
+                          className="candidato-pic"
+                        />
                         <div className="candidato-info">
                           <h3>{candidato.data?.aluno?.dadosPessoa.nome}</h3>
                           <span>{candidato.data?.email}</span>
@@ -142,6 +169,10 @@ export function VagaCandidatoPage() {
             )}
 
             <div className="lista-candidatos-actions">
+              <p>
+                {checkedList.length}/{data.alunos.length} selecionados
+              </p>
+
               <Button className="less-radius">Baixar currículos</Button>
             </div>
           </ul>

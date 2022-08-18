@@ -13,9 +13,6 @@ import { VagaSobrePage } from "./pages/sys/vagas/[id]/sobre";
 import { VagasList } from "./pages/sys/vagas";
 import LogoutPage from "./pages/logout";
 import SettingsPage from "./pages/sys/settings";
-import LandingPage from "./pages";
-import LoginPage from "./pages/entrar";
-import CadastroPage from "./pages/cadastro";
 import VagaPage from "./pages/sys/vagas/[id]";
 import { CriarNovaVagaForm } from "./pages/sys/vagas/criar-nova/_form";
 import { CadastroLayout } from "./pages/cadastro/layout";
@@ -32,6 +29,9 @@ import GerenciamentoPage from "./pages/sys/gerenciamento";
 import CadastrarEmpresaPage from "./pages/sys/gerenciamento/cadastrar/empresa";
 import PasswordResetPage from "./pages/recuperar-senha";
 
+const LandingPage = lazy(() => import("./pages"));
+const LoginPage = lazy(() => import("./pages/entrar"));
+const CadastroPage = lazy(() => import("./pages/cadastro"));
 const ForumPage = lazy(() => import("./pages/sys/forum"));
 const ForumTopicPage = lazy(() => import("./pages/sys/forum/[id]"));
 const ProfilePage = lazy(() => import("./pages/sys/profile/[id]"));
@@ -46,14 +46,30 @@ export const AppRoutes = () => {
     <>
       <Routes location={state?.modalLocation || location}>
         <Route path="*" element={<Error404 />} />
-        <Route path="/" element={<LandingPage />} />
-        <Route path="entrar" element={<LoginPage />} />
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<LoadingPageLogo />}>
+              <LandingPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="entrar"
+          element={
+            <Suspense fallback={<LoadingPageLogo />}>
+              <LoginPage />
+            </Suspense>
+          }
+        />
         <Route
           path="cadastro"
           element={
-            <CadastroProvider>
-              <CadastroLayout />
-            </CadastroProvider>
+            <Suspense fallback={<LoadingPageLogo />}>
+              <CadastroProvider>
+                <CadastroLayout />
+              </CadastroProvider>
+            </Suspense>
           }
         >
           <Route index element={<CadastroPage />} />
@@ -88,7 +104,10 @@ export const AppRoutes = () => {
             }
           />
           <Route path="gerenciamento" element={<GerenciamentoPage />} />
-          <Route path="gerenciamento/cadastrar/empresa" element={<CadastrarEmpresaPage />} />
+          <Route
+            path="gerenciamento/cadastrar/empresa"
+            element={<CadastrarEmpresaPage />}
+          />
 
           <Route path="vagas" element={<VagasList />} />
           <Route path="vagas/criar" element={<CriarNovaVagaPage />} />

@@ -1,5 +1,6 @@
 import { createContext, useEffect, useRef, useState } from "react";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 import { queryClient } from "../../services/queryClient";
 import { notification } from "../../types/notification";
@@ -10,6 +11,7 @@ import { getUserLocalStorage, LoginRequest, setUserLocalStorage } from "./util";
 export const AuthContext = createContext<IContext>({} as IContext);
 
 export function AuthProvider({ children }: IAuthProvider) {
+  let navigate = useNavigate();
   const [user, setUser] = useState<IUser | null>();
   const [loadingUserFromLocalStorage, setLoadingUserFromLocalStorage] =
     useState(true);
@@ -99,6 +101,7 @@ export function AuthProvider({ children }: IAuthProvider) {
     queryClient.setQueryData("meUser", undefined);
     queryClient.invalidateQueries("meUser");
     queryClient.removeQueries("meUser");
+    navigate("/entrar", { replace: true });
   }
 
   return (

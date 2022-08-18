@@ -169,6 +169,7 @@ export const VagaPageStyle = styled.section`
   }
 
   .lista-candidatos-actions {
+    align-items: center;
     padding: 10px;
     display: flex;
     justify-content: end;
