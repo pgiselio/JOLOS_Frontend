@@ -37,7 +37,6 @@ export function Notifications() {
       const nextNotifications = previousNotifications.filter(
         (notification: notification) => notification.id !== id
       );
-      console.log(nextNotifications)
       queryClient.setQueryData("notifications-new", nextNotifications);
     }
     queryClient.invalidateQueries("notifications-read");

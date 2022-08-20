@@ -39,7 +39,6 @@ export function ProfilePictureForm() {
     const formData = new FormData();
     const file = avatarRef.current!.getImageScaledToCanvas().toDataURL();
     const blob = await (await fetch(file)).blob();
-    console.log(blob);
     formData.append("arquivo", blob);
     await api
       .post(`/imagem/uploadFotoPerfil/${auth.userInfo?.id}`, formData)
