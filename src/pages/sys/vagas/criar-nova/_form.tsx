@@ -130,7 +130,7 @@ export function CriarNovaVagaForm() {
       });
   }
   if (auth?.authorities?.includes("ALUNO")) {
-    return <h2>SEM PERMISÃO</h2>;
+    return <h2>SEM PERMISSÃO</h2>;
   }
   return (
     <CriarVagaFormStyle

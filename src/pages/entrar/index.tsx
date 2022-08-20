@@ -13,22 +13,21 @@ export default function LoginPage() {
   const auth = useAuth();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const { control, formState, handleSubmit } = useForm({
     mode: "onChange",
     defaultValues: {
-      email: process.env.NODE_ENV === "development" ? "jolos.aluno@jolos.com" : "",
+      email:
+        process.env.NODE_ENV === "development" ? "jolos.aluno@jolos.com" : "",
       password: process.env.NODE_ENV === "development" ? "jolos" : "",
     },
   });
-  
+
   let [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    if (auth.userInfo?.email) {
-      navigate("/sys");
-    }
-  });
+  if (auth.userInfo?.email) {
+    navigate("/sys");
+  }
 
   const paramsError = searchParams.getAll("error");
   useEffect(() => {
@@ -46,7 +45,7 @@ export default function LoginPage() {
           toast.error("O link já expirou, tente novamente", {});
         } else if (error === "passwordChanged") {
           toast.success("Senha alterada com sucesso!", {
-            autoClose: false
+            autoClose: false,
           });
         }
       });
@@ -94,10 +93,7 @@ export default function LoginPage() {
               />
             </a>
           </div>
-          <form
-            method="post"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <form method="post" onSubmit={handleSubmit(onSubmit)}>
             <h2 className="desc">Entrar</h2>
             <div className="info-message error-msg">
               <span>Usuário ou senha inválidos</span>

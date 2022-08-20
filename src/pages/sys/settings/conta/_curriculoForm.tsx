@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -17,7 +17,8 @@ export function CurriculoForm() {
   const [sending, setSending] = useState(false);
   const [sendingProgress, setSendingProgress] = useState(0);
   const [uploaded, setUploaded] = useState(false);
-  
+  const toastId = useRef<string | number | null>(null);
+
   let validationSchema = Yup.object().shape({
     arquivo: Yup.mixed().required("É necessário selecionar um arquivo"),
   });
@@ -68,26 +69,41 @@ export function CurriculoForm() {
   });
 
   async function onSubmit(data: any) {
-    if(sending)
-      return;
+    if (sending) return;
     const formData = new FormData();
     const file = data.arquivo;
     formData.append("arquivo", file);
     await api
       .patch(`/curriculo/atualizaArquivo/${auth.userInfo?.email}`, formData, {
         onUploadProgress: (progressEvent) => {
+          const progress = progressEvent.loaded / progressEvent.total;
+
           setSending(true);
           setSendingProgress(
             Math.round((progressEvent.loaded * 100) / progressEvent.total)
           );
+          if (toastId.current === null) {
+            toastId.current = toast("Enviando currículo...", {
+              progress,
+              isLoading: true,
+              theme: "light",
+              progressStyle: { background: "var(--accent-color)" },
+              autoClose: false,
+              closeButton: false,
+              closeOnClick: false,
+              position: "bottom-right",
+            });
+          } else {
+            toast.update(toastId.current, { progress });
+          }
         },
       })
       .then((response) => {
         if (response.status === 200) {
           setUploaded(true);
           setValue("arquivo", undefined);
-          toast.success("Currículo enviado com sucesso!");
         }
+        toast.success("Currículo enviado com sucesso!");
       })
       .catch((err) => {
         if (err.status === 500) {
@@ -102,16 +118,16 @@ export function CurriculoForm() {
       .finally(() => {
         setSending(false);
         setSendingProgress(0);
+        if(toastId.current !== null) {
+          toast.dismiss(toastId.current);
+        }
+        toastId.current = null;
       });
   }
   return (
     <CurriculoFormStyle onSubmit={handleSubmit(onSubmit)} id="curriculo-form">
       <div {...getRootProps({ className: "dropzone" })} onClick={open}>
-        <input
-          type="file"
-          {...register("arquivo")}
-          {...getInputProps()}
-        />
+        <input type="file" {...register("arquivo")} {...getInputProps()} />
 
         {curriculo ? (
           <div className="selected-file">
@@ -144,15 +160,17 @@ export function CurriculoForm() {
         <strong> {prettyBytes(maxSize)}</strong>
       </p>
       <div className="group-buttons">
-      <Button
-        type="button"
-        className="select-new less-radius secondary"
-        onClick={open}
-        {...(sending && { disabled: true })}
-      >
-        <i className="fa-solid fa-file"></i> Selecionar arquivo
-      </Button>
-      <Link to="/curriculo" className="link"><i className="fa-solid fa-share"></i> Ver exemplo</Link>
+        <Button
+          type="button"
+          className="select-new less-radius secondary"
+          onClick={open}
+          {...(sending && { disabled: true })}
+        >
+          <i className="fa-solid fa-file"></i> Selecionar arquivo
+        </Button>
+        <Link to="/curriculo" className="link">
+          <i className="fa-solid fa-share"></i> Ver exemplo
+        </Link>
       </div>
       <p className="input-error">{errors.arquivo?.message}</p>
     </CurriculoFormStyle>
