@@ -6,7 +6,6 @@ import { RequireAuth } from "./contexts/AuthContext/RequireAuth";
 
 //Pages
 import Error404 from "./pages/404";
-import { HomePage } from "./pages/sys/home/homePage";
 import CriarNovaVagaPage from "./pages/sys/vagas/criar-nova";
 import { VagaCandidatoPage } from "./pages/sys/vagas/[id]/candidatos";
 import { VagaSobrePage } from "./pages/sys/vagas/[id]/sobre";
@@ -28,6 +27,7 @@ import { CadastroProvider } from "./contexts/CadastroContext";
 import GerenciamentoPage from "./pages/sys/gerenciamento";
 import CadastrarEmpresaPage from "./pages/sys/gerenciamento/cadastrar/empresa";
 import PasswordResetPage from "./pages/recuperar-senha";
+import HomePage from "./pages/sys/home";
 
 const LandingPage = lazy(() => import("./pages"));
 const LoginPage = lazy(() => import("./pages/entrar"));

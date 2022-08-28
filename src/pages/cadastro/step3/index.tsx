@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { userAlunoType } from "../../../contexts/CadastroContext/types";
 import { convertFromStringToDate } from "../../../utils/convertStringToDateFormat";
 import { CustomSelect } from "../../../components/select";
+import { CursosSelectOptions } from "../../../utils/cursosForSelect";
 
 export function CadastroStep3() {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,13 +26,6 @@ export function CadastroStep3() {
       navigate("..");
     }
   });
-  const options = [
-    { value: "Informática", label: "Informática" },
-    { value: "Administração", label: "Administração" },
-    { value: "Eletrotécnica", label: "Eletrotécnica" },
-    { value: "Energias Renováveis", label: "Energias Renováveis" },
-    { value: "Física", label: "Física" },
-  ];
   let cursos = [
     "Informática",
     "Administração",
@@ -233,14 +227,14 @@ export function CadastroStep3() {
                       noOptionsMessage={() => "Não encontrado"}
                       ref={ref}
                       inputId="change-courses"
-                      options={options}
+                      options={CursosSelectOptions}
                       placeholder="Selecione um curso"
                       onChange={(option: any) => onChange(option?.value)}
                       onBlur={onBlur}
-                      value={options.filter((option) =>
+                      value={CursosSelectOptions.filter((option) =>
                         value?.includes(option.value)
                       )}
-                      defaultValue={options.filter((option) =>
+                      defaultValue={CursosSelectOptions.filter((option) =>
                         value?.includes(option.value)
                       )}
                       className={`custom-select ${

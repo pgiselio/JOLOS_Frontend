@@ -106,16 +106,20 @@
   background-color: var(--primary-bg);
   border: 1px solid var(--outline-color);
 
-  overflow: hidden;
   border-bottom: none;
 }
-[data-reach-accordion-item]:first-of-type {
+[data-reach-accordion-item]:first-of-type,
+[data-reach-accordion-item]:first-of-type [data-reach-accordion-button] {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
-[data-reach-accordion-item]:last-of-type {
+
+[data-reach-accordion-item]:last-of-type,
+[data-reach-accordion-item]:last-of-type [data-reach-accordion-button] {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+}
+[data-reach-accordion-item]:last-of-type {
   border: 1px solid var(--outline-color);
 }
 
@@ -126,7 +130,7 @@
   cursor: not-allowed;
 }
 [data-reach-accordion-panel] {
-  animation: slide-down .2s ease;
+  animation: slide-down 0.2s ease;
   padding: 20px;
   padding-top: 3px;
   font-size: 14px;

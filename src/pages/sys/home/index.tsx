@@ -1,6 +1,6 @@
 import { Notifications } from "../../../components/notifications/notifications-list";
 
-export function HomePage() {
+export default function HomePage() {
   return (
     <>
       <div className="content">

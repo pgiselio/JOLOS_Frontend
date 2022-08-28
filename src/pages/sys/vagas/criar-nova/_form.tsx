@@ -16,6 +16,7 @@ import { queryClient } from "../../../../services/queryClient";
 import { CustomSelect } from "../../../../components/select";
 import { Button } from "../../../../components/button";
 import { CriarVagaFormStyle } from "./style";
+import { CursosSelectOptions } from "../../../../utils/cursosForSelect";
 
 export function CriarNovaVagaForm() {
   // const [editorState, setEditorState] = useState(() =>
@@ -31,13 +32,6 @@ export function CriarNovaVagaForm() {
   useEffect(() => {
     setEmpresaCNPJ(auth.userInfo?.empresa?.cnpj);
   }, [auth.userInfo]);
-  const options = [
-    { value: "Informática", label: "Informática" },
-    { value: "Administração", label: "Administração" },
-    { value: "Eletrotécnica", label: "Eletrotécnica" },
-    { value: "Energias Renováveis", label: "Energias Renováveis" },
-    { value: "Física", label: "Física" },
-  ];
   let cursos = [
     "Informática",
     "Administração",
@@ -184,14 +178,14 @@ export function CriarNovaVagaForm() {
                   noOptionsMessage={() => "Não encontrado"}
                   ref={ref}
                   inputId="change-courses"
-                  options={options}
+                  options={CursosSelectOptions}
                   placeholder="Selecione um curso"
                   onChange={(option: any) => onChange(option?.value)}
                   onBlur={onBlur}
-                  value={options.filter((option) =>
+                  value={CursosSelectOptions.filter((option) =>
                     value?.includes(option.value)
                   )}
-                  defaultValue={options.filter((option) =>
+                  defaultValue={CursosSelectOptions.filter((option) =>
                     value?.includes(option.value)
                   )}
                   className={`${errors.cursoAlvo?.message && "danger"}`}

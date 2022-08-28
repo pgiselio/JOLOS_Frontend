@@ -33,20 +33,27 @@ export default function LoginPage() {
   useEffect(() => {
     if (searchParams.has("error")) {
       paramsError.forEach((error) => {
-        if (error === "needsLogin") {
-          toast.error("Você precisa fazer login primeiro!", {});
-        } else if (error === "invalidCredentials") {
-          toast.error("Sua sessão expirou, faça login novamente!", {});
-        } else if (error === "needsPasswordReset") {
-          toast.error("Você precisa resetar sua senha!", {});
-        } else if (error === "checkEmail") {
-          toast.info("Verifique o seu e-mail", {});
-        } else if (error === "invalidResetToken") {
-          toast.error("O link já expirou, tente novamente", {});
-        } else if (error === "passwordChanged") {
-          toast.success("Senha alterada com sucesso!", {
-            autoClose: false,
-          });
+        switch (error) {
+          case "needsLogin":
+            toast.error("Você precisa fazer login primeiro!", {});
+            break;
+          case "invalidCredentials":
+            toast.error("Sua sessão expirou, faça login novamente!", {});
+            break;
+          case "needsPasswordReset":
+            toast.error("Você precisa resetar sua senha!", {});
+            break;
+          case "checkEmail":
+            toast.info("Verifique o seu e-mail", {});
+            break;
+          case "invalidResetToken":
+            toast.error("O link já expirou, tente novamente", {});
+            break;
+          case "passwordChanged":
+            toast.success("Senha alterada com sucesso!", {
+              autoClose: false,
+            });
+            break;
         }
       });
       searchParams.delete("error");

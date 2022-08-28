@@ -22,6 +22,8 @@ import { Modal } from "../../../../components/modal";
 import { ProfilePictureForm } from "./_porfilePictureForm";
 import { Button } from "../../../../components/button";
 import { ModalBottom } from "../../../../components/modal/style";
+import { CursosSelectOptions } from "../../../../utils/cursosForSelect";
+import { CustomSelect } from "../../../../components/select";
 
 export default function SettingContaPage() {
   const auth = useAuth();
@@ -52,6 +54,7 @@ export default function SettingContaPage() {
         auth.userInfo?.empresa?.dadosPessoa?.localizacao.split("/")[0] ||
         auth.userInfo?.aluno?.dadosPessoa?.localizacao.split("/")[0],
       curso: auth.userInfo?.aluno?.curso || "",
+      periodo: auth.userInfo?.aluno?.periodo || "",
       empresaSite: auth.userInfo?.empresa?.linkSite || "",
     },
   });
@@ -66,6 +69,16 @@ export default function SettingContaPage() {
                 op: "replace",
                 path: "/aluno/dadosPessoa/nome",
                 value: data.nome,
+              },
+              {
+                op: "replace",
+                path: "/aluno/curso",
+                value: data.curso,
+              },
+              {
+                op: "replace",
+                path: "/aluno/periodo",
+                value: data.periodo,
               },
               {
                 op: "replace",
@@ -240,17 +253,55 @@ export default function SettingContaPage() {
           {auth?.authorities?.includes("ALUNO") && (
             <AccordionItem>
               <AccordionButton className="autohide-sub">
-                <h4>Curso</h4>
-                <span className="subtitle">{auth.userInfo?.aluno?.curso}</span>
+                <h4>Curso e período</h4>
+                <span className="subtitle">
+                  {auth.userInfo?.aluno?.curso + " "} 
+                  {auth.userInfo?.aluno?.periodo}º período
+                </span>
               </AccordionButton>
               <AccordionPanel>
                 <Controller
-                  name="curso"
+                  name={"curso"}
                   control={control}
-                  render={({ field }) => (
-                    <Input type="text" id="nome" {...field} />
-                  )}
+                  render={({ field: { value, onChange, onBlur, ref } }) => {
+                    return (
+                      <CustomSelect
+                        noOptionsMessage={() => "Não encontrado"}
+                        ref={ref}
+                        inputId="change-courses"
+                        options={CursosSelectOptions}
+                        placeholder="Selecione um curso"
+                        onChange={(option: any) => onChange(option?.value)}
+                        onBlur={onBlur}
+                        value={CursosSelectOptions.filter((option) =>
+                          value?.includes(option.value)
+                        )}
+                        defaultValue={CursosSelectOptions.filter((option) =>
+                          value?.includes(option.value)
+                        )}
+                        className={`${errors.curso?.message && "danger"}`}
+                      />
+                    );
+                  }}
                 />
+                <div className="lbl" style={{ maxWidth: "70px" }}>
+                  <label htmlFor="periodo">Período: </label>
+                  <Controller
+                    name="periodo"
+                    control={control}
+                    render={({ field }) => (
+                        <Input
+                          type="number"
+                          min={0}
+                          id="periodo"
+                          placeholder="Período"
+                          style={{ textAlign: "center" }}
+                          {...field}
+                          {...(errors.periodo && { className: "danger" })}
+                        />
+                    )}
+                  />
+                </div>
               </AccordionPanel>
             </AccordionItem>
           )}
