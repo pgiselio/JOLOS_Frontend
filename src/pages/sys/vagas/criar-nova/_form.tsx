@@ -32,14 +32,8 @@ export function CriarNovaVagaForm() {
   useEffect(() => {
     setEmpresaCNPJ(auth.userInfo?.empresa?.cnpj);
   }, [auth.userInfo]);
-  let cursos = [
-    "Informática",
-    "Administração",
-    "Eletrotécnica",
-    "Energias Renováveis",
-    "Física",
-  ];
   
+  let cursos = CursosSelectOptions.map(({value}) => value);
 
   let validationSchema;
   if (empresaCNPJ) {

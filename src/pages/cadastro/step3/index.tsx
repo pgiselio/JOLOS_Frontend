@@ -26,13 +26,7 @@ export function CadastroStep3() {
       navigate("..");
     }
   });
-  let cursos = [
-    "Informática",
-    "Administração",
-    "Eletrotécnica",
-    "Energias Renováveis",
-    "Física",
-  ];
+  let cursos = CursosSelectOptions.map(({value}) => value);
   let validationSchema = Yup.object().shape({
     nome: Yup.string().required("Este campo é obrigatório"),
     cpf: Yup.string()
