@@ -1,7 +1,5 @@
 import { CSSProperties } from "react";
-import { useQuery } from "react-query";
-import { api } from "../../services/api";
-import { b64toBlob } from "../../utils/getProfilePic";
+import { useProfilePic } from "../../hooks/useProfilePic";
 import { isBlank } from "../../utils/isBlank";
 import { StyledProfilePic } from "./style";
 
@@ -11,32 +9,9 @@ type ProfilePicType = {
   className?: string;
   userId?: string | number;
 };
-type photoQueryType = {
-  id: string;
-  arquivo: {
-    nome: string;
-    tipoArquivo: string;
-    dados: string;
-  };
-};
+
 export function ProfilePic(props: ProfilePicType) {
-  const { data } = useQuery(
-    "profilePic-" + props.userId,
-    async () => {
-      const response = await api.get<photoQueryType>(`/imagem/fotoPerfil/${props.userId}`);
-      if (response.data) {
-        const blob = b64toBlob(response.data?.arquivo.dados, "image/png");
-        const url = URL.createObjectURL(blob);
-        return url;
-      }
-    },
-    {
-      enabled: !!props.userId,
-      refetchOnWindowFocus: false,
-      staleTime: 1000 * 30, // 30 seconds
-      
-    }
-  );
+  const { data } = useProfilePic(props.userId);
   return (
     <StyledProfilePic
       className={"profile-pic " + (props.className ?? "")}

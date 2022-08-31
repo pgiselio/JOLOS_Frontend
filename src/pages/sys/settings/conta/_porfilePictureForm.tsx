@@ -8,34 +8,39 @@ import { useDropzone } from "react-dropzone";
 import { queryClient } from "../../../../services/queryClient";
 import { ProfilePicFormStyle } from "./styles";
 import { Button } from "../../../../components/button";
+import { useProfilePic } from "../../../../hooks/useProfilePic";
 
 export function ProfilePictureForm() {
   const auth = useAuth();
   const [zoom, setZoom] = useState<number>(1);
   const [rotate, setRotate] = useState<number>(0);
   const [actualProfilePic, setActualProfilePic] = useState<any>(undefined);
-  const [newProfilePic, setnewProfilePic] = useState<File | undefined>(
-    undefined
-  );
+  const [newProfilePic, setnewProfilePic] = useState<File | undefined>(undefined);
   const emptyImage =
     "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
   const emptyImageBlobfied = useRef<any>("");
-  const isEmptyImage = useRef(false);
+  const [isEmptyImage, setIsEmptyImage] = useState(false);
+  const { data: queryImage } = useProfilePic(auth.userInfo?.id);
   useEffect(() => {
-    let emptyImageToBlobRequest = async () => {
-      await (await fetch(emptyImage)).blob();
+    const parseImages = async () => {
+      await (await fetch(emptyImage))
+        .blob()
+        .then((response: any) => (emptyImageBlobfied.current = response));
+      await (await fetch(queryImage + ""))
+        .blob()
+        .then((response: any) => setActualProfilePic(response));
     };
-    emptyImageBlobfied.current = emptyImageToBlobRequest;
-    let actualProfilePicToBlob = async () => {
-      await (
-        await fetch(
-          queryClient.getQueryData(["profilePic-" + auth.userInfo?.id]) || ""
-        )
-      ).blob();
-    };
-    setActualProfilePic(actualProfilePicToBlob);
-    if (emptyImageBlobfied.current === actualProfilePic) isEmptyImage.current = true;
+    parseImages();
   }, []);
+  useEffect(() => {
+    if (typeof actualProfilePic === typeof new Blob()) {
+      setIsEmptyImage(
+        emptyImageBlobfied.current.size === actualProfilePic.size
+      );
+    } else {
+      setIsEmptyImage(false);
+    }
+  });
   const avatarRef = useRef<AvatarEditor>(null);
   const { getRootProps, getInputProps, open } = useDropzone({
     accept: {
@@ -66,7 +71,8 @@ export function ProfilePictureForm() {
       .then((response) => {
         if (response.status === 200) {
           toast.success("Foto de perfil enviada com sucesso!");
-          queryClient.invalidateQueries(["profilePic-" + auth.userInfo?.id]);
+          // queryClient.invalidateQueries(["profilePic-" + auth.userInfo?.id]);
+          queryClient.setQueryData(["profilePic-" + auth.userInfo?.id], file);
         }
       })
       .catch((err) => {
@@ -82,16 +88,16 @@ export function ProfilePictureForm() {
   }
   async function removerFotoDePerfil() {
     const formData = new FormData();
-    const emptyImageBlobfied = await (await fetch(emptyImage)).blob();
-
-    formData.append("arquivo", emptyImageBlobfied);
+    formData.append("arquivo", emptyImageBlobfied.current);
     await api
       .post(`/imagem/uploadFotoPerfil/${auth.userInfo?.id}`, formData)
       .then((response) => {
         if (response.status === 200) {
           toast.success("Foto de perfil removida com sucesso!");
-          queryClient.invalidateQueries(["profilePic-" + auth.userInfo?.id]);
           setnewProfilePic(undefined);
+          setIsEmptyImage(true);
+          queryClient.setQueryData(["profilePic-" + auth.userInfo?.id], emptyImage);
+
         }
       })
       .catch((err) => {
@@ -119,15 +125,7 @@ export function ProfilePictureForm() {
               borderRadius: 5,
             }}
             ref={avatarRef}
-            image={
-              newProfilePic ||
-              (isEmptyImage
-                ? ""
-                : queryClient.getQueryData([
-                    "profilePic-" + auth.userInfo?.id,
-                  ])) ||
-              ""
-            }
+            image={newProfilePic || (!isEmptyImage && queryImage ? queryImage : "")}
             scale={zoom}
             backgroundColor="#ffffff"
             color={[230, 230, 230, 0.4]}
