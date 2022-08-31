@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../../../hooks/useAuth";
 import { api } from "../../../../services/api";
 import AvatarEditor from "react-avatar-editor";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { queryClient } from "../../../../services/queryClient";
 import { ProfilePicFormStyle } from "./styles";
@@ -13,10 +13,31 @@ export function ProfilePictureForm() {
   const auth = useAuth();
   const [zoom, setZoom] = useState<number>(1);
   const [rotate, setRotate] = useState<number>(0);
-  const [image, setImage] = useState<File | undefined>(undefined);
-  
+  const [actualProfilePic, setActualProfilePic] = useState<any>(undefined);
+  const [newProfilePic, setnewProfilePic] = useState<File | undefined>(
+    undefined
+  );
+  const emptyImage =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+  const emptyImageBlobfied = useRef<any>("");
+  const isEmptyImage = useRef(false);
+  useEffect(() => {
+    let emptyImageToBlobRequest = async () => {
+      await (await fetch(emptyImage)).blob();
+    };
+    emptyImageBlobfied.current = emptyImageToBlobRequest;
+    let actualProfilePicToBlob = async () => {
+      await (
+        await fetch(
+          queryClient.getQueryData(["profilePic-" + auth.userInfo?.id]) || ""
+        )
+      ).blob();
+    };
+    setActualProfilePic(actualProfilePicToBlob);
+    if (emptyImageBlobfied.current === actualProfilePic) isEmptyImage.current = true;
+  }, []);
   const avatarRef = useRef<AvatarEditor>(null);
-  const { getRootProps, getInputProps, open} = useDropzone({
+  const { getRootProps, getInputProps, open } = useDropzone({
     accept: {
       "image/*": [],
     },
@@ -24,14 +45,14 @@ export function ProfilePictureForm() {
     noClick: true,
     multiple: false,
     onDrop: (acceptedFiles) => {
-      setImage(acceptedFiles[0]);
+      setnewProfilePic(acceptedFiles[0]);
       setRotate(0);
       setZoom(1);
     },
   });
   const { handleSubmit } = useForm({
     defaultValues: {
-      arquivo: image,
+      arquivo: newProfilePic,
     },
   });
 
@@ -59,8 +80,36 @@ export function ProfilePictureForm() {
         }
       });
   }
+  async function removerFotoDePerfil() {
+    const formData = new FormData();
+    const emptyImageBlobfied = await (await fetch(emptyImage)).blob();
+
+    formData.append("arquivo", emptyImageBlobfied);
+    await api
+      .post(`/imagem/uploadFotoPerfil/${auth.userInfo?.id}`, formData)
+      .then((response) => {
+        if (response.status === 200) {
+          toast.success("Foto de perfil removida com sucesso!");
+          queryClient.invalidateQueries(["profilePic-" + auth.userInfo?.id]);
+          setnewProfilePic(undefined);
+        }
+      })
+      .catch((err) => {
+        if (err.status === 500) {
+          toast.error("Ops... algo não deu certo!", {});
+        }
+        if (err.status === 403 || err.status === 401) {
+          toast.error("Você não tem autorização para executar essa ação!");
+        } else {
+          console.error(err);
+        }
+      });
+  }
   return (
-    <ProfilePicFormStyle onSubmit={handleSubmit(onSubmit)} id="profile-pic-form" >
+    <ProfilePicFormStyle
+      onSubmit={handleSubmit(onSubmit)}
+      id="profile-pic-form"
+    >
       <div {...getRootProps({ className: "dropzone" })}>
         <div className="preview">
           <AvatarEditor
@@ -71,8 +120,12 @@ export function ProfilePictureForm() {
             }}
             ref={avatarRef}
             image={
-              image ||
-              queryClient.getQueryData(["profilePic-" + auth.userInfo?.id]) ||
+              newProfilePic ||
+              (isEmptyImage
+                ? ""
+                : queryClient.getQueryData([
+                    "profilePic-" + auth.userInfo?.id,
+                  ])) ||
               ""
             }
             scale={zoom}
@@ -144,10 +197,18 @@ export function ProfilePictureForm() {
           <i className="fa-solid fa-arrow-rotate-right"></i>
         </button>
       </div>
-      <Button type="button" className="select-new less-radius secondary" onClick={open}>
+      <Button
+        type="button"
+        className="select-new less-radius secondary"
+        onClick={open}
+      >
         <i className="fa-solid fa-camera"></i> Selecionar nova foto
       </Button>
-      <Button type="button" className="select-new less-radius secondary" onClick={() => toast.info("Na lista de ToDo")}>
+      <Button
+        type="button"
+        className="select-new less-radius secondary"
+        onClick={() => removerFotoDePerfil()}
+      >
         <i className="fa-solid fa-trash"></i> Remover foto atual
       </Button>
     </ProfilePicFormStyle>

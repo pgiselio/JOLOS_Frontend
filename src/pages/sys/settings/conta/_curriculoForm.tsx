@@ -83,16 +83,24 @@ export function CurriculoForm() {
             Math.round((progressEvent.loaded * 100) / progressEvent.total)
           );
           if (toastId.current === null) {
-            toastId.current = toast("Enviando currículo...", {
-              progress,
-              isLoading: true,
-              theme: "light",
-              progressStyle: { background: "var(--accent-color)" },
-              autoClose: false,
-              closeButton: false,
-              closeOnClick: false,
-              position: "bottom-right",
-            });
+            toastId.current = toast(
+              <div style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>
+                Enviando currículo...
+                <Button type="button" title="Cancelar envio" className="less-radius red" onClick={() => console.log("EITAAAA")}>
+                  <i className="fas fa-close"></i>
+                </Button>
+              </div>,
+              {
+                progress,
+                isLoading: true,
+                theme: "light",
+                progressStyle: { background: "var(--accent-color)" },
+                autoClose: false,
+                closeButton: false,
+                closeOnClick: false,
+                position: "bottom-right",
+              }
+            );
           } else {
             toast.update(toastId.current, { progress });
           }
@@ -118,7 +126,7 @@ export function CurriculoForm() {
       .finally(() => {
         setSending(false);
         setSendingProgress(0);
-        if(toastId.current !== null) {
+        if (toastId.current !== null) {
           toast.dismiss(toastId.current);
         }
         toastId.current = null;

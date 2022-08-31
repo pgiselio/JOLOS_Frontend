@@ -1,5 +1,5 @@
 import { ReactNode, useRef } from "react";
-import { Box, BoxContent, BoxTitle } from "../box";
+import { BoxContent, BoxTitle } from "../box";
 import { Button } from "../button";
 import { ModalStyle } from "./style";
 
