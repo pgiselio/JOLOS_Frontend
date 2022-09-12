@@ -171,7 +171,7 @@ export function VagaCandidatoPage() {
               )}
 
               <div className="lista-candidatos-actions">
-                <p>
+                <p className="selected-counter">
                   {checkedList.length}/{data.alunos.length} selecionados
                 </p>
 

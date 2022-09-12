@@ -14,6 +14,9 @@ export const useProfilePic = (userId: string | number | undefined) => {
   const query = useQuery(
     "profilePic-" + userId,
     async () => {
+      if (!userId || userId === "undefined"){
+        return;
+      }
       const response = await api.get<photoQueryType>(
         `/imagem/fotoPerfil/${userId}`
       );

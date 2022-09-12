@@ -173,6 +173,11 @@ export const VagaPageStyle = styled.section`
     padding: 10px;
     display: flex;
     justify-content: end;
+    .selected-counter {
+      font-family: "Roboto", sans-serif;
+      font-weight: 500;
+      padding-right: 5px;
+    }
   }
 
   .lista-candidatos-actions > * {

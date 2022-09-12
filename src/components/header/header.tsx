@@ -23,9 +23,9 @@ export function Header(props: any) {
               <span></span>
             </div>
           </button>
-          <Link to="/" className="logo-link">
+          <a href="/sys" className="logo-link">
             <img src="/images/logo.svg" className="logo" alt="logo projeto" />
-          </Link>
+          </a>
 
           <button
             className="btn-notify"

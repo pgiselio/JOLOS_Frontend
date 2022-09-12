@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Box } from "../../../components/box";
 
 export const Container = styled.section`
   .topics {
@@ -76,5 +77,63 @@ export const Container = styled.section`
         }
       }
     }
+  }
+`;
+export const NewAnswer = styled(Box)`
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  button[type="submit"] {
+    align-self: flex-end;
+  }
+  .new-answer-field {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100px;
+    resize: vertical;
+  }
+`;
+
+export const ForumTopic = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 10px 0;
+  position: relative;
+  .topic-message {
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+  }
+  .sender-detail {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 10px;
+    span {
+      color: var(--text-b);
+      font-size: 14px
+    }
+  }
+  .message {
+    padding: 10px;
+    padding-left: 70px;
+    color: var(--text-a);
+    font-size: 15px;
+  }
+  & ~ & {
+    border-top: 1px solid var(--outline-color);
+  }
+  & > &::before{
+    content: " ";
+    height: 100%;
+    width: 2px;
+    background-color: red;
+    position: absolute;
+    left: calc(10px + 25px);
+    top: -90%;
+    z-index: 1;
   }
 `;

@@ -1,10 +1,6 @@
 import styled from "styled-components";
 
 export const ProfilePageStyle = styled.section`
-  .user-info .profile-pic {
-    width: 50px;
-    height: 50px;
-  }
   .profile-page-header {
     display: flex;
     padding: 20px 15px;
@@ -31,10 +27,15 @@ export const ProfilePageStyle = styled.section`
   }
   .user-info {
     display: flex;
+    flex-direction: column;
     align-items: center;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    .profile-pic {
+      width: 80px;
+      height: 80px;
+    }
   }
   .profile-page-info {
     display: flex;
@@ -66,7 +67,7 @@ export const ProfilePageStyle = styled.section`
   }
 
   .profile-names {
-    margin-left: 10px;
+    margin-top: 10px;
     font-size: 12px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -74,15 +75,21 @@ export const ProfilePageStyle = styled.section`
     width: calc(100% - 60px);
 
     h2 {
+      display: flex;
+      justify-content: center;
       font-size: 20px;
       font-weight: 500;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
     span{
+      display: flex;
+      justify-content: center;
       font-family: "Roboto", sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-b);
     }
   }
 
@@ -151,19 +158,13 @@ export const ProfilePageStyle = styled.section`
       padding: 35px 40px;
       padding-top: 125px;
     }
-    .profile-page-header-container {
-      grid-template-columns: 1fr auto;
-      grid-template-rows: 1fr auto;
-    }
-    .profile-names {
-      width: calc(100% - 90px);
-    }
     .user-actions {
-      margin-top: 0;
+      flex-direction: row-reverse;
+      justify-content: flex-start;
     }
     .user-info .profile-pic {
-      width: 80px;
-      height: 80px;
+      width: 130px;
+      height: 130px;
     }
   }
 `;
