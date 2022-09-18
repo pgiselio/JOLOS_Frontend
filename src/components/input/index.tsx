@@ -13,10 +13,11 @@ import {
 interface input extends InputHTMLAttributes<HTMLInputElement> {
   type: HTMLInputTypeAttribute;
   icon?: string;
+  isLabelholder?: boolean;
 }
 
 export const Input = React.forwardRef(function (
-  { name, type, icon, placeholder, ...rest }: input,
+  { name, type, icon, placeholder, isLabelholder = true, ...rest }: input,
   ref: React.ForwardedRef<HTMLInputElement>
 ) {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,10 +31,10 @@ export const Input = React.forwardRef(function (
           ref={ref}
           {...rest}
           {...(icon && { hasIcon: true })}
-          {...(placeholder && { hasPlaceholder: true})}
+          {...((placeholder && isLabelholder) && { isLabelholder: true})}
         />
         {icon && <i className={icon}></i>}
-        {placeholder && <span className="placeholder">{placeholder}</span>}
+        {placeholder && <span className={`placeholder ${isLabelholder ? "toLabel" : ""}`}>{placeholder}</span>}
         <ShowPasswordButton
           tabIndex={-1}
           type="button"
@@ -54,10 +55,10 @@ export const Input = React.forwardRef(function (
           ref={ref}
           {...rest}
           {...(icon && { hasIcon: true })}
-          {...(placeholder && { hasPlaceholder: true})}
+          {...((placeholder && isLabelholder) && { isLabelholder: true})}
         />
         {icon && <i className={icon}></i>}
-        {placeholder && <span className="placeholder">{placeholder}</span>}
+        {placeholder && <span className={`placeholder ${isLabelholder ? "toLabel" : ""}`}>{placeholder}</span>}
       </InputContainer>
     );
   }

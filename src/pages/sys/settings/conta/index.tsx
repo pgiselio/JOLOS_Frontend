@@ -255,11 +255,12 @@ export default function SettingContaPage() {
               <AccordionButton className="autohide-sub">
                 <h4>Curso e período</h4>
                 <span className="subtitle">
-                  {auth.userInfo?.aluno?.curso + " "} 
+                  {auth.userInfo?.aluno?.curso + " "}
                   {auth.userInfo?.aluno?.periodo}º período
                 </span>
               </AccordionButton>
               <AccordionPanel>
+                <label htmlFor="change-courses">Curso: </label>
                 <Controller
                   name={"curso"}
                   control={control}
@@ -285,20 +286,20 @@ export default function SettingContaPage() {
                   }}
                 />
                 <div className="lbl" style={{ maxWidth: "70px" }}>
-                  <label htmlFor="periodo">Período: </label>
+                  <label htmlFor="periodo"></label>
                   <Controller
                     name="periodo"
                     control={control}
                     render={({ field }) => (
-                        <Input
-                          type="number"
-                          min={0}
-                          id="periodo"
-                          placeholder="Período"
-                          style={{ textAlign: "center" }}
-                          {...field}
-                          {...(errors.periodo && { className: "danger" })}
-                        />
+                      <Input
+                        type="number"
+                        min={1}
+                        id="periodo"
+                        placeholder="Período"
+                        style={{ textAlign: "center" }}
+                        {...field}
+                        {...(errors.periodo && { className: "danger" })}
+                      />
                     )}
                   />
                 </div>
@@ -353,7 +354,6 @@ export default function SettingContaPage() {
             <AccordionPanel>
               <div className="input-group">
                 <div className="lbl">
-                  <label htmlFor="cidade">Cidade: </label>
                   <Controller
                     name="cidade"
                     control={control}
@@ -370,7 +370,6 @@ export default function SettingContaPage() {
                   <p className="input-error">{errors.cidade?.message}</p>
                 </div>
                 <div className="lbl" style={{ maxWidth: "60px" }}>
-                  <label htmlFor="uf">UF: </label>
                   <Controller
                     name="uf"
                     control={control}

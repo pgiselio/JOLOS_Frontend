@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 interface InputProps {
   hasIcon?: boolean;
-  hasPlaceholder?: boolean;
+  isLabelholder?: boolean;
   [x: string]: any;
 }
 export const InputStyle = css`
@@ -30,8 +30,8 @@ export const InputStyle = css`
 export const InputStyled = styled.input<InputProps>`
   ${InputStyle}
   padding-left: ${(props) => (props.hasIcon ? "40px" : "10px")};
-  padding-top: ${(props) => (props.hasPlaceholder ? "20px" : "15px")};
-  padding-bottom: ${(props) => (props.hasPlaceholder ? "10px" : "15px")};
+  padding-top: ${(props) => (props.isLabelholder ? "20px" : "15px")};
+  padding-bottom: ${(props) => (props.isLabelholder ? "10px" : "15px")};
 `;
 
 export const InputPassStyled = styled(InputStyled)`
@@ -60,9 +60,14 @@ export const InputContainer = styled.div`
     text-overflow: ellipsis;
   }
   input:not([value=""]) ~ .placeholder, input:focus ~ .placeholder{
+    display: none;
+  }
+  input:not([value=""]) ~ .placeholder.toLabel, input:focus ~ .placeholder.toLabel{
+    display: block;
     transform: translateY(-115%);
     font-size: 11px;
   }
+  
   i ~ .placeholder {
     padding-left: 42px;
   }

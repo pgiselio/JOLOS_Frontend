@@ -98,7 +98,7 @@ export default function CadastrarEmpresaPage() {
           <form id="cadastrar-nova-empresa-form" onSubmit={handleSubmit(onHandleSubmit)}>
             <div className="inputs">
               <div className="lbl">
-                <label htmlFor="email">E-mail: </label>
+                <label htmlFor="email"></label>
                 <Controller
                   name="email"
                   control={control}
@@ -116,7 +116,7 @@ export default function CadastrarEmpresaPage() {
                 <p className="input-error">{errors.email?.message}</p>
               </div>
               <div className="lbl">
-                <label htmlFor="nome">Nome fantasia: </label>
+                <label htmlFor="nome"> </label>
                 <Controller
                   name="nome"
                   control={control}
@@ -134,7 +134,7 @@ export default function CadastrarEmpresaPage() {
                 <p className="input-error">{errors.nome?.message}</p>
               </div>
               <div className="lbl">
-                <label htmlFor="cnpj">CNPJ: </label>
+                <label htmlFor="cnpj"></label>
                 <Controller
                   name="cnpj"
                   control={control}
@@ -157,7 +157,7 @@ export default function CadastrarEmpresaPage() {
                 <p className="input-error">{errors.cnpj?.message}</p>
               </div>
               <div className="lbl">
-                <label htmlFor="telefone">Telefone: </label>
+                <label htmlFor="telefone"> </label>
                 <Controller
                   name="telefone"
                   control={control}
@@ -175,7 +175,7 @@ export default function CadastrarEmpresaPage() {
                 <p className="input-error">{errors.telefone?.message}</p>
               </div>
               <div className="lbl">
-                <label htmlFor="dataNascimento">Data de fundação: </label>
+                <label htmlFor="dataNascimento"></label>
                 <Controller
                   name="dataFundacao"
                   control={control}
@@ -199,7 +199,7 @@ export default function CadastrarEmpresaPage() {
               </div>
               <div className="input-group">
                 <div className="lbl">
-                  <label htmlFor="cidade">Cidade: </label>
+                  <label htmlFor="cidade"></label>
                   <Controller
                     name="cidade"
                     control={control}
@@ -217,7 +217,7 @@ export default function CadastrarEmpresaPage() {
                   <p className="input-error">{errors.cidade?.message}</p>
                 </div>
                 <div className="lbl" style={{ maxWidth: "60px" }}>
-                  <label htmlFor="UF">UF: </label>
+                  <label htmlFor="UF"> </label>
                   <Controller
                     name="UF"
                     control={control}
