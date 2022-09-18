@@ -2,10 +2,12 @@ import styled, { css } from "styled-components";
 
 interface InputProps {
   hasIcon?: boolean;
+  hasPlaceholder?: boolean;
   [x: string]: any;
 }
 export const InputStyle = css`
   font-family: "Roboto", sans-serif;
+  font-size: 14px;
   border: 1px solid var(--outline-color);
   border-radius: 5px;
   padding: 10px 8px;
@@ -28,6 +30,8 @@ export const InputStyle = css`
 export const InputStyled = styled.input<InputProps>`
   ${InputStyle}
   padding-left: ${(props) => (props.hasIcon ? "40px" : "10px")};
+  padding-top: ${(props) => (props.hasPlaceholder ? "20px" : "15px")};
+  padding-bottom: ${(props) => (props.hasPlaceholder ? "10px" : "15px")};
 `;
 
 export const InputPassStyled = styled(InputStyled)`
@@ -35,16 +39,40 @@ export const InputPassStyled = styled(InputStyled)`
 `;
 
 export const InputContainer = styled.div`
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
   display: flex;
   position: relative;
   width: 100%;
+  .placeholder {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    pointer-events: none;
+    transition: all .2s ease;
+    padding-left: 10px;
+    color: var(--text-b);
+    max-height: 20px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  input:not([value=""]) ~ .placeholder, input:focus ~ .placeholder{
+    transform: translateY(-115%);
+    font-size: 11px;
+  }
+  i ~ .placeholder {
+    padding-left: 42px;
+  }
   input {
     width: 100%;
   }
   i {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: calc(50% + 10px);
+    transform: translateY(calc(-50% - 10px));
     left: 0;
     width: 42px;
     display: flex;

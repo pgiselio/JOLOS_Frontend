@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Select from "react-select";
+import { InputStyle } from "../input/styles";
 
 export const CustomSelect = styled(Select).attrs((props) => ({
   classNamePrefix: "Select",
@@ -8,24 +9,29 @@ export const CustomSelect = styled(Select).attrs((props) => ({
     : props.noOptionsMessage,
 }))`
   .Select__control {
-    font-family: "Roboto", sans-serif;
-    font-size: 13px;
-    border-color: var(--outline-color);
-    border-radius: 5px;
-    box-shadow: 0 0 0 0 rgba(45, 143, 65, 0.308);
-    transition: box-shadow 0.4s, border 0.2s, background 0.2s linear;
-    color: var(--text-a);
-    background: #ffffff1a;
+    ${InputStyle}
+    padding: 5.5px 8px;
     &:hover {
-      border-color: var(--accent-color);
+      border-color: var(--outline-color);
     }
   }
   .Select__control--is-focused {
     border-color: var(--accent-color);
     box-shadow: 0 0 0 0.2rem rgba(45, 143, 65, 0.308);
+    &:hover {
+      border-color: var(--accent-color);
+    }
+  }
+  .Select__placeholder {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-b);
   }
   .Select__input-container {
     color: var(--text-a);
+  }
+  .Select__value-container {
+    padding: 0;
   }
   .Select__single-value {
     color: var(--text-a);

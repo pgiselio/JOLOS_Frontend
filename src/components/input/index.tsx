@@ -16,7 +16,7 @@ interface input extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const Input = React.forwardRef(function (
-  { name, type, icon, ...rest }: input,
+  { name, type, icon, placeholder, ...rest }: input,
   ref: React.ForwardedRef<HTMLInputElement>
 ) {
   const [showPassword, setShowPassword] = useState(false);
@@ -30,8 +30,10 @@ export const Input = React.forwardRef(function (
           ref={ref}
           {...rest}
           {...(icon && { hasIcon: true })}
+          {...(placeholder && { hasPlaceholder: true})}
         />
         {icon && <i className={icon}></i>}
+        {placeholder && <span className="placeholder">{placeholder}</span>}
         <ShowPasswordButton
           tabIndex={-1}
           type="button"
@@ -50,10 +52,12 @@ export const Input = React.forwardRef(function (
           type={type}
           name={name}
           ref={ref}
-          {...(icon && { hasIcon: true })}
           {...rest}
+          {...(icon && { hasIcon: true })}
+          {...(placeholder && { hasPlaceholder: true})}
         />
         {icon && <i className={icon}></i>}
+        {placeholder && <span className="placeholder">{placeholder}</span>}
       </InputContainer>
     );
   }

@@ -127,7 +127,6 @@ export function CriarNovaVagaForm() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="lbl">
-        <label htmlFor="vaga-title">Título:</label>
         <Controller
           name="titulo"
           control={control}
@@ -135,7 +134,7 @@ export function CriarNovaVagaForm() {
             <Input
               type="text"
               id="vaga-title"
-              placeholder="Jovem aprendiz na área de manutenção"
+              placeholder="Título"
               {...field}
               {...(errors.titulo && { className: "danger" })}
             />
@@ -145,7 +144,7 @@ export function CriarNovaVagaForm() {
       </div>
       <div className="form-item-group" style={{ width: "100%" }}>
         <div className="lbl">
-          <label htmlFor="vaga-location">Localização da vaga: </label>
+          <label htmlFor="vaga-location"> </label>
           <Controller
             name="localidade"
             control={control}
@@ -153,7 +152,7 @@ export function CriarNovaVagaForm() {
               <Input
                 type="text"
                 id="vaga-location"
-                placeholder="ex.: João Câmara, RN"
+                placeholder="Localização da vaga"
                 {...field}
                 {...(errors.localidade && { className: "danger" })}
               />
@@ -162,7 +161,7 @@ export function CriarNovaVagaForm() {
           <p className="input-error">{errors.localidade?.message}</p>
         </div>
         <div className="lbl">
-          <label htmlFor="change-courses">Curso alvo: </label>
+          <label htmlFor="change-courses"> </label>
           <Controller
             name={"cursoAlvo"}
             control={control}
@@ -173,7 +172,7 @@ export function CriarNovaVagaForm() {
                   ref={ref}
                   inputId="change-courses"
                   options={CursosSelectOptions}
-                  placeholder="Selecione um curso"
+                  placeholder="Curso alvo"
                   onChange={(option: any) => onChange(option?.value)}
                   onBlur={onBlur}
                   value={CursosSelectOptions.filter((option) =>
