@@ -28,6 +28,7 @@ import GerenciamentoPage from "./pages/sys/gerenciamento";
 import CadastrarEmpresaPage from "./pages/sys/gerenciamento/cadastrar/empresa";
 import PasswordResetPage from "./pages/recuperar-senha";
 import HomePage from "./pages/sys/home";
+import VerificarAlunoPage from "./pages/sys/authsuap";
 
 const LandingPage = lazy(() => import("./pages"));
 const LoginPage = lazy(() => import("./pages/entrar"));
@@ -144,6 +145,7 @@ export const AppRoutes = () => {
           <Route path="settings" element={<SettingsPage />}>
             <Route path="conta" element={<SettingContaPage />} />
           </Route>
+          <Route path="authsuap" element={<VerificarAlunoPage/>}/>
         </Route>
       </Routes>
       {state?.modalLocation && (

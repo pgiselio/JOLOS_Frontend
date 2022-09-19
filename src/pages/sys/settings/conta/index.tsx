@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionPanel,
 } from "@reach/accordion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import ReactInputMask from "react-input-mask";
 import { toast } from "react-toastify";
@@ -24,13 +24,15 @@ import { Button } from "../../../../components/button";
 import { ModalBottom } from "../../../../components/modal/style";
 import { CursosSelectOptions } from "../../../../utils/cursosForSelect";
 import { CustomSelect } from "../../../../components/select";
+import { SuapClient } from "../../../../services/suapapi/client";
+import { SuapApiSettings } from "../../../../services/suapapi/settings";
 
 export default function SettingContaPage() {
   const auth = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [showModalPic, setShowModalPic] = useState(false);
   const [showModalCurriculo, setShowModalCurriculo] = useState(false);
-
+ 
   const {
     control,
     formState: { isDirty, errors },
@@ -229,7 +231,7 @@ export default function SettingContaPage() {
           icon="fas fa-calendar-day"
         />
       )}
-
+     
       <Accordion collapsible multiple>
         <form>
           <AccordionItem>
