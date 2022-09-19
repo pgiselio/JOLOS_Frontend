@@ -14,7 +14,7 @@ export default function HomePage() {
   NewSuapClient.init();
   const [resourceResponse, setResourceResponse] = useState("");
   const Callback = (response: any) => {
-    setResourceResponse(JSON.stringify(response.data));
+    setResourceResponse(JSON.stringify(response.data, null, 4));
     console.log(resourceResponse)
   };
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function HomePage() {
             <span>
               {" "}
               <strong>SIM</strong> <Button onClick={() => NewSuapClient.logout()}>Logout</Button>
-              <textarea defaultValue={resourceResponse}></textarea>
+              <textarea style={{width: 430, height: 300, maxWidth: "100%"}} defaultValue={resourceResponse}></textarea>
             </span>
           )}
         </p>
