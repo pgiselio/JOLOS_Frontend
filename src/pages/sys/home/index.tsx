@@ -36,7 +36,7 @@ export default function HomePage() {
           {!NewSuapClient.isAuthenticated() ? (
             <span>
               {" "}
-              não{" "}
+              NÃO{" "}
               <a
                 href={NewSuapClient.getLoginURL() + ""}
                 target="popup"
@@ -58,7 +58,7 @@ export default function HomePage() {
           ) : (
             <span>
               {" "}
-              sim <Button onClick={() => NewSuapClient.logout()}>Logout</Button>
+              <strong>SIM</strong> <Button onClick={() => NewSuapClient.logout()}>Logout</Button>
               <textarea defaultValue={resourceResponse}></textarea>
             </span>
           )}
