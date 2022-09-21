@@ -44,7 +44,10 @@ export default function LoginPage() {
             toast.error("Você precisa resetar sua senha!", {});
             break;
           case "checkEmail":
-            toast.info("Verifique o seu e-mail", {});
+            toast.info(
+              "Caso esteja cadastrado, você receberá um e-mail com as instruções para redefinir sua senha.",
+              {}
+            );
             break;
           case "invalidResetToken":
             toast.error("O link já expirou, tente novamente", {});
@@ -140,9 +143,9 @@ export default function LoginPage() {
               />
             </div>
             <div>
-              <Link to="/recuperar-senha/" className="pwrst-link">
+              <a href="/recuperar-senha/" className="pwrst-link">
                 Esqueceu a senha?
-              </Link>
+              </a>
             </div>
 
             <Button

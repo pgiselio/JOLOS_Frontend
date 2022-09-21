@@ -9,10 +9,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { Buffer } from "buffer";
+import ReCAPTCHA from "react-google-recaptcha";
 export default function PasswordResetPage() {
   const [searchParams] = useSearchParams();
   const [token, setToken] = useState("");
-  
+
   const navigate = useNavigate();
   const paramsToken = searchParams.get("token");
 
@@ -31,18 +32,27 @@ export default function PasswordResetPage() {
       setToken(paramsToken);
     }
   }, []);
+
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("Endereço de e-mail inválido")
       .required("Este campo é obrigatório"),
+    recaptcha: Yup.string().required("Você precisa verificar se é um robô"),
   });
-  const { control, formState, handleSubmit, reset } = useForm({
-    mode: "onChange",
-    defaultValues: {
-      email: "",
-    },
-    resolver: yupResolver(validationSchema),
-  });
+  const { control, formState, handleSubmit, setValue, reset, register } =
+    useForm({
+      mode: "onChange",
+      defaultValues: {
+        email: "",
+        recaptcha: "",
+      },
+      resolver: yupResolver(validationSchema),
+    });
+
+  const handleRecaptcha = (value: any) => {
+    console.log("Captcha value:", value);
+    setValue("recaptcha", value);
+  };
 
   const newPasswordFormValidationSchema = Yup.object().shape({
     password: Yup.string()
@@ -69,17 +79,23 @@ export default function PasswordResetPage() {
     await api.get(`/usuario/recuperar/${data.email}`).finally(() => {
       toast.info("E-mail de recuperação de senha enviado!");
       reset();
-      navigate("/entrar?error=checkEmail");
+      window.location.href = "/entrar?error=checkEmail";
     });
   }
   async function onSubmitNewPassword(data: any) {
-    api.patch("/usuario/senha", {senha: data.password, token: token}, {
-      headers: {
-        Authorization: token,
-      }
-    }).then(() => {
-      navigate("/entrar?error=passwordChanged");
-    });
+    api
+      .patch(
+        "/usuario/senha",
+        { senha: data.password, token: token },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then(() => {
+        navigate("/entrar?error=passwordChanged");
+      });
   }
   return (
     <StyledAccess>
@@ -188,13 +204,24 @@ export default function PasswordResetPage() {
                     />
                   )}
                 />
+                <p className="input-error">{formState.errors.email?.message}</p>
               </div>
-              <div className="info-message">
-                <span>
-                  Caso o e-mail esteja cadastrado, você receberá um e-mail com
-                  as instruções para redefinir sua senha.
-                </span>
-              </div>
+              <Controller
+                name="recaptcha"
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field }) => (
+                  <ReCAPTCHA
+                    sitekey="6Lf5FBUiAAAAAAE6cTrZRsII_MKMFIL5dm5k9WPE"
+                    {...field}
+                  />
+                )}
+              />
+              <p className="input-error">
+                {formState.errors.recaptcha?.message}
+              </p>
               <div>
                 <Link to="/entrar/" className="pwrst-link">
                   <i className="fa-solid fa-arrow-left"></i> Voltar para o login

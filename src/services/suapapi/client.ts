@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 /**
  * Classe que representa um token de autorização.
  *

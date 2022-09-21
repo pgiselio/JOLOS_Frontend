@@ -51,7 +51,7 @@ export const InputContainer = styled.div`
     font-size: 14px;
     pointer-events: none;
     transition: all .2s ease;
-    padding-left: 10px;
+    left: 11px;
     color: var(--text-b);
     max-height: 20px;
     max-width: 100%;
@@ -64,12 +64,12 @@ export const InputContainer = styled.div`
   }
   input:not([value=""]) ~ .placeholder.toLabel, input:focus ~ .placeholder.toLabel{
     display: block;
-    transform: translateY(-115%);
+    transform: translateY(-130%);
     font-size: 11px;
   }
   
   i ~ .placeholder {
-    padding-left: 42px;
+    left: 42px;
   }
   input {
     width: 100%;
