@@ -46,7 +46,9 @@ export default function LoginPage() {
           case "checkEmail":
             toast.info(
               "Caso esteja cadastrado, você receberá um e-mail com as instruções para redefinir sua senha.",
-              {}
+              {
+                autoClose: 20000,
+              }
             );
             break;
           case "invalidResetToken":
