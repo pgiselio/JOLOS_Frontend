@@ -66,10 +66,11 @@ export const InputContainer = styled.div`
     display: block;
     transform: translateY(-130%);
     font-size: 11px;
+    font-weight: 600;
   }
   
   i ~ .placeholder {
-    left: 42px;
+    left: 41px;
   }
   input {
     width: 100%;

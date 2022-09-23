@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Box, BoxContent, BoxTitle } from "../../../../components/box";
 import { Button } from "../../../../components/button";
@@ -10,6 +11,7 @@ export default function ForumTopicPage() {
   let location = useLocation();
   const navigate = useNavigate();
   let params = useParams();
+  const answerTextRef = useRef<HTMLTextAreaElement>(null);
   return (
     <>
       <section style={{ minHeight: "100vh" }}>
@@ -19,7 +21,7 @@ export default function ForumTopicPage() {
             <Button
               className="outlined"
               onClick={() =>
-                navigate("responder", { state: { modalLocation: location } })
+                answerTextRef.current?.focus()
               }
               key="criar-resposta"
             >
@@ -106,6 +108,7 @@ export default function ForumTopicPage() {
                   name="newanswer"
                   id="newanswerfield"
                   className="new-answer-field"
+                  ref={answerTextRef}
                 ></textarea>
                 <Button type="submit">
                   Enviar <i className="fa-solid fa-paper-plane"></i>

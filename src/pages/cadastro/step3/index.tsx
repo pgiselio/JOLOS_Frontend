@@ -13,11 +13,11 @@ import { toast } from "react-toastify";
 import { userAlunoType } from "../../../contexts/CadastroContext/types";
 import { convertFromStringToDate } from "../../../utils/convertStringToDateFormat";
 import { CustomSelect } from "../../../components/select";
-import { CursosSelectOptions } from "../../../utils/cursosForSelect";
+import { CursosSelectOptions, UFsSelectOptions } from "../../../utils/selectLists";
 
 export function CadastroStep3() {
   const [isLoading, setIsLoading] = useState(false);
-  
+
   let navigate = useNavigate();
   const cadastroSteps = useCadastroSteps();
 
@@ -26,7 +26,8 @@ export function CadastroStep3() {
       navigate("..");
     }
   });
-  let cursos = CursosSelectOptions.map(({value}) => value);
+  let cursos = CursosSelectOptions.map(({ value }) => value);
+  let unidadesFederativas = UFsSelectOptions.map(({ value }) => value);
   let validationSchema = Yup.object().shape({
     nome: Yup.string().required("Este campo é obrigatório"),
     cpf: Yup.string()
@@ -38,12 +39,14 @@ export function CadastroStep3() {
         "Data inválida",
         (value: any) =>
           convertFromStringToDate(value).toString() !== "Invalid Date" &&
-          convertFromStringToDate(value) <= new Date()
+          convertFromStringToDate(value) <= new Date() &&
+          convertFromStringToDate(value) >= new Date("1500-01-01")
       )
       .required("Este campo é obrigatório")
       .min(10, "Data inválida"),
     cidade: Yup.string().required("Este campo é obrigatório"),
-    UF: Yup.string().required("").min(2, ""),
+    UF: Yup.string().oneOf([...unidadesFederativas], "O estado não é válido")
+    .required("Este campo é obrigatório"),
     curso: Yup.string()
       .oneOf([...cursos], "O curso selecionado não é válido")
       .required("Este campo é obrigatório"),
@@ -172,6 +175,34 @@ export function CadastroStep3() {
             </div>
             <div className="input-group">
               <div className="lbl">
+                <label htmlFor="estado">Estado: </label>
+                <Controller
+                  name="UF"
+                  control={control}
+                  render={({ field: { value, onChange, onBlur, ref } }) => (
+                    <CustomSelect
+                      noOptionsMessage={() => "Não encontrado"}
+                      ref={ref}
+                      inputId="estado"
+                      options={UFsSelectOptions}
+                      placeholder="Selecione um estado"
+                      onChange={(option: any) => onChange(option?.value)}
+                      onBlur={onBlur}
+                      value={UFsSelectOptions.filter((option) =>
+                        value?.includes(option.value)
+                      )}
+                      defaultValue={UFsSelectOptions.filter((option) =>
+                        value?.includes(option.value)
+                      )}
+                      className={`custom-select ${
+                        errors.UF?.message && "danger"
+                      }`}
+                    />
+                  )}
+                />
+                <p className="input-error">{errors.UF?.message}</p>
+              </div>
+              <div className="lbl">
                 <label htmlFor="cidade">Cidade: </label>
                 <Controller
                   name="cidade"
@@ -189,29 +220,11 @@ export function CadastroStep3() {
                 />
                 <p className="input-error">{errors.cidade?.message}</p>
               </div>
-              <div className="lbl" style={{ maxWidth: "60px" }}>
-                <label htmlFor="UF">UF: </label>
-                <Controller
-                  name="UF"
-                  control={control}
-                  render={({ field }) => (
-                    <ReactInputMask maskPlaceholder={null} mask="aa" {...field}>
-                      <Input
-                        type="text"
-                        id="UF"
-                        placeholder="UF"
-                        {...(errors.UF && { className: "danger" })}
-                      />
-                    </ReactInputMask>
-                  )}
-                />
-                <p className="input-error">{errors.UF?.message}</p>
-              </div>
             </div>
 
             <div className="input-group no-wrap">
               <div className="lbl">
-                <label htmlFor="curso">Curso: </label>
+                <label htmlFor="change-courses">Curso: </label>
 
                 <Controller
                   name="curso"
@@ -240,12 +253,6 @@ export function CadastroStep3() {
                 <p className="input-error">{errors.curso?.message}</p>
               </div>
 
-              <datalist id="courses">
-                {cursos.map((course) => (
-                  <option value={course} key={course}></option>
-                ))}
-              </datalist>
-
               <div className="lbl" style={{ maxWidth: "70px" }}>
                 <label htmlFor="periodo">Período: </label>
                 <Controller
@@ -256,7 +263,6 @@ export function CadastroStep3() {
                       <Input
                         type="text"
                         id="periodo"
-                        placeholder="Período"
                         style={{ textAlign: "center" }}
                         {...(errors.periodo && { className: "danger" })}
                       />

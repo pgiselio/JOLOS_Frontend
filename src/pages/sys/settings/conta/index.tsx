@@ -6,7 +6,6 @@ import {
 } from "@reach/accordion";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import ReactInputMask from "react-input-mask";
 import { toast } from "react-toastify";
 import CircularProgressFluent from "../../../../components/circular-progress-fluent";
 import { FabButton } from "../../../../components/fab";
@@ -22,17 +21,19 @@ import { Modal } from "../../../../components/modal";
 import { ProfilePictureForm } from "./_porfilePictureForm";
 import { Button } from "../../../../components/button";
 import { ModalBottom } from "../../../../components/modal/style";
-import { CursosSelectOptions } from "../../../../utils/cursosForSelect";
+import {
+  CursosSelectOptions,
+  UFsSelectOptions,
+} from "../../../../utils/selectLists";
 import { CustomSelect } from "../../../../components/select";
-import { SuapClient } from "../../../../services/suapapi/client";
-import { SuapApiSettings } from "../../../../services/suapapi/settings";
 
 export default function SettingContaPage() {
   const auth = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [showModalPic, setShowModalPic] = useState(false);
   const [showModalCurriculo, setShowModalCurriculo] = useState(false);
- 
+  let unidadesFederativas = UFsSelectOptions.map(({ value }) => value);
+
   const {
     control,
     formState: { isDirty, errors },
@@ -231,7 +232,7 @@ export default function SettingContaPage() {
           icon="fas fa-calendar-day"
         />
       )}
-     
+
       <Accordion collapsible multiple>
         <form>
           <AccordionItem>
@@ -356,6 +357,34 @@ export default function SettingContaPage() {
             <AccordionPanel>
               <div className="input-group">
                 <div className="lbl">
+                  <label htmlFor="estado">Estado: </label>
+                  <Controller
+                    name="uf"
+                    control={control}
+                    render={({ field: { value, onChange, onBlur, ref } }) => (
+                      <CustomSelect
+                        noOptionsMessage={() => "Não encontrado"}
+                        ref={ref}
+                        inputId="estado"
+                        options={UFsSelectOptions}
+                        placeholder="Selecione um estado"
+                        onChange={(option: any) => onChange(option?.value)}
+                        onBlur={onBlur}
+                        value={UFsSelectOptions.filter((option) =>
+                          value?.includes(option.value)
+                        )}
+                        defaultValue={UFsSelectOptions.filter((option) =>
+                          value?.includes(option.value)
+                        )}
+                        className={`custom-select ${
+                          errors.uf?.message && "danger"
+                        }`}
+                      />
+                    )}
+                  />
+                  <p className="input-error">{errors.uf?.message}</p>
+                </div>
+                <div className="lbl">
                   <Controller
                     name="cidade"
                     control={control}
@@ -370,27 +399,6 @@ export default function SettingContaPage() {
                     )}
                   />
                   <p className="input-error">{errors.cidade?.message}</p>
-                </div>
-                <div className="lbl" style={{ maxWidth: "60px" }}>
-                  <Controller
-                    name="uf"
-                    control={control}
-                    render={({ field }) => (
-                      <ReactInputMask
-                        maskPlaceholder={null}
-                        mask="aa"
-                        {...field}
-                      >
-                        <Input
-                          type="text"
-                          id="uf"
-                          placeholder="UF"
-                          {...(errors.uf && { className: "danger" })}
-                        />
-                      </ReactInputMask>
-                    )}
-                  />
-                  <p className="input-error">{errors.uf?.message}</p>
                 </div>
               </div>
             </AccordionPanel>

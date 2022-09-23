@@ -31,38 +31,6 @@ export default function HomePage() {
     <>
       <div className="content">
         <Notifications />
-        <p>
-          Logado com o suap:
-          {!NewSuapClient.isAuthenticated() ? (
-            <span>
-              {" "}
-              NÃO{" "}
-              <a
-                href={NewSuapClient.getLoginURL() + ""}
-                target="popup"
-                onClick={() => {
-                  window.open(
-                    NewSuapClient.getLoginURL() + "",
-                    "popup",
-                    "width=600,height=600,scrollbars=no,resizable=no,left=" +
-                      (window.screen.width - 600) / 2 +
-                      ",top=" +
-                      (window.screen.height - 600) / 2
-                  );
-                  return false;
-                }}
-              >
-                Verificar
-              </a>
-            </span>
-          ) : (
-            <span>
-              {" "}
-              <strong>SIM</strong> <Button onClick={() => NewSuapClient.logout()}>Logout</Button>
-              <textarea style={{width: 430, height: 300, maxWidth: "100%"}} defaultValue={resourceResponse}></textarea>
-            </span>
-          )}
-        </p>
       </div>
     </>
   );

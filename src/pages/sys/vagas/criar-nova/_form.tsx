@@ -16,7 +16,7 @@ import { queryClient } from "../../../../services/queryClient";
 import { CustomSelect } from "../../../../components/select";
 import { Button } from "../../../../components/button";
 import { CriarVagaFormStyle } from "./style";
-import { CursosSelectOptions } from "../../../../utils/cursosForSelect";
+import { CursosSelectOptions } from "../../../../utils/selectLists";
 
 export function CriarNovaVagaForm() {
   // const [editorState, setEditorState] = useState(() =>

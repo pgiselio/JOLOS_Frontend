@@ -10,10 +10,12 @@ import { convertFromStringToDate } from "../../../../../utils/convertStringToDat
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button } from "../../../../../components/button";
 import CircularProgressFluent from "../../../../../components/circular-progress-fluent";
+import { UFsSelectOptions } from "../../../../../utils/selectLists";
+import { CustomSelect } from "../../../../../components/select";
 
 export default function CadastrarEmpresaPage() {
   const [isLoading, setIsLoading] = useState(false);
-  
+  let unidadesFederativas = UFsSelectOptions.map(({ value }) => value);
   let validationSchema = Yup.object().shape({
     email: Yup.string().required("Este campo é obrigatório"),
     nome: Yup.string().required("Este campo é obrigatório"),
@@ -26,18 +28,21 @@ export default function CadastrarEmpresaPage() {
         "validacao da data",
         "Data inválida",
         (value: any) =>
-          convertFromStringToDate(value).toString() !== "Invalid Date" && convertFromStringToDate(value) <= new Date()
+          convertFromStringToDate(value).toString() !== "Invalid Date" &&
+          convertFromStringToDate(value) <= new Date()
       )
       .required("Este campo é obrigatório")
       .min(10, "Data inválida"),
     cidade: Yup.string().required("Este campo é obrigatório"),
-    UF: Yup.string().required("").min(2, ""),
+    UF: Yup.string()
+      .oneOf([...unidadesFederativas], "O estado não é válido")
+      .required("Este campo é obrigatório"),
   });
   const {
     control,
     formState: { errors },
     handleSubmit,
-    reset
+    reset,
   } = useForm({
     mode: "onChange",
     defaultValues: {
@@ -76,8 +81,9 @@ export default function CadastrarEmpresaPage() {
           instagram: props.instagram,
           linkedin: props.linkedin,
           twitter: props.twitter,
-        }
-      }).then(() => {
+        },
+      })
+      .then(() => {
         toast.success("Empresa cadastrada com sucesso!");
         reset();
       })
@@ -95,7 +101,10 @@ export default function CadastrarEmpresaPage() {
           <h3>Registrar nova empresa</h3>
         </BoxTitle>
         <BoxContent>
-          <form id="cadastrar-nova-empresa-form" onSubmit={handleSubmit(onHandleSubmit)}>
+          <form
+            id="cadastrar-nova-empresa-form"
+            onSubmit={handleSubmit(onHandleSubmit)}
+          >
             <div className="inputs">
               <div className="lbl">
                 <label htmlFor="email"></label>
@@ -175,7 +184,7 @@ export default function CadastrarEmpresaPage() {
                 <p className="input-error">{errors.telefone?.message}</p>
               </div>
               <div className="lbl">
-                <label htmlFor="dataNascimento"></label>
+                <label htmlFor="dataFundacao"></label>
                 <Controller
                   name="dataFundacao"
                   control={control}
@@ -189,7 +198,8 @@ export default function CadastrarEmpresaPage() {
                         type="text"
                         placeholder="Data de fundação"
                         icon="fas fa-calendar"
-                        id="dataNascimento"
+                        id="dataFundacao"
+                        autoComplete="off"
                         {...(errors.dataFundacao && { className: "danger" })}
                       />
                     </ReactInputMask>
@@ -199,13 +209,40 @@ export default function CadastrarEmpresaPage() {
               </div>
               <div className="input-group">
                 <div className="lbl">
+                  <label htmlFor="estado">Estado: </label>
+                  <Controller
+                    name="UF"
+                    control={control}
+                    render={({ field: { value, onChange, onBlur, ref } }) => (
+                      <CustomSelect
+                        noOptionsMessage={() => "Não encontrado"}
+                        ref={ref}
+                        inputId="estado"
+                        options={UFsSelectOptions}
+                        placeholder="Selecione um estado"
+                        onChange={(option: any) => onChange(option?.value)}
+                        onBlur={onBlur}
+                        value={UFsSelectOptions.filter((option) =>
+                          value?.includes(option.value)
+                        )}
+                        defaultValue={UFsSelectOptions.filter((option) =>
+                          value?.includes(option.value)
+                        )}
+                        className={`custom-select ${
+                          errors.UF?.message && "danger"
+                        }`}
+                      />
+                    )}
+                  />
+                  <p className="input-error">{errors.UF?.message}</p>
+                </div>
+                <div className="lbl">
                   <label htmlFor="cidade"></label>
                   <Controller
                     name="cidade"
                     control={control}
                     render={({ field }) => (
                       <Input
-                        icon="fas fa-location-dot"
                         type="text"
                         id="cidade"
                         placeholder="Cidade"
@@ -215,28 +252,6 @@ export default function CadastrarEmpresaPage() {
                     )}
                   />
                   <p className="input-error">{errors.cidade?.message}</p>
-                </div>
-                <div className="lbl" style={{ maxWidth: "60px" }}>
-                  <label htmlFor="UF"> </label>
-                  <Controller
-                    name="UF"
-                    control={control}
-                    render={({ field }) => (
-                      <ReactInputMask
-                        maskPlaceholder={null}
-                        mask="aa"
-                        {...field}
-                      >
-                        <Input
-                          type="text"
-                          id="UF"
-                          placeholder="UF"
-                          {...(errors.UF && { className: "danger" })}
-                        />
-                      </ReactInputMask>
-                    )}
-                  />
-                  <p className="input-error">{errors.UF?.message}</p>
                 </div>
               </div>
               <div>
@@ -308,8 +323,14 @@ export default function CadastrarEmpresaPage() {
               </div>
             </div>
           </form>
-          <div style={{alignSelf: "flex-end", paddingTop: "20px"}}>
-              <Button type="submit" form="cadastrar-nova-empresa-form" id="submit-form" className=""{...isLoading && {disabled: true}}>
+          <div style={{ alignSelf: "flex-end", paddingTop: "20px" }}>
+            <Button
+              type="submit"
+              form="cadastrar-nova-empresa-form"
+              id="submit-form"
+              className=""
+              {...(isLoading && { disabled: true })}
+            >
               {isLoading && (
                 <CircularProgressFluent
                   color="white"
@@ -319,11 +340,9 @@ export default function CadastrarEmpresaPage() {
                   style={{ position: "absolute" }}
                 />
               )}
-              <span {...(isLoading && { style: { opacity: 0 } })}>
-                 Criar
-              </span>
-              </Button>
-            </div>
+              <span {...(isLoading && { style: { opacity: 0 } })}>Criar</span>
+            </Button>
+          </div>
         </BoxContent>
       </Box>
     </div>
