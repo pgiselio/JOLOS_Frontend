@@ -20,11 +20,11 @@ type signupType = {
 export default function CadastroPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
-  const [selectedTab, setSelectedTab] = useTabs(["ALUNO", "EMPRESA"], searchParams.get("tab"));
+  const [selectedTab, setSelectedTab] = useTabs(["CANDIDATO", "EMPRESA"], searchParams.get("tab"));
   
   useEffect(() => {
     if (!searchParams.get("tab")) {
-      setSelectedTab("ALUNO");
+      setSelectedTab("CANDIDATO");
     }
   }, []);
   
@@ -58,7 +58,7 @@ export default function CadastroPage() {
       confirmPassword: "",
     },
     resolver: yupResolver(
-      selectedTab === "ALUNO"
+      selectedTab === "CANDIDATO"
         ? candidatoValidationSchema
         : empresaValidationSchema
     ),
@@ -69,7 +69,7 @@ export default function CadastroPage() {
     await api
       .post(
         "/usuario/create",
-        selectedTab === "ALUNO"
+        selectedTab === "CANDIDATO"
           ? {
               email,
               senha: password,
@@ -83,7 +83,7 @@ export default function CadastroPage() {
       .then((response) => {
         if (response.status === 201) {
           toast.success("Cadastro realizado com sucesso!");
-          if (selectedTab === "ALUNO") {
+          if (selectedTab === "CANDIDATO") {
             navigate(`step2?email=${email}`);
           }
         }
@@ -111,10 +111,10 @@ export default function CadastroPage() {
 
             <div style={{ display: "flex", height: "35px", columnGap: "10px" }}>
               <TabSelector
-                isActive={selectedTab === "ALUNO"}
-                onClick={() => setSelectedTab("ALUNO")}
+                isActive={selectedTab === "CANDIDATO"}
+                onClick={() => setSelectedTab("CANDIDATO")}
               >
-                Aluno
+                Candidato
               </TabSelector>
               <TabSelector
                 isActive={selectedTab === "EMPRESA"}
@@ -147,7 +147,7 @@ export default function CadastroPage() {
                   />
                   <p className="input-error">{errors.email?.message}</p>
                 </div>
-                {selectedTab === "ALUNO" && (
+                {selectedTab === "CANDIDATO" && (
                   <>
                     <div>
                       <Controller
@@ -189,7 +189,7 @@ export default function CadastroPage() {
                 )}
               </section>
               <div className="info-message">
-                {selectedTab === "ALUNO" ? (
+                {selectedTab === "CANDIDATO" ? (
                   <span>
                     O cadastro continuará após a confirmação do e-mail, então
                     certifique-se de informar um e-mail válido
@@ -204,7 +204,7 @@ export default function CadastroPage() {
           </div>
         </div>
         <div className="destaque">
-          {selectedTab === "ALUNO" ? (
+          {selectedTab === "CANDIDATO" ? (
             <>
               <div className="imagem-destaque">
                 <img src="../images/undraw_typewriter_re_u9i2.svg" alt="" />
