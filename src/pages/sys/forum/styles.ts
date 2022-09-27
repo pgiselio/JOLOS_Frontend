@@ -130,7 +130,7 @@ export const ForumTopic = styled.div`
     content: " ";
     height: 100%;
     width: 2px;
-    background-color: red;
+    background-color: var(--outline-color);
     position: absolute;
     left: calc(10px + 25px);
     top: -90%;
