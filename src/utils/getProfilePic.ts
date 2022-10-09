@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "../services/api";
 
 type ppType = {
@@ -11,7 +11,7 @@ type ppType = {
 };
 export function GetProfilePic(id: string) {
   const { data } = useQuery(
-    "profilePic-" + id,
+    ["profilePic-" + id],
     async () => {
       const response = await api.get<ppType>(`/imagem/fotoPerfil/${id}`);
       if (response.data) {

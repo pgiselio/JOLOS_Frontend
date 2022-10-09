@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQueries } from "react-query";
+import { useQueries } from "@tanstack/react-query";
 import { useVaga } from ".";
 import { Box, BoxMessage, BoxTitle } from "../../../../components/box";
 import { Button } from "../../../../components/button";
@@ -13,14 +13,14 @@ export function VagaCandidatoPage() {
   const { data } = useVaga();
   const [checkedList, setCheckedList] = useState<any[]>([]);
 
-  const userQueries = useQueries<User[]>(
-    data?.alunos.map((userId) => {
+  const userQueries = useQueries<User[]>({
+    queries: data?.alunos.map((userId) => {
       return {
         queryKey: ["user", userId],
-        queryFn: () => fetchUserById(userId),
-      };
-    })
-  );
+        queryFn: () => fetchUserById(userId)
+      }
+    }) || []
+  });
   async function fetchUserById(userId: number) {
     const response = await api.get<User>(`/usuario/${userId}`);
     return response.data;

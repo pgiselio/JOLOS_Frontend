@@ -184,7 +184,7 @@ export default function PasswordResetPage() {
           ) : (
             <form method="post" onSubmit={handleSubmit(onSubmit)}>
               <h2 className="desc" style={{ fontSize: 20 }}>
-                Esqueceu a sua senha?
+                Recuperar senha
               </h2>
               <div className="lbl">
                 <label htmlFor="email">Informe o e-mail de cadastro: </label>

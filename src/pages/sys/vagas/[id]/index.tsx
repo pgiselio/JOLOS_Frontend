@@ -4,7 +4,7 @@ import { Link, Outlet, useOutletContext, useParams } from "react-router-dom";
 import Error404 from "../../../404";
 import { TabsMenu, TabsMenuItem } from "../../../../components/tabs-menu";
 import { vaga } from "../../../../types/vagaType";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "../../../../services/api";
 import { Skeleton } from "../../../../components/skeleton-load";
 import { ProfilePic } from "../../../../components/profile-pic/profile-pic";
@@ -89,7 +89,7 @@ export default function VagaPage() {
           hideProgressBar: true,
         });
         queryClient.invalidateQueries([`vaga-${params.id}`]);
-        queryClient.invalidateQueries("vagas");
+        queryClient.invalidateQueries(["vagas"]);
       });
   }
   async function desinscreverAluno() {
@@ -102,7 +102,7 @@ export default function VagaPage() {
           hideProgressBar: true,
         });
         queryClient.invalidateQueries([`vaga-${params.id}`]);
-        queryClient.invalidateQueries("vagas");
+        queryClient.invalidateQueries(["vagas"]);
       });
   }
 
@@ -138,7 +138,7 @@ export default function VagaPage() {
       },
     ]);
     queryClient.invalidateQueries([`vaga-${data.id}`]);
-    queryClient.invalidateQueries("vagas");
+    queryClient.invalidateQueries(["vagas"]);
     toast.success("Vaga encerrada com sucesso!", { toastId: "vaga-encerrada" });
   }
   async function abrirInscricoes() {
@@ -153,7 +153,7 @@ export default function VagaPage() {
       },
     ]);
     queryClient.invalidateQueries([`vaga-${data.id}`]);
-    queryClient.invalidateQueries("vagas");
+    queryClient.invalidateQueries(["vagas"]);
     toast.success("Incrições reabertas com sucesso!", {
       toastId: "vaga-aberta",
     });

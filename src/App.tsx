@@ -7,7 +7,7 @@ import { GlobalStyle } from "./styles/global";
 import { BrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./AppRoutes";
 import ScrollToTop from "./utils/scrollToTop";
-import { QueryClientProvider } from "react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./services/queryClient";
 
 import "@reach/accordion/styles.css";

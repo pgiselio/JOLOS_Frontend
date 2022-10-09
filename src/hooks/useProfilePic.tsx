@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "../services/api";
 import { b64toBlob } from "../utils/getProfilePic";
 
@@ -12,7 +12,7 @@ type photoQueryType = {
 };
 export const useProfilePic = (userId: string | number | undefined) => {
   const query = useQuery(
-    "profilePic-" + userId,
+    ["profilePic-" + userId],
     async () => {
       if (!userId || userId === "undefined"){
         return;

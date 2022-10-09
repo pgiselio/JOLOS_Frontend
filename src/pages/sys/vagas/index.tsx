@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "../../../components/button";
@@ -27,7 +27,7 @@ const CreateNewButton = styled(Button)`
 export function VagasList() {
   const navigate = useNavigate();
   const { data, isFetching } = useQuery<vaga[]>(
-    "vagas",
+    ["vagas"],
     async () => {
       const response = await api.get("/vaga/");
       return response.data;
@@ -74,7 +74,7 @@ export function VagasList() {
       <div className="content-grid">
         <div className="content">
           <div className="cards-container">
-            {data?.map((vaga) => {
+            {data?.map((vaga : any) => {
               return <VagaCard key={vaga.id} vaga={vaga} />;
             })}
           </div>

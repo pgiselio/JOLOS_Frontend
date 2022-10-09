@@ -1,5 +1,5 @@
 import { useTabs } from "react-headless-tabs";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../../hooks/useAuth";
 import { api } from "../../services/api";
 import { queryClient } from "../../services/queryClient";
@@ -14,7 +14,7 @@ export function Notifications() {
   const [selectedTab, setSelectedTab] = useTabs(["new", "read"]);
 
   const { data: notificationsDataRead } = useQuery(
-    "notifications-read",
+    ["notifications-read"],
     async () => {
       const response = await api.get<notification[]>(
         `/notificacao/usuario/${auth.email}/visualizadas`
@@ -31,15 +31,15 @@ export function Notifications() {
     api.patch(`/notificacao/marcarComoLido/${id}`);
 
     const previousNotifications =
-      queryClient.getQueryData<notification[]>("notifications-new");
+      queryClient.getQueryData<notification[]>(["notifications-new"]);
 
     if (previousNotifications) {
       const nextNotifications = previousNotifications.filter(
         (notification: notification) => notification.id !== id
       );
-      queryClient.setQueryData("notifications-new", nextNotifications);
+      queryClient.setQueryData(["notifications-new"], nextNotifications);
     }
-    queryClient.invalidateQueries("notifications-read");
+    queryClient.invalidateQueries(["notifications-read"]);
   }
 
   return (

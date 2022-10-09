@@ -1,5 +1,5 @@
 import { createContext, useEffect, useRef, useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../services/api";
 import { queryClient } from "../../services/queryClient";
@@ -24,7 +24,7 @@ export function AuthProvider({ children }: IAuthProvider) {
     setLoadingUserFromLocalStorage(false);
   }, []);
   const { data: notificationNew } = useQuery(
-    "notifications-new",
+    ["notifications-new"],
     async () => {
       let user = getUserLocalStorage();
       const response = await api.get<notification[]>(
@@ -98,9 +98,9 @@ export function AuthProvider({ children }: IAuthProvider) {
   function logout() {
     setUser(null);
     setUserLocalStorage(null);
-    queryClient.setQueryData("meUser", undefined);
-    queryClient.invalidateQueries("meUser");
-    queryClient.removeQueries("meUser");
+    queryClient.setQueryData(["meUser"], undefined);
+    queryClient.invalidateQueries(["meUser"]);
+    queryClient.removeQueries(["meUser"]);
     navigate("/entrar", { replace: true });
   }
 

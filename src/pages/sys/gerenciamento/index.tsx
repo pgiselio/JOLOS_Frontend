@@ -1,5 +1,5 @@
 import { Accordion, AccordionButton, AccordionItem } from "@reach/accordion";
-// import { useQuery } from "react-query";
+// import { useQuery } from "@tanstack/react-query";
 // import { api } from "../../../services/api";
 import { useNavigate } from "react-router-dom";
 

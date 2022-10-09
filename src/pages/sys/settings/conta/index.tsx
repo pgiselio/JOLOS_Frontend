@@ -148,9 +148,9 @@ export default function SettingContaPage() {
         if (response.status === 200) {
           toast.success("Mudanças salvas com sucesso!");
         }
-        queryClient.invalidateQueries("meUser");
-        queryClient.invalidateQueries("profile" + auth.userInfo?.id);
-        queryClient.fetchQuery("meUser");
+        queryClient.invalidateQueries(["meUser"]);
+        queryClient.invalidateQueries(["profile" + auth.userInfo?.id]);
+        queryClient.fetchQuery(["meUser"]);
       })
       .catch((err) => {
         if (err.status === 500) {
