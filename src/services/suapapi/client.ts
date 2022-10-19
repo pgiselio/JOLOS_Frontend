@@ -117,7 +117,7 @@ export const SuapClient = ({
   var grantType = "implict"; // Necessário para utilizar Oauth2 com Javascript
 
   // Remove a '/' caso ela já esteja inserida no auth_host.
-  if (authHost.charAt(authHost.length - 1) == "/") {
+  if (authHost.charAt(authHost.length - 1) === "/") {
     authHost = authHost.substr(0, authHost.length - 1);
   }
 

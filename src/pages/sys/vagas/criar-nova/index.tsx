@@ -1,5 +1,4 @@
 import { Box, BoxContent, BoxTitle } from "../../../../components/box";
-import { Button } from "../../../../components/button";
 import { useAuth } from "../../../../hooks/useAuth";
 import { CriarNovaVagaForm } from "./_form";
 
