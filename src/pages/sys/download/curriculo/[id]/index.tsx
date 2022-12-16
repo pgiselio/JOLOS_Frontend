@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CircularProgressFluent from "../../../../../components/circular-progress-fluent";
+import Progressbar from "../../../../../components/progress-bar";
 import { api } from "../../../../../services/api";
 
 export default function DownloadCurriculoPage() {
@@ -30,9 +31,10 @@ export default function DownloadCurriculoPage() {
     getCurriculo();
   }, []);
 
-  if (!curriculo && !hasError) {
+  if ((!curriculo || downloadCProgress < 100) && !hasError) {
     return (
       <>
+      <Progressbar progress={downloadCProgress}/>
         <div
           style={{
             position: "fixed",
@@ -40,7 +42,6 @@ export default function DownloadCurriculoPage() {
             left: 0,
             width: downloadCProgress + "%",
             height: "4px",
-            background: "var(--accent-color)",
           }}
         >
             <span

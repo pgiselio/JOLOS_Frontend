@@ -34,6 +34,7 @@ export const LandingHeader = styled.header`
     width: 100%;
     height: 80px;
     background: var(--navs-bg);
+    transition: background .1s linear;
   }
 
   .menu-container {
@@ -316,6 +317,8 @@ export const LandingStyle = styled.div`
       align-items: center;
       justify-content: center;
       min-height: 300px;
+      width: 100%;
+      padding-top: 80px;
       h1 {
         font-size: clamp(1.5rem, 2.5vw, 2.5em);
         font-weight: 500;
@@ -329,21 +332,20 @@ export const LandingStyle = styled.div`
       }
     }
     section.hello-section {
-      margin-top: -20px;
+      margin-top: -80px;
       max-height: calc(100vh - 70px);
       min-height: 300px;
-      height: 100vh;
-      width: 100%;
+      height: 600px;
       color: #333;
       text-align: center;
       background-size: cover;
+      background-color: #fff;
       .container {
         height: 100%;
         padding: 30px;
         align-self: center;
       }
       .parallax {
-        height: 100%;
         .layer-1 {
           display: flex;
           justify-content: center;
@@ -361,12 +363,17 @@ export const LandingStyle = styled.div`
       }
     }
     section.cursos-section {
-      width: 100%;
+      background-image: url(images/waves.svg);
+      background-position: center center;
+      background-size: cover;
+      background-blend-mode: color-burn;
+      background-color: #33313d;
+      height: 500px;
     }
     section.aderir-section {
       background-color: var(--accent-color-opacity);
-      width: 100%;
-      padding: 60px 30px;
+      padding: 60px 120px;
+      height: 500px;
       .img-job-hunt {
         height: 150px;
         margin-bottom: 20px;
@@ -398,8 +405,7 @@ export const LandingStyle = styled.div`
     section.equipe-section {
       padding: 60px 30px;
       height: calc(100vh - 100px);
-      width: 100%;
-      h1{
+      h1 {
         margin-bottom: 60px;
         text-align: center;
         background-color: #222;
@@ -436,15 +442,15 @@ export const LandingStyle = styled.div`
               font-size: 16px;
               color: #333;
             }
-            span{
+            span {
               font-size: 14px;
               color: var(--text-b);
             }
-            a{
+            a {
               margin-top: 5px;
               font-size: 18px;
               color: var(--text-b);
-              :hover{
+              :hover {
                 color: var(--text-a);
               }
             }
@@ -464,7 +470,7 @@ export const LandingStyle = styled.div`
     height: 500px;
     display: flex;
     background: #222;
-    img{
+    img {
       height: 60px;
     }
   }

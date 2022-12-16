@@ -33,27 +33,6 @@ export const CurriculoFormStyle = styled.form`
           color: var(--text-b);
           font-size: 14px;
         }
-        .file-progress-bar {
-          width: 100%;
-          height: 5px;
-          background-color: var(--secondary-color);
-          border-radius: 10px;
-          opacity: 0;
-          position: relative;
-          overflow: hidden;
-          span {
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--accent-color);
-            transition: transform 0.2s ease;
-          }
-          &.onProgress {
-            opacity: 1;
-          }
-        }
       }
       .status {
         width: 25px;

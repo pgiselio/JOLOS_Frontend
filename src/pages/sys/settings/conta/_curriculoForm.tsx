@@ -10,6 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { CurriculoFormStyle } from "./styles";
 import prettyBytes from "pretty-bytes";
 import { Link } from "react-router-dom";
+import Progressbar from "../../../../components/progress-bar";
 
 export function CurriculoForm() {
   const auth = useAuth();
@@ -145,13 +146,7 @@ export function CurriculoForm() {
             <div className="file-details">
               <p className="file-name">{curriculo.name}</p>
               <p className="file-size">{prettyBytes(curriculo.size)}</p>
-              <p className={`file-progress-bar ${sending ? "onProgress" : ""}`}>
-                <span
-                  style={{
-                    transform: `translateX(-${100 - sendingProgress}%)`,
-                  }}
-                ></span>
-              </p>
+              <Progressbar progress={sendingProgress}/>
             </div>
             <p className="status">
               <i className={`fa-solid fa-check ${uploaded ? "done" : ""}`}></i>

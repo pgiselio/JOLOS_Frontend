@@ -1,7 +1,5 @@
-import Dialog from "@reach/dialog";
+import { Dialog } from "@reach/dialog";
 import styled from "styled-components";
-
-
 
 export const ModalStyle = styled(Dialog)`
   /* min-width: 600px; */
@@ -108,4 +106,4 @@ export const ModalBottom = styled.div`
     border-top: 1px solid var(--outline-color);
     background-color: var(--primary-bg);
   }
-`
+`;

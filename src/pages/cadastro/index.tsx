@@ -73,7 +73,7 @@ export default function CadastroPage() {
           ? {
               email,
               senha: password,
-              tipoUsuario: selectedTab,
+              tipoUsuario: "ALUNO",
             }
           : {
               email,

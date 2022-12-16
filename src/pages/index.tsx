@@ -5,14 +5,26 @@ import { Button } from "../components/button";
 import { LandNavBar } from "../components/landing/navbar";
 import { LandingGlobalStyle, LandingStyle } from "../components/landing/styles";
 import { useAuth } from "../hooks/useAuth";
+import { TagCloud } from "react-tagcloud";
 
 export default function LandingPage() {
   const auth = useAuth();
-  useEffect(()=>{
-    if(auth.userInfo?.email){
+  useEffect(() => {
+    if (auth.userInfo?.email) {
       window.location.href = "sys";
     }
-  })
+  });
+  const data = [
+    { value: "Administração", count: 25 },
+    { value: "Informática", count: 30 },
+    { value: "Eletrotécnica", count: 38 },
+    { value: "Física", count: 38 },
+    { value: "Energias Renováveis", count: 28 },
+  ];
+  const options = {
+    luminosity: "light",
+    hue: "green",
+  };
   return (
     <ParallaxProvider>
       <LandingStyle>
@@ -39,13 +51,26 @@ export default function LandingPage() {
                   ),
                   speed: -30,
                   className: "layer-1",
+                  scale: [1.5, 0.5],
+                  opacity: [2, 0],
                 },
               ]}
               style={{ aspectRatio: "2 / 1" }}
             />
           </section>
 
-          <section className="cursos-section" id="sec2"></section>
+          <section className="cursos-section" id="sec2">
+            <div className="container" style={{maxWidth: 500,}}>
+              <TagCloud
+                minSize={20}
+                maxSize={35}
+                colorOptions={options}
+                tags={data}
+                shuffle
+                onClick={(tag: any) => console.log("clicking on tag:", tag)}
+              />
+            </div>
+          </section>
           <section className="aderir-section" id="sec3">
             <div className="container">
               <img
@@ -88,7 +113,11 @@ export default function LandingPage() {
                   <div className="info">
                     <h3>Lucas Mateus</h3>
                     <span>Back-end dev javeiro</span>
-                    <a href="https://github.com/Lucas-dev-back" target="_blank" rel="noreferrer">
+                    <a
+                      href="https://github.com/Lucas-dev-back"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <i className="fa-brands fa-github"></i>
                     </a>
                   </div>
@@ -102,7 +131,11 @@ export default function LandingPage() {
                   <div className="info">
                     <h3>Pedro Gisélio</h3>
                     <span>Front-end dev e palpiteiro</span>
-                    <a href="https://github.com/pgiselio" target="_blank" rel="noreferrer">
+                    <a
+                      href="https://github.com/pgiselio"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <i className="fa-brands fa-github"></i>
                     </a>
                   </div>
@@ -112,8 +145,8 @@ export default function LandingPage() {
           </section>
         </main>
         <footer className="landing-footer">
-          <img src="images/landing/IFRNJC.png" alt=""/>
-          <img src="images/landing/coex.png" alt=""/>
+          <img src="images/landing/IFRNJC.png" alt="" />
+          <img src="images/landing/coex.png" alt="" />
         </footer>
       </LandingStyle>
     </ParallaxProvider>
