@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ParallaxBanner, ParallaxProvider } from "react-scroll-parallax";
 import { Button } from "../components/button";
 import { LandNavBar } from "../components/landing/navbar";
 import { LandingGlobalStyle, LandingStyle } from "../components/landing/styles";
@@ -26,41 +25,32 @@ export default function LandingPage() {
     hue: "green",
   };
   return (
-    <ParallaxProvider>
       <LandingStyle>
         <LandNavBar />
         <LandingGlobalStyle />
         <main className="landing-main">
           <section className="hello-section" id="sec1">
-            <ParallaxBanner
-              className="parallax"
-              layers={[
-                { image: "images/waves.svg", speed: -20 },
-                {
-                  children: (
-                    <div className="container">
-                      <h1>Olá!👋</h1>
-                      <p>
-                        Somos uma plataforma de oportunidades voltada para
-                        alunos e ex-alunos do IFRN Campus João Câmara. Surgimos
-                        com o objetivo de estreitar os laços entre as empresas,
-                        tornando o processo de divulgação de vagas e de
-                        contratação mais centrado, fácil e ágil.
-                      </p>
-                    </div>
-                  ),
-                  speed: -30,
-                  className: "layer-1",
-                  scale: [1.5, 0.5],
-                  opacity: [2, 0],
-                },
-              ]}
-              style={{ aspectRatio: "2 / 1" }}
+            <img
+              className="waves"
+              src="images/waves.svg"
+              alt="waves background"
             />
+            <div className="banner">
+              <div className="container">
+                <h1>Olá!👋</h1>
+                <p>
+                  Somos uma plataforma de oportunidades voltada para alunos e
+                  ex-alunos do IFRN Campus João Câmara. Surgimos com o objetivo
+                  de estreitar os laços entre as empresas, tornando o processo
+                  de divulgação de vagas e de contratação mais centrado, fácil e
+                  ágil.
+                </p>
+              </div>
+            </div>
           </section>
 
           <section className="cursos-section" id="sec2">
-            <div className="container" style={{maxWidth: 500,}}>
+            <div className="container" style={{ maxWidth: 500 }}>
               <TagCloud
                 minSize={20}
                 maxSize={35}
@@ -149,6 +139,5 @@ export default function LandingPage() {
           <img src="images/landing/coex.png" alt="" />
         </footer>
       </LandingStyle>
-    </ParallaxProvider>
   );
 }

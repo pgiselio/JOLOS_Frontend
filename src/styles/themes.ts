@@ -159,6 +159,11 @@ export const themes = {
     pallets: {
       ...defaultColors,
     },
+    customStyle: `
+      *{ 
+        font-weight: 700; 
+      }
+    `,
     colors: {
       main: "#33FF33",
       mainActive: "#33FF11",
@@ -173,11 +178,11 @@ export const themes = {
         linkOnClick: "#ced4da",
         icon: "",
       },
-      textA: "#FFFF00",
-      textB: "#FFFF00",
-      textC: "#FFFFFF",
-      primaryBg: "#111111",
-      secondaryBg: "#222222",
+      textA: "#FFFFFF",
+      textB: "#FFFFFF",
+      textC: "#FFFF91",
+      primaryBg: "#010101",
+      secondaryBg: "#111111",
       outlineColor: "#444444",
     },
   },

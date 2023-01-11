@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, ThemeProvider, } from "styled-components";
 import { InputStyle } from "../components/input/styles";
 
 export const GlobalStyle = createGlobalStyle`
@@ -20,6 +20,7 @@ export const GlobalStyle = createGlobalStyle`
     --navs-bg-opacity: ${(props) => props.theme.colors.systemMenu.background}f5;
     --primary-bg: ${(props) => props.theme.colors.primaryBg};
     --secondary-bg: ${(props) => props.theme.colors.secondaryBg};
+    --font-weight: 0;
   }
   * {
     margin: 0;
@@ -135,7 +136,7 @@ export const GlobalStyle = createGlobalStyle`
 
   .lbl label {
     font-size: 10pt;
-    font-weight: 500;
+    font-weight: calc(500 + var(--font-weight, 0));
     color: var(--text-b);
     padding: 3px 0;
     width: fit-content;
@@ -288,4 +289,5 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
+  ${(props) => props.theme.customStyle}
 `;

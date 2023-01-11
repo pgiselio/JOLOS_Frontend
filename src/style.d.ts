@@ -9,6 +9,7 @@ declare module "styled-components" {
         [i: number]: string;
       };
     };
+    customStyle?: string;
     colors: {
       main: string;
       mainActive: string;

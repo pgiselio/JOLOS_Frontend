@@ -340,12 +340,20 @@ export const LandingStyle = styled.div`
       text-align: center;
       background-size: cover;
       background-color: #fff;
+      position: relative;
+      overflow: hidden;
       .container {
         height: 100%;
         padding: 30px;
         align-self: center;
       }
-      .parallax {
+      .waves{
+         pointer-events: none;
+          position: absolute;
+          width: 100%;
+      }
+      .banner {
+        position: relative;
         .layer-1 {
           display: flex;
           justify-content: center;

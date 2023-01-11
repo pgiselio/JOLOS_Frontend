@@ -201,7 +201,7 @@ export default function SettingContaPage() {
         title="Editar foto de perfil"
       >
         <div className="flx flx-aic flx-jcc fdc" style={{ gap: 30 }}>
-          <ProfilePictureForm />
+          <ProfilePictureForm closeModal={() => setShowModalPic(false)}/>
           <ModalBottom>
             <Button
               type="button"
