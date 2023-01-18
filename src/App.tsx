@@ -12,6 +12,8 @@ import { queryClient } from "./services/queryClient";
 
 import "@reach/accordion/styles.css";
 import "@reach/dialog/styles.css";
+import "@reach/menu-button/styles.css";
+
 import "./styles/reach-ui.css";
 import "react-toastify/dist/ReactToastify.min.css";
 import { AppOptionsProvider } from "./contexts/AppOptionsContext";

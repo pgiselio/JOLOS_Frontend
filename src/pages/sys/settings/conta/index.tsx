@@ -4,7 +4,13 @@ import {
   AccordionItem,
   AccordionPanel,
 } from "@reach/accordion";
-import { useEffect, useRef, useState } from "react";
+import {
+  Menu,
+  MenuList,
+  MenuButton,
+  MenuItem,
+} from "@reach/menu-button";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import CircularProgressFluent from "../../../../components/circular-progress-fluent";
@@ -187,12 +193,27 @@ export default function SettingContaPage() {
             style={{ height: "100px" }}
             userId={auth.userInfo?.id + ""}
           />
-          <button
+          <Menu>
+            <MenuButton className="change-pic-btn">
+              <span aria-label="Opções para a foto de perfil">
+                <i className="fas fa-camera"></i>
+              </span>
+            </MenuButton>
+            <MenuList className="slide-down">
+              <MenuItem onSelect={() => setShowModalPic(true)}>
+                Editar ou enviar foto
+              </MenuItem>
+              <MenuItem onSelect={() => setShowModalPic(true)}>
+                Remover foto atual
+              </MenuItem>
+            </MenuList>
+          </Menu>
+          {/* <button
             className="change-pic-btn"
             onClick={() => setShowModalPic(true)}
           >
             <i className="fa-solid fa-pencil"></i>
-          </button>
+          </button> */}
         </div>
       </div>
       <Modal
@@ -201,7 +222,7 @@ export default function SettingContaPage() {
         title="Editar foto de perfil"
       >
         <div className="flx flx-aic flx-jcc fdc" style={{ gap: 30 }}>
-          <ProfilePictureForm closeModal={() => setShowModalPic(false)}/>
+          <ProfilePictureForm closeModal={() => setShowModalPic(false)} />
           <ModalBottom>
             <Button
               type="button"
@@ -237,83 +258,128 @@ export default function SettingContaPage() {
         <form>
           <AccordionItem>
             <AccordionButton className="autohide-sub">
-              <h4>Nome</h4>
+              <h4>Informações Básicas</h4>
               <span className="subtitle">
-                {auth.userInfo?.aluno?.dadosPessoa.nome ||
-                  auth.userInfo?.empresa?.dadosPessoa.nome}
+                Nome de exibição
+                {auth?.authorities?.includes("ALUNO")
+                  ? ", Localização, Curso e Período"
+                  : " e Localização"}
               </span>
             </AccordionButton>
             <AccordionPanel>
-              <Controller
-                name="nome"
-                control={control}
-                render={({ field }) => (
-                  <Input type="text" id="nome" {...field} />
-                )}
-              />
-            </AccordionPanel>
-          </AccordionItem>
-          {auth?.authorities?.includes("ALUNO") && (
-            <AccordionItem>
-              <AccordionButton className="autohide-sub">
-                <h4>Curso e período</h4>
-                <span className="subtitle">
-                  {auth.userInfo?.aluno?.curso + " "}
-                  {auth.userInfo?.aluno?.periodo}º período
-                </span>
-              </AccordionButton>
-              <AccordionPanel>
-                <label htmlFor="change-courses">Curso: </label>
+              <div className="lbl">
+                <label htmlFor="nome">Nome: </label>
                 <Controller
-                  name={"curso"}
+                  name="nome"
                   control={control}
-                  render={({ field: { value, onChange, onBlur, ref } }) => {
-                    return (
+                  render={({ field }) => (
+                    <Input type="text" id="nome" {...field} />
+                  )}
+                />
+              </div>
+
+              {auth?.authorities?.includes("ALUNO") && (
+                <>
+                  <div className="lbl">
+                    <label htmlFor="change-courses">Curso: </label>
+                    <Controller
+                      name={"curso"}
+                      control={control}
+                      render={({ field: { value, onChange, onBlur, ref } }) => {
+                        return (
+                          <CustomSelect
+                            noOptionsMessage={() => "Não encontrado"}
+                            ref={ref}
+                            inputId="change-courses"
+                            options={CursosSelectOptions}
+                            placeholder="Selecione um curso"
+                            onChange={(option: any) => onChange(option?.value)}
+                            onBlur={onBlur}
+                            value={CursosSelectOptions.filter((option) =>
+                              value?.includes(option.value)
+                            )}
+                            defaultValue={CursosSelectOptions.filter((option) =>
+                              value?.includes(option.value)
+                            )}
+                            className={`${errors.curso?.message && "danger"}`}
+                          />
+                        );
+                      }}
+                    />
+                  </div>
+                  <div className="lbl" style={{ maxWidth: "70px" }}>
+                    <label htmlFor="periodo">Período</label>
+                    <Controller
+                      name="periodo"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                          type="number"
+                          min={1}
+                          id="periodo"
+                          style={{ textAlign: "center" }}
+                          {...field}
+                          {...(errors.periodo && { className: "danger" })}
+                        />
+                      )}
+                    />
+                  </div>
+                </>
+              )}
+              <div className="input-group">
+                <div className="lbl">
+                  <label htmlFor="estado">Estado: </label>
+                  <Controller
+                    name="uf"
+                    control={control}
+                    render={({ field: { value, onChange, onBlur, ref } }) => (
                       <CustomSelect
                         noOptionsMessage={() => "Não encontrado"}
                         ref={ref}
-                        inputId="change-courses"
-                        options={CursosSelectOptions}
-                        placeholder="Selecione um curso"
+                        inputId="estado"
+                        options={UFsSelectOptions}
+                        placeholder="Selecione um estado"
                         onChange={(option: any) => onChange(option?.value)}
                         onBlur={onBlur}
-                        value={CursosSelectOptions.filter((option) =>
+                        value={UFsSelectOptions.filter((option) =>
                           value?.includes(option.value)
                         )}
-                        defaultValue={CursosSelectOptions.filter((option) =>
+                        defaultValue={UFsSelectOptions.filter((option) =>
                           value?.includes(option.value)
                         )}
-                        className={`${errors.curso?.message && "danger"}`}
-                      />
-                    );
-                  }}
-                />
-                <div className="lbl" style={{ maxWidth: "70px" }}>
-                  <label htmlFor="periodo"></label>
-                  <Controller
-                    name="periodo"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        type="number"
-                        min={1}
-                        id="periodo"
-                        placeholder="Período"
-                        style={{ textAlign: "center" }}
-                        {...field}
-                        {...(errors.periodo && { className: "danger" })}
+                        className={`custom-select ${
+                          errors.uf?.message && "danger"
+                        }`}
                       />
                     )}
                   />
+                  <p className="input-error">{errors.uf?.message}</p>
                 </div>
-              </AccordionPanel>
-            </AccordionItem>
-          )}
+                <div className="lbl">
+                  <label htmlFor="cidade">Cidade: </label>
+                  <Controller
+                    name="cidade"
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        type="text"
+                        id="cidade"
+                        {...field}
+                        {...(errors.cidade && { className: "danger" })}
+                      />
+                    )}
+                  />
+                  <p className="input-error">{errors.cidade?.message}</p>
+                </div>
+              </div>
+            </AccordionPanel>
+          </AccordionItem>
 
           <AccordionItem>
             <AccordionButton className="has-sub">
               <h4>
-                Sobre {auth?.authorities?.includes("ALUNO") ? "mim" : "nós"}
+                Sobre{" "}
+                {auth?.authorities?.includes("ALUNO") ? "você" : "a empresa"}
               </h4>
               <span className="subtitle">
                 Uma breve descrição sobre{" "}
@@ -346,74 +412,15 @@ export default function SettingContaPage() {
             </AccordionPanel>
           </AccordionItem>
 
-          <AccordionItem>
-            <AccordionButton className="autohide-sub">
-              <h4>Localização</h4>
-              <span className="subtitle">
-                {auth.userInfo?.aluno?.dadosPessoa.localizacao ||
-                  auth.userInfo?.empresa?.dadosPessoa.localizacao}
-              </span>
-            </AccordionButton>
-            <AccordionPanel>
-              <div className="input-group">
-                <div className="lbl">
-                  <label htmlFor="estado">Estado: </label>
-                  <Controller
-                    name="uf"
-                    control={control}
-                    render={({ field: { value, onChange, onBlur, ref } }) => (
-                      <CustomSelect
-                        noOptionsMessage={() => "Não encontrado"}
-                        ref={ref}
-                        inputId="estado"
-                        options={UFsSelectOptions}
-                        placeholder="Selecione um estado"
-                        onChange={(option: any) => onChange(option?.value)}
-                        onBlur={onBlur}
-                        value={UFsSelectOptions.filter((option) =>
-                          value?.includes(option.value)
-                        )}
-                        defaultValue={UFsSelectOptions.filter((option) =>
-                          value?.includes(option.value)
-                        )}
-                        className={`custom-select ${
-                          errors.uf?.message && "danger"
-                        }`}
-                      />
-                    )}
-                  />
-                  <p className="input-error">{errors.uf?.message}</p>
-                </div>
-                <div className="lbl">
-                  <Controller
-                    name="cidade"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        type="text"
-                        id="cidade"
-                        placeholder="Cidade"
-                        {...field}
-                        {...(errors.cidade && { className: "danger" })}
-                      />
-                    )}
-                  />
-                  <p className="input-error">{errors.cidade?.message}</p>
-                </div>
-              </div>
-            </AccordionPanel>
-          </AccordionItem>
-
           {auth.userInfo?.empresa && (
             <span>
               <h4
                 style={{
-                  margin: "15px 0",
-                  marginBottom: "8px",
-                  marginLeft: "5px",
+                  margin: "20px 0px 10px 5px",
+                  fontWeight: "600",
                 }}
               >
-                Contatos
+                Informações de contato
               </h4>
 
               <AccordionItem>

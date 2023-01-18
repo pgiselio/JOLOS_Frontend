@@ -25,6 +25,7 @@ export const useProfilePic = (userId: string | number | undefined) => {
         const url = URL.createObjectURL(blob);
         return url;
       }
+      return null;
     },
     {
       enabled: !!userId,

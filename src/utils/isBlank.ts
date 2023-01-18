@@ -1,3 +1,3 @@
-export function isBlank(str: string | undefined): boolean {
+export function isBlank(str: string | undefined | null): boolean {
     return (!str || /^\s*$/.test(str));
 }

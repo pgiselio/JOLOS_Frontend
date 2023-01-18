@@ -60,6 +60,9 @@ export function ProfilePictureForm({
       setRotate(0);
       setZoom(1);
     },
+    onDropRejected: (rejectedFiles) => {
+      toast.error("Arquivo não suportado!");
+    }
   });
   const { handleSubmit } = useForm({
     defaultValues: {
