@@ -139,7 +139,8 @@
 .slide-down[data-reach-menu-list],
 .slide-down[data-reach-menu-items] {
   border-radius: 5px;
-  animation: scale-down 0.2s ease;
+  transform-origin: top left;
+  animation: scale 0.3s ease;
 }
 [data-reach-menu] {
 	position: relative;
@@ -192,14 +193,14 @@
 	cursor: not-allowed;
 }
 
-@keyframes scale-down {
+@keyframes scale {
   0% {
     opacity: 0;
-    transform: scale(0.6) translateY(-50px) translateX(-20px);
+    transform: scale(0);
   }
   100% {
     opacity: 1;
-    transform: scale(1) translateY(0) translateX(0);
+    transform: scale(1);
   }
 }
 
