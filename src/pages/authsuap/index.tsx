@@ -1,6 +1,6 @@
-import { LoadingPage } from "../../../components/loadingPage";
-import { SuapClient } from "../../../services/suapapi/client";
-import { SuapApiSettings } from "../../../services/suapapi/settings";
+import { LoadingPageLogo } from "../../components/loadingPage/logo";
+import { SuapClient } from "../../services/suapapi/client";
+import { SuapApiSettings } from "../../services/suapapi/settings";
 
 export default function VerificarAlunoPage() {
   const NewSuapClient = SuapClient({
@@ -19,7 +19,7 @@ export default function VerificarAlunoPage() {
   }, 200)
   return (
     <div className="content">
-      <LoadingPage/>
+      <LoadingPageLogo/>
     </div>
   );
 }

@@ -28,7 +28,7 @@ import GerenciamentoPage from "./pages/sys/gerenciamento";
 import CadastrarEmpresaPage from "./pages/sys/gerenciamento/cadastrar/empresa";
 import PasswordResetPage from "./pages/recuperar-senha";
 import HomePage from "./pages/sys/home";
-import VerificarAlunoPage from "./pages/sys/authsuap";
+import VerificarAlunoPage from "./pages/authsuap";
 
 const LandingPage = lazy(() => import("./pages"));
 const LoginPage = lazy(() => import("./pages/entrar"));
@@ -145,8 +145,8 @@ export const AppRoutes = () => {
           <Route path="settings" element={<SettingsPage />}>
             <Route path="conta" element={<SettingContaPage />} />
           </Route>
-          <Route path="authsuap" element={<VerificarAlunoPage/>}/>
         </Route>
+        <Route path="auth/suap" element={<RequireAuth><VerificarAlunoPage/></RequireAuth>}/>
       </Routes>
       {state?.modalLocation && (
         <ModalRouter title="Criar nova vaga">
