@@ -17,6 +17,7 @@ import { useAuth } from "../../../../hooks/useAuth";
 
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { useVagas } from "../../../../hooks/useVagas";
+import CircularProgressFluent from "../../../../components/circular-progress-fluent";
 
 export default function VagaPage() {
   const auth = useAuth();
@@ -26,8 +27,11 @@ export default function VagaPage() {
   const [showDialog, setShowDialog] = useState(false);
   const [isCandidatoSubscribed, setIsCandidatoSubscribed] = useState(false);
   const [showUnsubDialog, setShowUnsubDialog] = useState(false);
+  const [isOpenCloseOnProgress, setIsOpenCloseOnProgress] = useState(false);
+
 
   const subscribeBtnRef = useRef<HTMLButtonElement>(null);
+
   const openUnsubDialog = () => setShowUnsubDialog(true);
   const closeUnsubDialog = () => setShowUnsubDialog(false);
   const { data, isFetching } = useQuery<vaga>(
@@ -103,6 +107,7 @@ export default function VagaPage() {
     setShowDialog(false);
   };
   function abrirEncerrarInscricoes() {
+    
     if (data?.status === "ATIVO") {
       openDialog2();
     } else {
@@ -114,13 +119,17 @@ export default function VagaPage() {
     if (!data) {
       return;
     }
-    useVaga.close(data.id);
+    setIsOpenCloseOnProgress(true);
+    await useVaga.close(data.id);
+    setIsOpenCloseOnProgress(false);
   }
   async function abrirInscricoes() {
     if (!data) {
       return;
     }
-    useVaga.open(data.id);
+    setIsOpenCloseOnProgress(true);
+    await useVaga.open(data.id);
+    setIsOpenCloseOnProgress(false);
   }
 
   let date;
@@ -144,7 +153,7 @@ export default function VagaPage() {
             <div className="empresa-info">
               {!data && isFetching ? (
                 <>
-                  <Skeleton variant="circle" width="60px" height="60px" />
+                  <Skeleton variant="circle" className="profile-pic"/>
                 </>
               ) : (
                 <>
@@ -182,14 +191,20 @@ export default function VagaPage() {
                       data.status === "ATIVO" ? "red" : "secondary"
                     }`}
                     onClick={abrirEncerrarInscricoes}
+                    {...((isFetching || isOpenCloseOnProgress) && {
+                      disabled: true,
+                    })}
                   >
+                    {isOpenCloseOnProgress && (
+                      <CircularProgressFluent height={20} width={20} color="white" duration=".5s"/>
+                    )}
                     {data.status === "ATIVO"
                       ? "Encerrar inscrições"
-                      : "Reabrir inscrições"}
+                      : "Reabrir inscrições"}   
                   </Button>
                 )}
               {showDialog && (
-                <AlertDialog.Root defaultOpen>
+                <AlertDialog.Root defaultOpen >
                   <AlertDialog.Portal>
                     <AlertDialog.Overlay className="AlertDialogOverlay" />
                     <AlertDialog.Content className="AlertDialogContent">
