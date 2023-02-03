@@ -1,15 +1,6 @@
-import {
-  Accordion,
-  AccordionButton,
-  AccordionItem,
-  AccordionPanel,
-} from "@reach/accordion";
-import {
-  Menu,
-  MenuList,
-  MenuButton,
-  MenuItem,
-} from "@reach/menu-button";
+import * as Accordion from "@radix-ui/react-accordion";
+
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -193,21 +184,30 @@ export default function SettingContaPage() {
             style={{ height: "100px" }}
             userId={auth.userInfo?.id + ""}
           />
-          <Menu>
-            <MenuButton className="change-pic-btn">
-              <span aria-label="Opções para a foto de perfil">
-                <i className="fas fa-camera"></i>
-              </span>
-            </MenuButton>
-            <MenuList className="slide-down">
-              <MenuItem onSelect={() => setShowModalPic(true)}>
-                Editar ou enviar foto
-              </MenuItem>
-              <MenuItem onSelect={() => setShowModalPic(true)}>
-                Remover foto atual
-              </MenuItem>
-            </MenuList>
-          </Menu>
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild>
+              <button className="change-pic-btn" aria-label="Customise options">
+                <span aria-label="Opções para a foto de perfil">
+                  <i className="fas fa-camera"></i>
+                </span>
+              </button>
+            </DropdownMenu.Trigger>
+
+            <DropdownMenu.Portal>
+              <DropdownMenu.Content
+                className="DropdownMenuContent slide-down"
+                sideOffset={5}
+                align="start"
+              >
+                <DropdownMenu.Item className="DropdownMenuItem" onSelect={() => setShowModalPic(true)}>
+                  Editar ou enviar foto
+                </DropdownMenu.Item>
+                <DropdownMenu.Item className="DropdownMenuItem" onSelect={() => setShowModalPic(true)}>
+                  Remover foto atual
+                </DropdownMenu.Item>
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Root>
           {/* <button
             className="change-pic-btn"
             onClick={() => setShowModalPic(true)}
@@ -254,10 +254,13 @@ export default function SettingContaPage() {
         />
       )}
 
-      <Accordion collapsible multiple>
+      <Accordion.Root type="multiple">
         <form>
-          <AccordionItem>
-            <AccordionButton className="autohide-sub">
+          <Accordion.Item data-reach-accordion-item value="basic-info">
+            <Accordion.Trigger
+              data-reach-accordion-button
+              className="autohide-sub"
+            >
               <h4>Informações Básicas</h4>
               <span className="subtitle">
                 Nome de exibição
@@ -265,8 +268,8 @@ export default function SettingContaPage() {
                   ? ", Localização, Curso e Período"
                   : " e Localização"}
               </span>
-            </AccordionButton>
-            <AccordionPanel>
+            </Accordion.Trigger>
+            <Accordion.Content data-reach-accordion-panel>
               <div className="lbl">
                 <label htmlFor="nome">Nome: </label>
                 <Controller
@@ -372,11 +375,11 @@ export default function SettingContaPage() {
                   <p className="input-error">{errors.cidade?.message}</p>
                 </div>
               </div>
-            </AccordionPanel>
-          </AccordionItem>
+            </Accordion.Content>
+          </Accordion.Item>
 
-          <AccordionItem>
-            <AccordionButton className="has-sub">
+          <Accordion.Item data-reach-accordion-item value="about">
+            <Accordion.Trigger data-reach-accordion-button className="has-sub">
               <h4>
                 Sobre{" "}
                 {auth?.authorities?.includes("ALUNO") ? "você" : "a empresa"}
@@ -387,8 +390,8 @@ export default function SettingContaPage() {
                   ? "você"
                   : "a sua empresa"}
               </span>
-            </AccordionButton>
-            <AccordionPanel>
+            </Accordion.Trigger>
+            <Accordion.Content data-reach-accordion-panel>
               <Controller
                 name="resumo"
                 control={control}
@@ -409,8 +412,8 @@ export default function SettingContaPage() {
                   ></textarea>
                 )}
               />
-            </AccordionPanel>
-          </AccordionItem>
+            </Accordion.Content>
+          </Accordion.Item>
 
           {auth.userInfo?.empresa && (
             <span>
@@ -423,14 +426,17 @@ export default function SettingContaPage() {
                 Informações de contato
               </h4>
 
-              <AccordionItem>
-                <AccordionButton className="autohide-sub">
+              <Accordion.Item data-reach-accordion-item value="phone">
+                <Accordion.Trigger
+                  data-reach-accordion-button
+                  className="autohide-sub"
+                >
                   <h4>Telefone</h4>
                   <span className="subtitle">
                     {auth.userInfo?.empresa?.telefone}
                   </span>
-                </AccordionButton>
-                <AccordionPanel>
+                </Accordion.Trigger>
+                <Accordion.Content data-reach-accordion-panel>
                   <Controller
                     name="telefone"
                     control={control}
@@ -438,11 +444,14 @@ export default function SettingContaPage() {
                       <Input type="text" id="telefone" {...field} />
                     )}
                   />
-                </AccordionPanel>
-              </AccordionItem>
+                </Accordion.Content>
+              </Accordion.Item>
 
-              <AccordionItem>
-                <AccordionButton className="autohide-sub">
+              <Accordion.Item data-reach-accordion-item value="site">
+                <Accordion.Trigger
+                  data-reach-accordion-button
+                  className="autohide-sub"
+                >
                   <h4>Site</h4>
 
                   <span className="subtitle">
@@ -450,8 +459,8 @@ export default function SettingContaPage() {
                       ? auth.userInfo?.empresa?.linkSite
                       : "Não informado"}
                   </span>
-                </AccordionButton>
-                <AccordionPanel>
+                </Accordion.Trigger>
+                <Accordion.Content data-reach-accordion-panel>
                   <Controller
                     name="empresaSite"
                     control={control}
@@ -459,17 +468,20 @@ export default function SettingContaPage() {
                       <Input type="text" id="site" {...field} />
                     )}
                   />
-                </AccordionPanel>
-              </AccordionItem>
+                </Accordion.Content>
+              </Accordion.Item>
 
-              <AccordionItem>
-                <AccordionButton className="has-sub">
+              <Accordion.Item data-reach-accordion-item value="social">
+                <Accordion.Trigger
+                  data-reach-accordion-button
+                  className="has-sub"
+                >
                   <h4>Redes Sociais</h4>
                   <span className="subtitle">
                     Facebook, Instagram, LinkedIn e Twitter
                   </span>
-                </AccordionButton>
-                <AccordionPanel>
+                </Accordion.Trigger>
+                <Accordion.Content data-reach-accordion-panel>
                   <div className="inputs">
                     <Controller
                       name="facebook"
@@ -524,8 +536,8 @@ export default function SettingContaPage() {
                       )}
                     />
                   </div>
-                </AccordionPanel>
-              </AccordionItem>
+                </Accordion.Content>
+              </Accordion.Item>
             </span>
           )}
 
@@ -548,14 +560,19 @@ export default function SettingContaPage() {
         </form>
         {auth.userInfo?.aluno && (
           <>
-            <AccordionItem style={{ marginTop: 14 }}>
-              <AccordionButton
+            <Accordion.Item
+              data-reach-accordion-item
+              style={{ marginTop: 14 }}
+              value="curriculum"
+            >
+              <Accordion.Trigger
+                data-reach-accordion-button
                 className="arrow-right"
                 onClick={() => setShowModalCurriculo(true)}
               >
                 <h4>Currículo</h4>
-              </AccordionButton>
-            </AccordionItem>
+              </Accordion.Trigger>
+            </Accordion.Item>
             <Modal
               open={showModalCurriculo}
               handleClose={() => setShowModalCurriculo(false)}
@@ -570,7 +587,7 @@ export default function SettingContaPage() {
             </Modal>
           </>
         )}
-      </Accordion>
+      </Accordion.Root>
     </>
   );
 }

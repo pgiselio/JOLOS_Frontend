@@ -10,9 +10,7 @@ import ScrollToTop from "./utils/scrollToTop";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./services/queryClient";
 
-import "@reach/accordion/styles.css";
 import "@reach/dialog/styles.css";
-import "@reach/menu-button/styles.css";
 
 import "./styles/reach-ui.css";
 import "react-toastify/dist/ReactToastify.min.css";

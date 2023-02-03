@@ -208,7 +208,7 @@ export const SidebarAside = styled.aside`
       }
 
       &.sair:hover i {
-        color: #b3001e !important;
+        color: #cd2b31 !important;
       }
     }
 

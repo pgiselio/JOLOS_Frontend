@@ -1,4 +1,5 @@
-import { Accordion, AccordionButton, AccordionItem } from "@reach/accordion";
+import * as Accordion from "@radix-ui/react-accordion";
+
 // import { useQuery } from "@tanstack/react-query";
 // import { api } from "../../../services/api";
 import { useNavigate } from "react-router-dom";
@@ -17,16 +18,37 @@ export default function GerenciamentoPage() {
   // );
   return (
     <div className="content">
-      <Accordion>
-        <AccordionItem style={{ marginTop: 14 }}>
-          <AccordionButton
-            className="arrow-right"
-            onClick={() => navigate("cadastrar/empresa")}
-          >
-            <h4>Cadastrar nova empresa</h4>
-          </AccordionButton>
-        </AccordionItem>
-      </Accordion>
+      <Accordion.Root type="single" defaultValue="item-1" collapsible>
+        <Accordion.Item
+          data-reach-accordion-item
+          style={{ marginTop: 14 }}
+          value="item-1"
+        >
+          <Accordion.Header>
+            <Accordion.Trigger
+              className="arrow-right"
+              onClick={() => navigate("cadastrar/empresa")}
+              data-reach-accordion-button
+            >
+              <h4>Cadastrar nova empresa</h4>
+            </Accordion.Trigger>
+          </Accordion.Header>
+        </Accordion.Item>
+        <Accordion.Item
+          data-reach-accordion-item
+          style={{ marginTop: 14 }}
+          value="item-2"
+        >
+          <Accordion.Header>
+            <Accordion.Trigger data-reach-accordion-button>
+              <h4>Cadastrar nova empresa</h4>
+            </Accordion.Trigger>
+          </Accordion.Header>
+          <Accordion.Content data-reach-accordion-panel className="AccordionContent">
+              Yes! You can animate the Accordion with CSS or JavaScript.
+          </Accordion.Content>
+        </Accordion.Item>
+      </Accordion.Root>
     </div>
   );
 }

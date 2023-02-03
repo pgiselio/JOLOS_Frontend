@@ -7,7 +7,7 @@ export const Button = styled.button`
   column-gap: 12px;
   padding: 7px 20px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   border: none;
   border-radius: 50px;
@@ -29,12 +29,13 @@ export const Button = styled.button`
     }
   }
   &.red {
-    background: #c91f1f;
-    border: 2px solid #c91f1f;
+    color: rgb(255, 229, 229);
+    background: #cd2b31;
+    border: 2px solid #cd2b31;
   }
   &.red:not(:disabled):hover {
-    background: #ac0000;
-    border: 2px solid #ac0000;
+    background: #a52227;
+    border: 2px solid #a52227;
   }
   &.outlined {
     color: var(--accent-color);

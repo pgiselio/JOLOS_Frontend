@@ -21,16 +21,18 @@ import {
   AlertDialogDescription,
   AlertDialogLabel,
 } from "@reach/alert-dialog";
+import { useVagas } from "../../../../hooks/useVagas";
 
 export default function VagaPage() {
   const auth = useAuth();
+  const useVaga = useVagas();
   let params = useParams();
-  
+
   const [showDialog, setShowDialog] = useState(false);
   const [isCandidatoSubscribed, setIsCandidatoSubscribed] = useState(false);
   const [showUnsubDialog, setShowUnsubDialog] = useState(false);
 
-  let subscribeBtnRef = useRef<HTMLButtonElement>(null);
+  const subscribeBtnRef = useRef<HTMLButtonElement>(null);
   const openUnsubDialog = () => setShowUnsubDialog(true);
   const closeUnsubDialog = () => setShowUnsubDialog(false);
   const { data, isFetching } = useQuery<vaga>(
@@ -50,8 +52,7 @@ export default function VagaPage() {
       id: "",
     },
   });
-  
-  
+
   const cancelUnsubRef = useRef(null);
   function inscreverOuDesinscreverAluno() {
     if (
@@ -70,6 +71,8 @@ export default function VagaPage() {
       if (isCandidatoSubscribed) {
         openUnsubDialog();
       } else {
+        subscribeBtnRef.current &&
+          subscribeBtnRef.current.setAttribute("disabled", "");
         inscreverAluno();
       }
     } else {
@@ -81,29 +84,19 @@ export default function VagaPage() {
     }
   }
   async function inscreverAluno() {
-    await api
-      .patch(`/vaga/${params.id}/addAluno/${auth.userInfo?.aluno?.id}`)
-      .then(() => {
-        toast.success("Você se increveu na vaga!", {
-          position: "bottom-center",
-          hideProgressBar: true,
-        });
-        queryClient.invalidateQueries([`vaga-${params.id}`]);
-        queryClient.invalidateQueries(["vagas"]);
-      });
+    if (!auth.userInfo?.aluno?.id || !params.id) return;
+    useVaga.subscribe({
+      vagaId: params.id,
+      candidatoId: auth.userInfo?.aluno?.id,
+    });
   }
   async function desinscreverAluno() {
     closeUnsubDialog();
-    await api
-      .patch(`/vaga/${params.id}/removeAluno/${auth.userInfo?.aluno?.id}`)
-      .then(() => {
-        toast.info("Você se desinscreveu da vaga!", {
-          position: "bottom-center",
-          hideProgressBar: true,
-        });
-        queryClient.invalidateQueries([`vaga-${params.id}`]);
-        queryClient.invalidateQueries(["vagas"]);
-      });
+    if (!auth.userInfo?.aluno?.id || !params.id) return;
+    useVaga.unsubscribe({
+      vagaId: params.id,
+      candidatoId: auth.userInfo?.aluno?.id,
+    });
   }
 
   useEffect(() => {
@@ -114,10 +107,11 @@ export default function VagaPage() {
     }
   }, [auth.userInfo?.id, data?.alunos]);
 
-
   const cancelRef = useRef(null);
   const openDialog2 = () => setShowDialog(true);
-  const closeDialog2 = () => setShowDialog(false);
+  const closeDialog2 = () => {
+    setShowDialog(false);
+  };
   function abrirEncerrarInscricoes() {
     if (data?.status === "ATIVO") {
       openDialog2();
@@ -130,33 +124,13 @@ export default function VagaPage() {
     if (!data) {
       return;
     }
-    await api.patch<vaga>(`/vaga/${data.id}`, [
-      {
-        op: "replace",
-        path: "/status",
-        value: "INATIVO",
-      },
-    ]);
-    queryClient.invalidateQueries([`vaga-${data.id}`]);
-    queryClient.invalidateQueries(["vagas"]);
-    toast.success("Vaga encerrada com sucesso!", { toastId: "vaga-encerrada" });
+    useVaga.close(data.id);
   }
   async function abrirInscricoes() {
     if (!data) {
       return;
     }
-    await api.patch<vaga>(`/vaga/${data.id}`, [
-      {
-        op: "replace",
-        path: "/status",
-        value: "ATIVO",
-      },
-    ]);
-    queryClient.invalidateQueries([`vaga-${data.id}`]);
-    queryClient.invalidateQueries(["vagas"]);
-    toast.success("Incrições reabertas com sucesso!", {
-      toastId: "vaga-aberta",
-    });
+    useVaga.open(data.id);
   }
 
   let date;
@@ -185,7 +159,7 @@ export default function VagaPage() {
                 </>
               ) : (
                 <>
-                  <ProfilePic userId={data?.empresa.id}/>
+                  <ProfilePic userId={data?.empresa.id} />
                 </>
               )}
             </div>
@@ -282,6 +256,9 @@ export default function VagaPage() {
                           hideProgressBar: true,
                           toastId: "subscribe-btn-disabled",
                         }),
+                    })}
+                    {...(isFetching && {
+                      disabled: true,
                     })}
                   >
                     <span>

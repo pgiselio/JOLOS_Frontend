@@ -45,7 +45,7 @@
 
 /*--- Accordion ---*/
 
-[data-reach-accordion-button] {
+.AccordionTrigger, [data-reach-accordion-button] {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -57,11 +57,11 @@
   position: relative;
   background-color: var(--primary-bg);
 }
-[data-reach-accordion-button] h4 {
+.AccordionTrigger h4, [data-reach-accordion-button] h4 {
   text-align: left;
   transition: transform 0.2s ease;
 }
-[data-reach-accordion-button] .subtitle {
+.AccordionTrigger .subtitle, [data-reach-accordion-button] .subtitle {
   text-align: left;
   font-size: 13px;
   height: 20px;
@@ -72,7 +72,7 @@
   color: var(--text-b);
   transition: opacity 0.2s, transform 0.2s ease;
 }
-[data-reach-accordion-button]::after {
+.AccordionTrigger::after, [data-reach-accordion-button]::after {
   content: "\f078";
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
@@ -84,42 +84,42 @@
   transition: transform 0.3s ease;
   right: 20px;
 }
-[data-reach-accordion-button][aria-expanded="true"].autohide-sub h4 {
+.AccordionTrigger[aria-expanded="true"].autohide-sub h4,[data-reach-accordion-button][aria-expanded="true"].autohide-sub h4 {
   transform: translateY(10px);
 }
-[data-reach-accordion-button][aria-expanded="true"].autohide-sub .subtitle {
+.AccordionTrigger[aria-expanded="true"].autohide-sub .subtitle,[data-reach-accordion-button][aria-expanded="true"].autohide-sub .subtitle {
   transform: translateY(10px);
   opacity: 0;
 }
-[data-reach-accordion-button][aria-expanded="true"]::after {
+.AccordionTrigger[aria-expanded="true"]::after,[data-reach-accordion-button][aria-expanded="true"]::after {
   transform: rotate(180deg);
 }
-[data-reach-accordion-button].arrow-right::after {
+.AccordionTrigger.arrow-right::after, [data-reach-accordion-button].arrow-right::after {
   transform: rotate(270deg);
 }
 
-[data-reach-accordion-button][disabled] {
+.AccordionTrigger[disabled], [data-reach-accordion-button][disabled] {
   cursor: not-allowed;
 }
 
-[data-reach-accordion-item] {
+.AccordionItem, [data-reach-accordion-item] {
   background-color: var(--primary-bg);
   border: 1px solid var(--outline-color);
 
   border-bottom: none;
 }
-[data-reach-accordion-item]:first-of-type,
+.AccordionItem:first-of-type, .AccordionItem:first-of-type .AccordionTrigger, [data-reach-accordion-item]:first-of-type,
 [data-reach-accordion-item]:first-of-type [data-reach-accordion-button] {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
-[data-reach-accordion-item]:last-of-type,
+.AccordionItem:last-of-type, .AccordionItem:last-of-type .AccordionTrigger, [data-reach-accordion-item]:last-of-type,
 [data-reach-accordion-item]:last-of-type [data-reach-accordion-button] {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
-[data-reach-accordion-item]:last-of-type {
+.AccordionItem:last-of-type, [data-reach-accordion-item]:last-of-type {
   border: 1px solid var(--outline-color);
 }
 
@@ -129,18 +129,19 @@
 [data-reach-accordion-item][data-read-only] {
   cursor: not-allowed;
 }
-[data-reach-accordion-panel] {
+.AccordionContent, [data-reach-accordion-panel] {
   animation: slide-down 0.2s ease;
   padding: 20px;
   padding-top: 3px;
   font-size: 14px;
 }
 
-.slide-down[data-reach-menu-list],
+.DropdownMenuContent.slide-down, .slide-down[data-reach-menu-list],
 .slide-down[data-reach-menu-items] {
   border-radius: 5px;
   transform-origin: top left;
-  animation: scale 0.3s ease;
+  animation: scale 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
 }
 [data-reach-menu] {
 	position: relative;
@@ -166,7 +167,7 @@
   border: 1px solid var(--outline-color);
 }
 
-[data-reach-menu-item] {
+.DropdownMenuItem,  [data-reach-menu-item] {
   display: block;
 	white-space: nowrap;
   padding: 8px 15px;
@@ -175,14 +176,14 @@
   font-size: 14px;
   border: 1px solid transparent;
 }
-[data-reach-menu-list]{
+.DropdownMenuContent, .DropdownMenuSubContent, [data-reach-menu-list]{
   padding: 5px;
   background: var(--primary-bg);
   border-radius: 8px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
   border: 1px solid var(--outline-color);
 }
-[data-reach-menu-item][data-selected] {
+.DropdownMenuItem[data-highlighted], [data-reach-menu-item][data-selected] {
 	background: var(--accent-color);
 	color: var(--inside-accent-color);
 	outline: none;
