@@ -1,41 +1,51 @@
 /* --- Alert Dialog --- */
+.AlertDialogTitle,
 [data-reach-alert-dialog-label] {
   display: block;
-  font-size: 0.875rem;
+  font-size: 17px;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 10px;
 }
 
+.AlertDialogDescription,
 [data-reach-alert-dialog-description] {
   color: var(--text-b);
-  font-size: 0.875rem;
+  font-size: 15px;
   font-weight: 500;
   margin-bottom: 1.5rem;
 }
 
+.AlertDialogOverlay,
 [data-reach-alert-dialog-overlay] {
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   animation: fade 0.2s ease;
   z-index: 10000;
+  position: fixed;
+  inset: 0;
 }
 
+.AlertDialogContent,
 [data-reach-alert-dialog-content] {
-  margin: 20px;
-  width: initial;
-  max-width: 50rem;
+  padding: 25px;
+  width: 90vw;
+  max-width: 500px;
+  max-height: 85vh;
   background-color: var(--primary-bg);
-  border-radius: 0.5rem;
+  border-radius: 10px;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  padding: 1.5rem;
-  animation: slide-down 0.2s ease;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10001;
+  animation: contentScale 0.2s cubic-bezier(0.25, 0.1, 0.47, 1.38);
 }
+.AlertDialogContent.small,
 [data-reach-alert-dialog-content].small {
   max-width: 30rem;
 }
 
+.AlertDialogActions,
 [data-reach-alert-dialog-actions] {
   display: flex;
   justify-content: flex-end;
@@ -45,7 +55,8 @@
 
 /*--- Accordion ---*/
 
-.AccordionTrigger, [data-reach-accordion-button] {
+.AccordionTrigger,
+[data-reach-accordion-button] {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -57,11 +68,13 @@
   position: relative;
   background-color: var(--primary-bg);
 }
-.AccordionTrigger h4, [data-reach-accordion-button] h4 {
+.AccordionTrigger h4,
+[data-reach-accordion-button] h4 {
   text-align: left;
   transition: transform 0.2s ease;
 }
-.AccordionTrigger .subtitle, [data-reach-accordion-button] .subtitle {
+.AccordionTrigger .subtitle,
+[data-reach-accordion-button] .subtitle {
   text-align: left;
   font-size: 13px;
   height: 20px;
@@ -72,7 +85,8 @@
   color: var(--text-b);
   transition: opacity 0.2s, transform 0.2s ease;
 }
-.AccordionTrigger::after, [data-reach-accordion-button]::after {
+.AccordionTrigger::after,
+[data-reach-accordion-button]::after {
   content: "\f078";
   font-family: "Font Awesome 6 Free";
   font-weight: 900;
@@ -84,42 +98,53 @@
   transition: transform 0.3s ease;
   right: 20px;
 }
-.AccordionTrigger[aria-expanded="true"].autohide-sub h4,[data-reach-accordion-button][aria-expanded="true"].autohide-sub h4 {
+.AccordionTrigger[aria-expanded="true"].autohide-sub h4,
+[data-reach-accordion-button][aria-expanded="true"].autohide-sub h4 {
   transform: translateY(10px);
 }
-.AccordionTrigger[aria-expanded="true"].autohide-sub .subtitle,[data-reach-accordion-button][aria-expanded="true"].autohide-sub .subtitle {
+.AccordionTrigger[aria-expanded="true"].autohide-sub .subtitle,
+[data-reach-accordion-button][aria-expanded="true"].autohide-sub .subtitle {
   transform: translateY(10px);
   opacity: 0;
 }
-.AccordionTrigger[aria-expanded="true"]::after,[data-reach-accordion-button][aria-expanded="true"]::after {
+.AccordionTrigger[aria-expanded="true"]::after,
+[data-reach-accordion-button][aria-expanded="true"]::after {
   transform: rotate(180deg);
 }
-.AccordionTrigger.arrow-right::after, [data-reach-accordion-button].arrow-right::after {
+.AccordionTrigger.arrow-right::after,
+[data-reach-accordion-button].arrow-right::after {
   transform: rotate(270deg);
 }
 
-.AccordionTrigger[disabled], [data-reach-accordion-button][disabled] {
+.AccordionTrigger[disabled],
+[data-reach-accordion-button][disabled] {
   cursor: not-allowed;
 }
 
-.AccordionItem, [data-reach-accordion-item] {
+.AccordionItem,
+[data-reach-accordion-item] {
   background-color: var(--primary-bg);
   border: 1px solid var(--outline-color);
 
   border-bottom: none;
 }
-.AccordionItem:first-of-type, .AccordionItem:first-of-type .AccordionTrigger, [data-reach-accordion-item]:first-of-type,
+.AccordionItem:first-of-type,
+.AccordionItem:first-of-type .AccordionTrigger,
+[data-reach-accordion-item]:first-of-type,
 [data-reach-accordion-item]:first-of-type [data-reach-accordion-button] {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
-.AccordionItem:last-of-type, .AccordionItem:last-of-type .AccordionTrigger, [data-reach-accordion-item]:last-of-type,
+.AccordionItem:last-of-type,
+.AccordionItem:last-of-type .AccordionTrigger,
+[data-reach-accordion-item]:last-of-type,
 [data-reach-accordion-item]:last-of-type [data-reach-accordion-button] {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
-.AccordionItem:last-of-type, [data-reach-accordion-item]:last-of-type {
+.AccordionItem:last-of-type,
+[data-reach-accordion-item]:last-of-type {
   border: 1px solid var(--outline-color);
 }
 
@@ -129,14 +154,16 @@
 [data-reach-accordion-item][data-read-only] {
   cursor: not-allowed;
 }
-.AccordionContent, [data-reach-accordion-panel] {
+.AccordionContent,
+[data-reach-accordion-panel] {
   animation: slide-down 0.2s ease;
   padding: 20px;
   padding-top: 3px;
   font-size: 14px;
 }
 
-.DropdownMenuContent.slide-down, .slide-down[data-reach-menu-list],
+.DropdownMenuContent.slide-down,
+.slide-down[data-reach-menu-list],
 .slide-down[data-reach-menu-items] {
   border-radius: 5px;
   transform-origin: top left;
@@ -144,16 +171,16 @@
   will-change: transform, opacity;
 }
 [data-reach-menu] {
-	position: relative;
+  position: relative;
 }
 
 [data-reach-menu-popover] {
-	display: block;
-	position: absolute;
+  display: block;
+  position: absolute;
 }
 
 [data-reach-menu-popover][hidden] {
-	display: none;
+  display: none;
 }
 [data-reach-menu-button] {
   display: flex;
@@ -167,31 +194,47 @@
   border: 1px solid var(--outline-color);
 }
 
-.DropdownMenuItem,  [data-reach-menu-item] {
+.DropdownMenuItem,
+[data-reach-menu-item] {
   display: block;
-	white-space: nowrap;
+  white-space: nowrap;
   padding: 8px 15px;
   border-radius: 5px;
   cursor: default;
   font-size: 14px;
   border: 1px solid transparent;
+  font-weight: 500;
 }
-.DropdownMenuContent, .DropdownMenuSubContent, [data-reach-menu-list]{
+.DropdownMenuContent,
+.DropdownMenuSubContent,
+[data-reach-menu-list] {
   padding: 5px;
   background: var(--primary-bg);
   border-radius: 8px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
   border: 1px solid var(--outline-color);
 }
-.DropdownMenuItem[data-highlighted], [data-reach-menu-item][data-selected] {
-	background: var(--accent-color);
-	color: var(--inside-accent-color);
-	outline: none;
+.DropdownMenuItem[data-highlighted],
+[data-reach-menu-item][data-selected] {
+  background: var(--accent-color);
+  color: var(--inside-accent-color);
+  outline: none;
 }
 
 [data-reach-menu-item][aria-disabled] {
-	opacity: 0.5;
-	cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes contentScale {
+  0% {
+    opacity: 0;
+    transform:  translate(-50%, -48%) scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 @keyframes scale {

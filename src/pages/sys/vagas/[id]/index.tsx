@@ -11,16 +11,11 @@ import { ProfilePic } from "../../../../components/profile-pic/profile-pic";
 import { VagaPageStyle } from "./styles";
 import { PillItem, PillList } from "../../../../components/pill";
 import { Button } from "../../../../components/button";
-import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { queryClient } from "../../../../services/queryClient";
 
 import { useAuth } from "../../../../hooks/useAuth";
-import {
-  AlertDialog,
-  AlertDialogDescription,
-  AlertDialogLabel,
-} from "@reach/alert-dialog";
+
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { useVagas } from "../../../../hooks/useVagas";
 
 export default function VagaPage() {
@@ -47,11 +42,6 @@ export default function VagaPage() {
       refetchOnWindowFocus: false,
     }
   );
-  const { handleSubmit } = useForm({
-    defaultValues: {
-      id: "",
-    },
-  });
 
   const cancelUnsubRef = useRef(null);
   function inscreverOuDesinscreverAluno() {
@@ -148,7 +138,6 @@ export default function VagaPage() {
 
   return (
     <>
-      {/* <div className="tree-links"></div> */}
       <VagaPageStyle>
         <div className="vaga-page-header-container content">
           <div className="vaga-page-header ">
@@ -200,42 +189,46 @@ export default function VagaPage() {
                   </Button>
                 )}
               {showDialog && (
-                <AlertDialog leastDestructiveRef={cancelRef} className="small">
-                  <AlertDialogLabel>
-                    Tem certeza que deseja desativar esta vaga?
-                  </AlertDialogLabel>
-
-                  <AlertDialogDescription>
-                    A vaga não poderá ser editada e nem aceitará novas
-                    inscrições, mas continuará sendo visível para todos.
-                  </AlertDialogDescription>
-
-                  <div
-                    className="alert-buttons"
-                    data-reach-alert-dialog-actions
-                  >
-                    <br />
-                    <Button
-                      className="secondary "
-                      ref={cancelRef}
-                      onClick={closeDialog2}
-                    >
-                      Cancelar
-                    </Button>
-                    <Button className=" red" onClick={encerrarInscricoes}>
-                      Sim
-                    </Button>
-                  </div>
-                </AlertDialog>
+                <AlertDialog.Root defaultOpen>
+                  <AlertDialog.Portal>
+                    <AlertDialog.Overlay className="AlertDialogOverlay" />
+                    <AlertDialog.Content className="AlertDialogContent">
+                      <AlertDialog.Title className="AlertDialogTitle">
+                        Tem certeza que deseja desativar esta vaga?
+                      </AlertDialog.Title>
+                      <AlertDialog.Description className="AlertDialogDescription">
+                        A vaga não poderá ser editada e nem aceitará novas
+                        inscrições, mas continuará sendo visível para todos.
+                      </AlertDialog.Description>
+                      <div
+                        className="alert-buttons AlertDialogActions"
+                        data-reach-alert-dialog-actions
+                      >
+                        <AlertDialog.Cancel asChild>
+                          <Button
+                            className="secondary "
+                            ref={cancelRef}
+                            onClick={closeDialog2}
+                          >
+                            Cancelar
+                          </Button>
+                        </AlertDialog.Cancel>
+                        <AlertDialog.Action asChild>
+                          <Button className=" red" onClick={encerrarInscricoes}>
+                            Sim
+                          </Button>
+                        </AlertDialog.Action>
+                      </div>
+                    </AlertDialog.Content>
+                  </AlertDialog.Portal>
+                </AlertDialog.Root>
               )}
               {auth.userInfo?.aluno?.dadosPessoa && (
-                <form
-                  action=""
-                  onSubmit={handleSubmit(inscreverOuDesinscreverAluno)}
-                >
+                <>
                   <Button
                     type="submit"
                     ref={subscribeBtnRef}
+                    onClick={inscreverOuDesinscreverAluno}
                     className={`less-radius ${
                       isCandidatoSubscribed ? "red" : ""
                     }`}
@@ -268,32 +261,39 @@ export default function VagaPage() {
                     </span>
                   </Button>
                   {showUnsubDialog && (
-                    <AlertDialog
-                      leastDestructiveRef={cancelRef}
-                      className="small"
-                    >
-                      <AlertDialogLabel>
-                        Tem certeza que deseja se desinscrever desta vaga?
-                      </AlertDialogLabel>
-
-                      <div
-                        className="alert-buttons"
-                        data-reach-alert-dialog-actions
-                      >
-                        <Button
-                          className="secondary"
-                          onClick={desinscreverAluno}
-                        >
-                          Sim
-                        </Button>
-                        <br />
-                        <Button ref={cancelUnsubRef} onClick={closeUnsubDialog}>
-                          Cancelar
-                        </Button>
-                      </div>
-                    </AlertDialog>
+                    <AlertDialog.Root defaultOpen>
+                      <AlertDialog.Portal>
+                        <AlertDialog.Overlay className="AlertDialogOverlay" />
+                        <AlertDialog.Content className="AlertDialogContent">
+                          <AlertDialog.Title className="AlertDialogTitle">
+                            Tem certeza que deseja se desinscrever desta vaga?
+                          </AlertDialog.Title>
+                          <div
+                            className="alert-buttons AlertDialogActions"
+                          >
+                            <AlertDialog.Cancel asChild>
+                              <Button
+                                ref={cancelUnsubRef}
+                                onClick={closeUnsubDialog}
+                                className="secondary"
+                              >
+                                Cancelar
+                              </Button>
+                            </AlertDialog.Cancel>
+                            <AlertDialog.Action asChild>
+                              <Button
+                                className="red"
+                                onClick={desinscreverAluno}
+                              >
+                                Sim
+                              </Button>
+                            </AlertDialog.Action>
+                          </div>
+                        </AlertDialog.Content>
+                      </AlertDialog.Portal>
+                    </AlertDialog.Root>
                   )}
-                </form>
+                  </>
               )}
             </div>
           </div>

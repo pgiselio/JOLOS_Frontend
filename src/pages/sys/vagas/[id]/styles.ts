@@ -34,13 +34,13 @@ export const VagaPageStyle = styled.section`
       gap: 10px;
       justify-content: end;
       .vaga-status {
-        color: #b3001e;
+        color: #cd2b31;
         font-weight: 500;
         font-size: 14px;
         padding: 9px 0;
       }
       .vaga-status.enabled {
-        color: green;
+        color: var(--accent-color);
       }
     }
   }
