@@ -34,20 +34,6 @@ export default function GerenciamentoPage() {
             </Accordion.Trigger>
           </Accordion.Header>
         </Accordion.Item>
-        <Accordion.Item
-          data-reach-accordion-item
-          style={{ marginTop: 14 }}
-          value="item-2"
-        >
-          <Accordion.Header>
-            <Accordion.Trigger data-reach-accordion-button>
-              <h4>Cadastrar nova empresa</h4>
-            </Accordion.Trigger>
-          </Accordion.Header>
-          <Accordion.Content data-reach-accordion-panel className="AccordionContent">
-              Yes! You can animate the Accordion with CSS or JavaScript.
-          </Accordion.Content>
-        </Accordion.Item>
       </Accordion.Root>
     </div>
   );
