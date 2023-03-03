@@ -53,7 +53,6 @@ export const SidebarAside = styled.aside`
   .profile-pic {
     width: 65px;
     height: 65px;
-    border-radius: 100%;
     transition: height 0.3s, width 0.3s ease;
   }
   .min-perfil-details {

@@ -5,6 +5,10 @@ export const StyledProfilePic = styled.div`
   position: relative;
   overflow: hidden;
 
+  &.company {
+    border-radius: 10px;
+  }
+
   .default-profile {
     display: flex;
     position: absolute;

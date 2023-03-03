@@ -153,11 +153,11 @@ export default function VagaPage() {
             <div className="empresa-info">
               {!data && isFetching ? (
                 <>
-                  <Skeleton variant="circle" className="profile-pic"/>
+                  <Skeleton variant="square" className="profile-pic"/>
                 </>
               ) : (
                 <>
-                  <ProfilePic userId={data?.empresa.id} />
+                  <ProfilePic userId={data?.empresa.id} isCompany/>
                 </>
               )}
             </div>

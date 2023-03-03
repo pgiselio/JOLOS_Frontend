@@ -27,7 +27,7 @@ export function SidebarList() {
       <SidebarAside className="side-bar">
         <div className="side-bar-container">
           <div className="min-perfil">
-            <ProfilePic userId={auth.userInfo?.id} />
+            <ProfilePic userId={auth.userInfo?.id} isCompany={!!auth.userInfo?.empresa}/>
             <div className="min-perfil-details">
               <h3 className="min-perfil-name">{nomePessoa()}</h3>
               <span className="min-perfil-detail">{auth?.email}</span>

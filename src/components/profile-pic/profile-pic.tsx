@@ -8,40 +8,40 @@ type ProfilePicType = {
   style?: CSSProperties;
   className?: string;
   userId?: string | number;
+  isCompany?: boolean;
 };
 
 export function ProfilePic(props: ProfilePicType) {
   const { data } = useProfilePic(props.userId);
   return (
     <StyledProfilePic
-      className={"profile-pic " + (props.className ?? "")}
-      style={props.style}
+      className={"profile-pic " +(props.isCompany ? "company" : "") +(props.className ?? "")}
+      style={{...props.style}}
     >
       <span className="default-profile">
         <svg
           id="defaultProfilePicSVG"
-          data-name="defaultProfilePicSVG"
           xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 574 574"
+          viewBox="0 0 574.07 574.07"
         >
           <defs>
             <style>
               {`
-                .cls-1 {
+                .a {
                   fill: #555d60;
                 }
-                .cls-2 {
+                .b {
                   fill: #c3c7c9;
                 }
               `}
             </style>
           </defs>
           <g>
-            <circle className="cls-1" cx="287" cy="287" r="287" />
+            <rect className="a" width="574.07" height="574.07" />
             <path
-              className="cls-2"
-              d="M650.47,261a104,104,0,1,1-104,104A104,104,0,0,1,650.47,261ZM650,675.34a266.26,266.26,0,0,0,185.41-74.83c-40.1-52.84-108.23-87.62-185.55-87.62S504.55,547.6,464.43,600.35A266.25,266.25,0,0,0,650,675.34Z"
-              transform="translate(-363 -111)"
+              className="b"
+              d="M453.9,685c-8.21,0-14.42-9-13-18.89C453.45,580,542,513.32,649.35,513.32S845.26,580,857.79,666.11C859.23,676,853,685,844.81,685ZM650,258.43A105.27,105.27,0,1,0,755.25,363.7,105.27,105.27,0,0,0,650,258.43Z"
+              transform="translate(-363 -110.93)"
             />
           </g>
         </svg>
@@ -49,7 +49,11 @@ export function ProfilePic(props: ProfilePicType) {
 
       {(!isBlank(props.url) || !isBlank(data)) && (
         <>
-          <img className="img-perfil" src={props.url || data || undefined} alt="" />
+          <img
+            className="img-perfil"
+            src={props.url || data || undefined}
+            alt=""
+          />
           <span className="pp-border"></span>
         </>
       )}

@@ -62,7 +62,7 @@ export default function ProfilePage() {
         <div className="profile-page-header">
           <div className="profile-page-header-container">
             <div className="user-info">
-              <ProfilePic userId={data?.id +"" || ""}/>
+              <ProfilePic userId={data?.id +"" || ""} isCompany={usertype === "EMPRESA"}/>
 
               <div className="profile-names">
                 {isFetching ? (

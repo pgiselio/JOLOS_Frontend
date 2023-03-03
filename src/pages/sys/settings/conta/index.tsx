@@ -183,6 +183,7 @@ export default function SettingContaPage() {
           <ProfilePic
             style={{ height: "100px" }}
             userId={auth.userInfo?.id + ""}
+            isCompany={!!auth.userInfo?.empresa?.id}
           />
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
