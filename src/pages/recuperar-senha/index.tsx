@@ -86,7 +86,7 @@ export default function PasswordResetPage() {
     api
       .patch(
         "/usuario/senha",
-        { senha: data.password, token: token },
+        { senha: data.password, token: "Bearer " + token },
         {
           headers: {
             Authorization: token,
